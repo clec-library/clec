@@ -290,7 +290,7 @@ async function openEpub(){
     msgt.textContent="正在排版…";
     const book=ePub();
     await withTimeout(book.open(buf, "epub"), 20000, "打开电子书");
-    const v=Math.max(280, view.clientWidth||document.documentElement.clientWidth||window.innerWidth);
+    const w=Math.max(280, view.clientWidth||document.documentElement.clientWidth||window.innerWidth);
     const h=Math.max(320, view.clientHeight||(window.innerHeight-96));
     const rend=book.renderTo(view,{width:w,height:h,flow:"paginated",spread:"none",allowScriptedContent:false});
     applyBookStyle=()=>{
