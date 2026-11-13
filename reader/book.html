@@ -6,7 +6,6 @@
 <meta name="color-scheme" content="light dark">
 <title>CLEC 电子书</title>
 <link rel="preconnect" href="https://pub-fc3f445745ea452f882ce28d1361de6f.r2.dev" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>
 :root{--bg:#f4efe4;--fg:#2b2b2b;--bar:#2f2f2f;--barfg:#fff;--panel:#fff;--muted:#6b6b6b;--btn:#4a4a4a;--accent:#8b5a2b}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
@@ -184,39 +183,48 @@ else if(isPdf) openPdf();
 else if(isEpub) openEpub();
 else {msgt.innerHTML='这个格式暂不支持在线阅读，请点右上角「下载」。';document.querySelector(".spinner").style.display="none";}
 
-function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
-function loadModule(src){return import(src);}
+function withTimeout(p,ms,label){
+  return Promise.race([
+    p,
+    new Promise((_,rej)=>setTimeout(()=>rej(new Error((label||"加载")+"超时")),ms))
+  ]);
+}
+function loadScript(src,ms){
+  ms=ms||8000;
+  return withTimeout(new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src=src; s.async=true;
+    s.onload=()=>res();
+    s.onerror=()=>rej(new Error("脚本加载失败: "+src));
+    document.head.appendChild(s);
+  }), ms, "脚本");
+}
+function loadModule(src,ms){
+  return withTimeout(import(src), ms||8000, "组件");
+}
 
 async function openPdf(){
-  msgt.textContent="正在打开第一页…";
+  msgt.textContent="正在加载阅读组件…";
   document.getElementById("hint").textContent="不用下载整本，只加载当前页。打开后翻页会快很多。";
-  const cdns=[
-    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs",
-    "https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs",
-    LOCAL+"pdfjs/build/pdf.mjs"
+  const sources=[
+    {pdf:LOCAL+"pdfjs/build/pdf.mjs", worker:LOCAL+"pdfjs/build/pdf.worker.mjs", cmap:LOCAL+"pdfjs/web/cmaps/", font:LOCAL+"pdfjs/web/standard_fonts/"},
+    {pdf:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs", worker:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs", cmap:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/", font:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/standard_fonts/"},
+    {pdf:"https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs", worker:"https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs", cmap:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/", font:"https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/standard_fonts/"}
   ];
-  const workers=[
-    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs",
-    "https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs",
-    LOCAL+"pdfjs/build/pdf.worker.mjs"
-  ];
-  const cmapCdn="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/";
-  const fontCdn="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/standard_fonts/";
-  let pdfjsLib=null, workerSrc=workers[0], used=0;
-  for(let i=0;i<cdns.length;i++){
-    try{ pdfjsLib=await loadModule(cdns[i]); workerSrc=workers[i]; used=i; break; }
-    catch(e){ console.warn("pdf.js 加载失败", cdns[i], e); }
+  let pdfjsLib=null, src=null;
+  for(const s of sources){
+    try{ pdfjsLib=await loadModule(s.pdf, 8000); src=s; break; }
+    catch(e){ console.warn("pdf.js 加载失败", s.pdf, e); }
   }
   if(!pdfjsLib){ msgt.textContent="阅读组件加载失败，请检查网络后刷新，或点右上角「下载」。"; return; }
-  pdfjsLib.GlobalWorkerOptions.workerSrc=workerSrc;
-  const cmapUrl=used<2?cmapCdn:(LOCAL+"pdfjs/web/cmaps/");
-  const fontUrl=used<2?fontCdn:(LOCAL+"pdfjs/web/standard_fonts/");
+  pdfjsLib.GlobalWorkerOptions.workerSrc=src.worker;
+  msgt.textContent="正在打开第一页…";
   try{
     const task=pdfjsLib.getDocument({
       url,
-      cMapUrl:cmapUrl,
+      cMapUrl:src.cmap,
       cMapPacked:true,
-      standardFontDataUrl:fontUrl,
+      standardFontDataUrl:src.font,
       disableAutoFetch:true,
       disableStream:false,
       disableRange:false,
@@ -265,19 +273,26 @@ async function openPdf(){
 }
 
 async function openEpub(){
-  msgt.textContent="正在打开电子书…";
+  msgt.textContent="正在加载阅读组件…";
   document.getElementById("hint").textContent="电子书需要先加载整本（一般只有几兆），加载时可看进度。";
   try{
-    await loadScript(LOCAL+"jszip.min.js");
-    await loadScript(LOCAL+"epub.min.js");
+    await loadScript(LOCAL+"jszip.min.js", 8000);
+    await loadScript(LOCAL+"epub.min.js", 8000);
   }catch(e){
-    try{ await loadScript("https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"); await loadScript("https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"); }
-    catch(e2){ msgt.textContent="阅读组件加载失败，请检查网络后刷新，或点右上角「下载」。"; return; }
+    try{
+      await loadScript("https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js", 8000);
+      await loadScript("https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js", 8000);
+    }catch(e2){ msgt.textContent="阅读组件加载失败，请检查网络后刷新，或点右上角「下载」。"; return; }
   }
+  if(typeof ePub!=="function"){ msgt.textContent="阅读组件加载失败，请刷新后重试，或点右上角「下载」。"; return; }
   try{
     const buf=await downloadWithProgress(url);
-    const book=ePub(buf,{openAs:"epub"});
-    const rend=book.renderTo("view",{width:"100%",height:"100%",flow:"paginated",spread:"none",allowScriptedContent:false});
+    msgt.textContent="正在排版…";
+    const book=ePub();
+    await withTimeout(book.open(buf, "epub"), 20000, "打开电子书");
+    const v=Math.max(280, view.clientWidth||document.documentElement.clientWidth||window.innerWidth);
+    const h=Math.max(320, view.clientHeight||(window.innerHeight-96));
+    const rend=book.renderTo(view,{width:w,height:h,flow:"paginated",spread:"none",allowScriptedContent:false});
     applyBookStyle=()=>{
       rend.themes.font(FONTS[pref.font]||FONTS.default);
       rend.themes.fontSize(pref.fs+"%");
@@ -287,10 +302,20 @@ async function openEpub(){
       rend.themes.override("color", fg);
       rend.themes.default({body:{"line-height":pref.lh+" !important","padding":"0 10px !important","background":bg+" !important","color":fg+" !important","font-family":(FONTS[pref.font]||FONTS.default)+" !important"},p:{"line-height":pref.lh+" !important"},a:{"color":fg+" !important"}});
     };
-    applyBookStyle();
     const saved=localStorage.getItem("clec-pos:"+key);
-    await rend.display(saved||undefined);
+    try{
+      await withTimeout(rend.display(saved||undefined), 20000, "排版");
+    }catch(err){
+      if(saved){ try{ localStorage.removeItem("clec-pos:"+key); }catch(e){} await withTimeout(rend.display(), 20000, "排版"); }
+      else throw err;
+    }
+    applyBookStyle();
     msg.classList.add("hide");
+    window.addEventListener("resize",()=>{
+      const nw=Math.max(280, view.clientWidth||window.innerWidth);
+      const nh=Math.max(320, view.clientHeight||(window.innerHeight-96));
+      if(rend.resize) rend.resize(nw, nh);
+    });
     book.loaded.navigation.then(nav=>{
       const sel=document.getElementById("toc");
       const add=(items,d)=>items.forEach(i=>{const o=document.createElement("option");o.value=i.href;o.textContent="　".repeat(d)+(i.label||"").trim();sel.appendChild(o);if(i.subitems)add(i.subitems,d+1);});
