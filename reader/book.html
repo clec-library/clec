@@ -56,6 +56,20 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 #panel .close{background:none;border:0;color:var(--muted);font-size:26px;line-height:1;width:44px;height:44px;margin:-8px -10px -8px 0;padding:0}
 #setMsg{display:none;font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.55}
 #soundHint,#pdfNote{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.55}
+#toast{position:fixed;left:50%;bottom:calc(60px + env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100vw - 24px);box-sizing:border-box;display:none;align-items:center;gap:12px;background:#000000d0;color:#fff;border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.3;z-index:25;box-shadow:0 4px 16px #0004;white-space:nowrap;opacity:1;transition:opacity .35s}
+#toast.show{display:flex}
+#toast.fade{opacity:0}
+#toast button{background:none;border:0;border-left:1px solid #fff4;color:#ffd58a;font-size:13px;padding:6px 0 6px 12px;margin:-6px 0;min-height:32px}
+#hist{margin-top:14px;border-top:1px solid #0002;padding-top:6px}
+#hist .hhead{display:flex;align-items:center;justify-content:space-between;margin:4px 0}
+#hist h4{margin:0;font-size:14px;font-weight:600}
+#histClear{background:none;border:0;color:var(--muted);font-size:12px;padding:8px 0 8px 12px}
+#histList a{display:block;padding:9px 0;border-bottom:1px solid #00000010;color:var(--fg);text-decoration:none;min-height:36px;box-sizing:border-box}
+#histList a:last-child{border-bottom:0}
+#histList .ht{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#histList .hm{font-size:12px;color:var(--muted);margin-top:2px}
+#histList .cur{color:var(--accent)}
+#histEmpty{font-size:12px;color:var(--muted);margin:6px 0}
 </style>
 </head>
 <body>
@@ -72,6 +86,7 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
   <span id="pos"></span>
   <button type="button" id="next">下一页</button>
 </div>
+<div id="toast" role="status"><span id="toastT">已回到上次阅读位置</span><button type="button" id="toastBtn">从头读</button></div>
 <div id="mask"></div>
 <div id="panel" role="dialog" aria-label="阅读设置">
   <div class="phead"><h3>阅读设置</h3><button type="button" class="close" id="closeSet" aria-label="关闭">×</button></div>
@@ -83,8 +98,6 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
     <button type="button" class="chip" data-k="font" data-v="shsans">思源黑体</button>
     <button type="button" class="chip" data-k="font" data-v="huosong">寒蝉活宋</button>
     <button type="button" class="chip" data-k="font" data-v="wenkai">文楷</button>
-    <button type="button" class="chip" data-k="font" data-v="jinkai">仓耳今楷</button>
-    <button type="button" class="chip" data-k="font" data-v="lanting">方正兰亭黑</button>
   </div>
   <div class="row"><label>字号</label>
     <button type="button" id="fsDown">A−</button>
@@ -120,6 +133,7 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
   <p id="soundHint">真实环境录音只在点选时加载，不影响第一次打开；粉噪和轻柔仍在本地生成。可随时关掉。</p>
   <p id="setMsg"></p>
   <p id="pdfNote" style="display:none;margin:8px 0 0">PDF 版面是固定的，字体和行距改的是菜单；背景颜色会作用在页面四周。</p>
+  <div id="hist"><div class="hhead"><h4>最近阅读</h4><button type="button" id="histClear">清除记录</button></div><div id="histList"></div></div>
 </div>
 <script>
 
@@ -129,10 +143,6 @@ const WEB_FONTS={
   shsans:{family:"CLEC-SHSans", file:"fonts/SourceHanSansCN-Regular.woff2"},
   huosong:{family:"CLEC-HuoSong", file:"fonts/ChillHuoSong-Regular.woff2"},
   wenkai:{family:"CLEC-WenKai", file:"fonts/LXGWWenKaiGBLite-Regular.woff2"}
-};
-const LOCAL_FONTS={
-  jinkai:{family:"CLEC-JinKai", label:"仓耳今楷", locals:["仓耳今楷","仓耳今楷01","仓耳今楷01-W04","仓耳今楷01-W03","仓耳今楷02-W04","仓耳今楷05-W04","TsangerJinKai","TsangerJinKai01-W04","Tsanger JinKai","TsangerJinKai-W04","TsangerJinkai"]},
-  lanting:{family:"CLEC-LanTing", label:"方正兰亭黑", locals:["方正兰亭黑","方正兰亭黑简体","方正兰亭黑_GBK","FZLanTingHei-R-GBK","FZLantingHei-R-GBK","FZLanTingHeiS-R-GB","FZLanTingHei-R-GB18030","Lantinghei SC","LantingHei SC","Lantinghei SC Regular"]}
 };
 const FILE_SOUNDS={
   library:"sounds/library.mp3",
@@ -153,8 +163,6 @@ function fontStack(id){
   if(id==="shsans") return '"CLEC-SHSans","PingFang SC","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif';
   if(id==="huosong") return '"CLEC-HuoSong","Songti SC","STSong","SimSun",serif';
   if(id==="wenkai") return '"CLEC-WenKai","Kaiti SC","STKaiti","KaiTi",serif';
-  if(id==="jinkai") return '"CLEC-JinKai","Kaiti SC","STKaiti","KaiTi",serif';
-  if(id==="lanting") return '"CLEC-LanTing","PingFang SC","Heiti SC","Microsoft YaHei",sans-serif';
   return '-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
 }
 const FONTS={default:fontStack("default"),hei:fontStack("hei"),song:fontStack("song"),kai:fontStack("kai")};
@@ -176,15 +184,76 @@ let actx, masterGain, soundNodes=[], soundTimers=[], playingSound="off";
 let soundReq=0, soundAbort=null, loadingSound=null, silentEl=null, epubRend=null;
 const loadedWebFaces={};
 const webFontPending={};
-const localFontOk={};
 const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false,sound:"off"}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
 if(!pref.sound || pref.sound===true) pref.sound=pref.music?"pad":"off";
+/* 已删除的字体（仓耳今楷/方正兰亭黑）或未知字体 → 回到系统 */
+if(!(Object.prototype.hasOwnProperty.call(FONTS,pref.font)||Object.prototype.hasOwnProperty.call(WEB_FONTS,pref.font))){ pref.font="default"; try{ localStorage.setItem("clec-read", JSON.stringify(pref)); }catch(e){} }
 function savePref(){localStorage.setItem("clec-read", JSON.stringify(pref));}
 function setStatus(t){
   const el=document.getElementById("setMsg");
   if(!el) return;
   el.textContent=t||"";
   el.style.display=t?"block":"none";
+}
+/* ---- 断点续读 + 阅读记录：只在翻页后写 localStorage，启动时不读历史、不请求任何东西 ---- */
+const HIST_KEY="clec-hist", HIST_MAX=20;
+let curPos=null, posDirty=false, posTimer=0;
+function readHist(){ try{ const a=JSON.parse(localStorage.getItem(HIST_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function writeHist(a){ try{ localStorage.setItem(HIST_KEY, JSON.stringify(a.slice(0,HIST_MAX))); }catch(e){} }
+/* pos: {kind:"epub"|"pdf", store:"要存的字符串", pct:0-100, lab:"进度文字", pos:"位置"} */
+function notePos(p){
+  curPos=p; posDirty=true;
+  clearTimeout(posTimer); posTimer=setTimeout(flushPos,500);
+}
+function flushPos(){
+  clearTimeout(posTimer); posTimer=0;
+  if(!curPos||!posDirty||!key) return;
+  posDirty=false;
+  try{
+    localStorage.setItem((curPos.kind==="epub"?"clec-pos:":"clec-pdf:")+key, curPos.store);
+    const h=readHist().filter(x=>x&&x.f!==key);
+    h.unshift({f:key,t:name,k:curPos.kind,pos:curPos.pos,pct:curPos.pct,lab:curPos.lab,ts:Date.now()});
+    writeHist(h);
+  }catch(e){}
+}
+document.addEventListener("visibilitychange",function(){ if(document.hidden) flushPos(); });
+window.addEventListener("pagehide",flushPos);
+window.addEventListener("beforeunload",flushPos);
+function relTime(ts){
+  const d=(Date.now()-ts)/1000;
+  if(!(d>=0)||d<60) return "刚刚";
+  if(d<3600) return Math.floor(d/60)+" 分钟前";
+  if(d<86400) return Math.floor(d/3600)+" 小时前";
+  if(d<86400*30) return Math.floor(d/86400)+" 天前";
+  const t=new Date(ts); return (t.getMonth()+1)+" 月 "+t.getDate()+" 日";
+}
+function renderHist(){
+  const box=document.getElementById("histList"); if(!box) return;
+  flushPos();
+  const h=readHist().filter(x=>x&&x.f);
+  box.textContent="";
+  document.getElementById("histClear").style.display=h.length?"":"none";
+  if(!h.length){ const e=document.createElement("div"); e.id="histEmpty"; e.textContent="还没有阅读记录。"; box.appendChild(e); return; }
+  h.forEach(x=>{
+    const a=document.createElement("a");
+    a.href="book.html?f="+encodeURIComponent(x.f)+"&t="+encodeURIComponent(x.t||x.f);
+    const t=document.createElement("div"); t.className="ht"; t.textContent=x.t||x.f;
+    const m=document.createElement("div"); m.className="hm";
+    const bits=[relTime(x.ts)]; if(x.lab) bits.push(x.lab); else if(x.pct!=null) bits.push(Math.round(x.pct)+"%");
+    m.textContent=bits.join(" · ");
+    if(x.f===key){ const c=document.createElement("span"); c.className="cur"; c.textContent=" · 正在阅读"; m.appendChild(c); }
+    a.appendChild(t); a.appendChild(m); box.appendChild(a);
+  });
+}
+document.getElementById("histClear").onclick=function(){ writeHist([]); try{ localStorage.removeItem(HIST_KEY); }catch(e){} renderHist(); };
+let toastTimer=0, toastT2=0;
+function showResumeToast(onRestart){
+  const el=document.getElementById("toast"), btn=document.getElementById("toastBtn");
+  clearTimeout(toastTimer); clearTimeout(toastT2);
+  el.classList.remove("fade"); el.classList.add("show");
+  const hide=()=>{ el.classList.add("fade"); toastT2=setTimeout(()=>el.classList.remove("show"),400); };
+  btn.onclick=function(){ clearTimeout(toastTimer); el.classList.remove("show","fade"); try{ onRestart(); }catch(e){} };
+  toastTimer=setTimeout(hide,7000);
 }
 function applyChrome(){
   document.body.className=pref.theme==="paper"?"":pref.theme;
@@ -261,17 +330,6 @@ function applyEpubTypo(){
       injectTypo(doc);
     });
   }catch(e){}
-}
-function canvasHasFamily(family){
-  try{
-    const t="汉字阅读CLECmwmwmwll";
-    const c=document.createElement("canvas");
-    const x=c.getContext("2d");
-    x.font='20px "Comic Sans MS","Courier New",monospace';
-    const a=x.measureText(t).width;
-    x.font='20px "'+family+'","Comic Sans MS","Courier New",monospace';
-    return x.measureText(t).width!==a;
-  }catch(e){ return true; }
 }
 /* ---- 点选的 chip 上显示高亮进度条（字体/声音） ---- */
 document.querySelectorAll(".row .chip").forEach(c=>{ c.dataset.label=c.textContent; });
@@ -355,36 +413,12 @@ async function loadWebFont(id){
   try{ return await webFontPending[id]; }
   catch(e){ delete webFontPending[id]; chipFail("font",id); return false; }
 }
-async function loadLocalFont(id){
-  if(localFontOk[id]) return true;
-  const meta=LOCAL_FONTS[id];
-  if(!meta||!document.fonts||!window.FontFace) return false;
-  const src=meta.locals.map(n=>'local("'+n+'")').join(", ");
-  const face=new FontFace(meta.family, src);
-  chipProgress("font",id,null);
-  try{
-    await withTimeout(Promise.resolve(face.load()), 4000, "字体");
-    document.fonts.add(face);
-    const ok=document.fonts.check('16px "'+meta.family+'"') && canvasHasFamily(meta.family);
-    if(ok){ localFontOk[id]=true; chipDone("font",id); }
-    else chipFail("font",id);
-    return ok;
-  }catch(e){ chipFail("font",id); return false; }
-}
 async function chooseFont(id){
   setStatus("");
   if(WEB_FONTS[id]){
     const ok=await loadWebFont(id);
     if(!ok){
       setStatus("字体加载失败，仍使用上一款字体。");
-      applyChrome();
-      return;
-    }
-    setStatus("");
-  }else if(LOCAL_FONTS[id]){
-    const ok=await loadLocalFont(id);
-    if(!ok){
-      setStatus(LOCAL_FONTS[id].label+" 未在本机安装，因版权限制无法打包进网页。请在本机安装后再选，或改用「文楷」「思源黑体」。");
       applyChrome();
       return;
     }
@@ -401,16 +435,6 @@ async function applySavedFont(){
     const ok=await loadWebFont(id);
     if(ok) applyBookStyle();
     else { setStatus("字体加载失败，已先用系统字体显示。"); }
-  }else if(LOCAL_FONTS[id]){
-    const ok=await loadLocalFont(id);
-    if(ok) applyBookStyle();
-    else {
-      setStatus(LOCAL_FONTS[id].label+" 未在本机安装，因版权限制无法打包进网页。已先用系统字体显示。");
-      pref.font="default";
-      savePref();
-      applyChrome();
-      applyBookStyle();
-    }
   }
 }
 
@@ -629,7 +653,7 @@ function setSound(id){
   applyChrome();
 }
 
-document.getElementById("setBtn").onclick=()=>{document.getElementById("mask").style.display="block";document.getElementById("panel").style.display="block";};
+document.getElementById("setBtn").onclick=()=>{renderHist();document.getElementById("mask").style.display="block";document.getElementById("panel").style.display="block";};
 function closeSet(){document.getElementById("mask").style.display="none";document.getElementById("panel").style.display="none";}
 document.getElementById("mask").onclick=closeSet;
 document.getElementById("closeSet").onclick=closeSet;
@@ -707,37 +731,64 @@ async function openPdf(){
       withCredentials:false
     });
     const pdf=await task.promise;
-    let pageNo=Math.max(1, parseInt(localStorage.getItem("clec-pdf:"+key)||"1",10)||1);
-    if(pageNo>pdf.numPages) pageNo=1;
+    let pageNo=1, startY=0;
+    try{
+      const raw=localStorage.getItem("clec-pdf:"+key);
+      if(raw){
+        let o=null; try{ o=JSON.parse(raw); }catch(e){}
+        if(o&&typeof o==="object"){ pageNo=parseInt(o.p,10)||1; startY=Math.max(0,Math.min(0.98,Number(o.y)||0)); }
+        else{ pageNo=parseInt(raw,10)||1; }
+      }
+    }catch(e){}
+    if(pageNo<1||pageNo>pdf.numPages){ pageNo=1; startY=0; }
+    const hadSaved=(pageNo>1||startY>0.02);
     view.classList.add("pdf");
     const canvas=document.createElement("canvas");
     view.appendChild(canvas);
-    let rendering=false, pending=null;
-    async function render(n){
-      if(rendering){pending=n;return;}
-      rendering=true; pageNo=n;
-      localStorage.setItem("clec-pdf:"+key, String(n));
-      const page=await pdf.getPage(n);
-      const vw=Math.max(280, view.clientWidth||document.documentElement.clientWidth);
-      const unscaled=page.getViewport({scale:1});
-      const scale=Math.min(2.4, (vw-8)/unscaled.width) * (window.devicePixelRatio||1);
-      const vp=page.getViewport({scale});
-      canvas.width=vp.width; canvas.height=vp.height;
-      canvas.style.width=Math.floor(vp.width/(window.devicePixelRatio||1))+"px";
-      canvas.style.height=Math.floor(vp.height/(window.devicePixelRatio||1))+"px";
-      await page.render({canvasContext:canvas.getContext("2d",{alpha:false}), viewport:vp}).promise;
-      posEl.innerHTML='<input id="pg" type="number" min="1" max="'+pdf.numPages+'" value="'+n+'"> / '+pdf.numPages;
-      const inp=document.getElementById("pg");
-      inp.onchange=()=>{const v=Math.min(pdf.numPages, Math.max(1, parseInt(inp.value,10)||1)); render(v);};
-      msg.classList.add("hide");
-      rendering=false;
-      if(pending && pending!==n){const p=pending;pending=null;render(p);}
-      else pending=null;
+    let rendering=false, pending=null, curY=0;
+    function pdfNote(n,y){
+      const N=pdf.numPages;
+      notePos({kind:"pdf",store:JSON.stringify({p:n,y:Math.round(y*1000)/1000}),pos:"p"+n,pct:Math.round(n/N*100),lab:"第 "+n+" / "+N+" 页 · "+Math.round(n/N*100)+"%"});
     }
-    goPrev=()=>{if(pageNo>1) render(pageNo-1);};
-    goNext=()=>{if(pageNo<pdf.numPages) render(pageNo+1);};
+    async function render(n,y){
+      if(rendering){pending={n:n,y:y};return;}
+      rendering=true; pageNo=n;
+      try{
+        const page=await pdf.getPage(n);
+        const vw=Math.max(280, view.clientWidth||document.documentElement.clientWidth);
+        const unscaled=page.getViewport({scale:1});
+        const scale=Math.min(2.4, (vw-8)/unscaled.width) * (window.devicePixelRatio||1);
+        const vp=page.getViewport({scale});
+        canvas.width=vp.width; canvas.height=vp.height;
+        canvas.style.width=Math.floor(vp.width/(window.devicePixelRatio||1))+"px";
+        canvas.style.height=Math.floor(vp.height/(window.devicePixelRatio||1))+"px";
+        view.scrollTop=(y||0)*canvas.offsetHeight; curY=y||0;
+        await page.render({canvasContext:canvas.getContext("2d",{alpha:false}), viewport:vp}).promise;
+        if(y) view.scrollTop=y*canvas.offsetHeight;
+        posEl.innerHTML='<input id="pg" type="number" min="1" max="'+pdf.numPages+'" value="'+n+'"> / '+pdf.numPages;
+        const inp=document.getElementById("pg");
+        inp.onchange=()=>{const v=Math.min(pdf.numPages, Math.max(1, parseInt(inp.value,10)||1)); render(v,0);};
+        msg.classList.add("hide");
+        pdfNote(n,curY);
+      }finally{
+        rendering=false;
+        if(pending){const p=pending;pending=null; if(p.n!==n||p.y) render(p.n,p.y);}
+      }
+    }
+    let scT=0;
+    view.addEventListener("scroll",function(){
+      if(rendering) return;
+      clearTimeout(scT);
+      scT=setTimeout(function(){
+        const h=canvas.offsetHeight||1; curY=Math.max(0,Math.min(0.98,view.scrollTop/h));
+        pdfNote(pageNo,curY);
+      },250);
+    },{passive:true});
+    goPrev=()=>{if(pageNo>1) render(pageNo-1,0);};
+    goNext=()=>{if(pageNo<pdf.numPages) render(pageNo+1,0);};
     applyBookStyle=()=>{/* PDF 版面固定，仅背景随主题 */};
-    await render(pageNo);
+    await render(pageNo,startY);
+    if(hadSaved) showResumeToast(function(){ render(1,0); });
     applySavedFont().catch(function(){});
     let x0=null;
     view.addEventListener("touchstart",e=>{x0=e.changedTouches[0].screenX;},{passive:true});
@@ -788,13 +839,36 @@ async function openEpub(){
       });
     }catch(e){}
     const saved=localStorage.getItem("clec-pos:"+key);
+    const spineLen=function(){ try{ return book.spine.length||(book.spine.spineItems&&book.spine.spineItems.length)||(book.spine.items&&book.spine.items.length)||0; }catch(e){ return 0; } };
+    let epubReady=false;
+    /* 先注册 relocated，再 display，这样第一次定位也会被记下；章节序号/章内页码算进度，不用生成 locations */
+    const onLoc=function(loc){
+      if(!loc||!loc.start) return;
+      const d=loc.start.displayed, n=spineLen(), idx=loc.start.index||0;
+      posEl.textContent=d?("本章 "+d.page+" / "+d.total):"";
+      if(!epubReady||!loc.start.cfi) return;
+      let pct=0;
+      if(n>0){ const fr=(d&&d.total>1)?(d.page-1)/d.total:0; pct=Math.min(100,Math.max(0,(idx+fr)/n*100)); if(idx>=n-1&&d&&d.page>=d.total) pct=100; }
+      pct=Math.round(pct);
+      notePos({kind:"epub",store:loc.start.cfi,pos:loc.start.cfi,pct:pct,lab:(n>1?("第 "+(idx+1)+" / "+n+" 节 · "):"")+pct+"%"});
+    };
+    rend.on("relocated",onLoc);
     try{
       await withTimeout(rend.display(saved||undefined), 20000, "排版");
     }catch(err){
       if(saved){ try{ localStorage.removeItem("clec-pos:"+key); }catch(e){} await withTimeout(rend.display(), 20000, "排版"); }
       else throw err;
     }
+    epubReady=true;
     applyBookStyle();
+    try{
+      const cl=rend.currentLocation&&rend.currentLocation();
+      if(cl&&cl.start&&cl.start.cfi){
+        onLoc(cl);
+        const d=cl.start.displayed;
+        if(saved&&((cl.start.index||0)>0||(d&&d.page>1))) showResumeToast(function(){ rend.display(); });
+      }
+    }catch(e){}
     msg.classList.add("hide");
     applySavedFont().catch(function(){});
     window.addEventListener("resize",()=>{
@@ -807,11 +881,6 @@ async function openEpub(){
       const add=(items,d)=>items.forEach(i=>{const o=document.createElement("option");o.value=i.href;o.textContent="　".repeat(d)+(i.label||"").trim();sel.appendChild(o);if(i.subitems)add(i.subitems,d+1);});
       add(nav.toc,0);
       sel.onchange=()=>{if(sel.value) rend.display(sel.value); sel.selectedIndex=0;};
-    });
-    rend.on("relocated",loc=>{
-      localStorage.setItem("clec-pos:"+key, loc.start.cfi);
-      const p=loc.start.displayed;
-      posEl.textContent=p?("本章 "+p.page+" / "+p.total):"";
     });
     goPrev=()=>rend.prev();
     goNext=async()=>{
