@@ -1,0 +1,45 @@
+CLEC reader webfonts
+====================
+
+These WOFF2 files are subsets/format conversions of official SIL Open Font
+License 1.1 fonts, for web embedding in the CLEC reader only. They are not
+sold as standalone desktop fonts. Full OFL text is in the OFL-*.txt files
+beside this notice. Official sources were re-checked on 2026-11-13.
+
+1) Source Han Sans CN Regular (chip label: 思源黑体)
+   Project: https://github.com/adobe-fonts/source-han-sans
+   Official file: SubsetOTF/CN/SourceHanSansCN-Regular.otf (release branch, v2.005R)
+   License: SIL OFL 1.1 — see OFL-SourceHanSans.txt
+   Reserved Font Name: 'Source'
+   This WOFF2 is a GB2312 + punctuation + Latin subset, Regular only.
+   CSS family used here: CLEC-SHSans (to avoid reserved-name issues).
+
+2) ChillHuoSong / 寒蝉活宋体 (chip label: 寒蝉活宋)
+   Project: https://github.com/Warren2060/ChillMovableType
+   Official release: HuoSongv1.000 / ChillHuoSong_F.zip / ChillHuoSong_F_Regular.otf
+   License: SIL OFL 1.1 — see OFL-ChillMovableType.txt
+     https://github.com/Warren2060/ChillMovableType/blob/main/LICENSE
+   This WOFF2 is a GB2312 Level-1 + punctuation + Latin subset. The textured
+   outlines make a full GB2312 WOFF2 about 6.6MB, so Level-1 (常用一级汉字)
+   is used to keep the lazy-loaded file smaller. Rare Level-2 characters may
+   fall back to the next font in the stack.
+   CSS family used here: CLEC-HuoSong.
+
+3) LXGW WenKai GB Lite Regular / 霞鹜文楷 GB 轻便版 (chip label: 文楷)
+   Project: https://github.com/lxgw/LxgwWenkaiGB-Lite
+   Official release: v1.522 / LXGWWenKaiGBLite-Regular.ttf
+   License: SIL OFL 1.1 — see OFL-LXGWWenKaiGBLite.txt
+   Official OFL additional permission allows reserved names for webfont
+   subset/format conversion that is not offered as an installable desktop font.
+   This WOFF2 is a GB2312 + punctuation + Latin subset of the official Lite cut.
+   CSS family used here: CLEC-WenKai.
+   This is a legal kai-style substitute. It is NOT 仓耳今楷.
+
+Not bundled (copyright; offered as local-only options in the reader):
+- 仓耳今楷 (Tsanger JinKai), official site https://tsanger.cn/
+  Product pages list a commercial license of ¥16000. Personal non-commercial
+  use of a downloaded desktop font is allowed; it is not in the “永久免费商用”
+  set (https://www.tsanger.cn/107.html). Not downloaded, not hosted.
+- 方正兰亭黑, official site https://www.foundertype.com/
+  Commercial Founder Type font; embedding requires a paid license.
+  Not downloaded, not hosted.

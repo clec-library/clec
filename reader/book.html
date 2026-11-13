@@ -30,13 +30,15 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 #prog{width:200px;height:6px;background:#0002;border-radius:99px;margin-top:14px;overflow:hidden;display:none}
 #prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 #mask{display:none;position:fixed;inset:0;background:#0005;z-index:30}
-#panel{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--panel);color:var(--fg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));z-index:31;box-shadow:0 -8px 32px #0003}
+#panel{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--panel);color:var(--fg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));z-index:31;box-shadow:0 -8px 32px #0003;max-height:80%;overflow:auto}
 #panel h3{margin:0 0 12px;font-size:16px;font-weight:600}
 .row{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
 .row label{width:56px;font-size:13px;color:var(--muted);flex-shrink:0}
-.row button,.row .chip{background:#00000010;color:var(--fg);border:1px solid transparent;border-radius:8px;padding:7px 11px;font-size:13px}
+.row button,.row .chip{background:#00000010;color:var(--fg);border:1px solid transparent;border-radius:8px;padding:7px 11px;font-size:13px;white-space:nowrap}
 .row button.on,.row .chip.on{background:var(--accent);color:#fff;border-color:transparent}
 #panel .close{float:right;background:none;border:0;color:var(--muted);font-size:20px;padding:0 4px}
+#setMsg{display:none;font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.55}
+#soundHint,#pdfNote{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.55}
 </style>
 </head>
 <body>
@@ -62,6 +64,11 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
     <button type="button" class="chip" data-k="font" data-v="hei">黑体</button>
     <button type="button" class="chip" data-k="font" data-v="song">宋体</button>
     <button type="button" class="chip" data-k="font" data-v="kai">楷体</button>
+    <button type="button" class="chip" data-k="font" data-v="shsans">思源黑体</button>
+    <button type="button" class="chip" data-k="font" data-v="huosong">寒蝉活宋</button>
+    <button type="button" class="chip" data-k="font" data-v="wenkai">文楷</button>
+    <button type="button" class="chip" data-k="font" data-v="jinkai">仓耳今楷</button>
+    <button type="button" class="chip" data-k="font" data-v="lanting">方正兰亭黑</button>
   </div>
   <div class="row"><label>字号</label>
     <button type="button" id="fsDown">A−</button>
@@ -81,26 +88,60 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
   </div>
   <div class="row"><label>背景音</label>
     <button type="button" class="chip" data-k="sound" data-v="off">关闭</button>
-    <button type="button" class="chip" data-k="sound" data-v="rain">雨声</button>
+    <button type="button" class="chip" data-k="sound" data-v="library">图书馆</button>
+    <button type="button" class="chip" data-k="sound" data-v="pages">翻书</button>
     <button type="button" class="chip" data-k="sound" data-v="ocean">海浪</button>
-    <button type="button" class="chip" data-k="sound" data-v="forest">森林</button>
-    <button type="button" class="chip" data-k="sound" data-v="fire">壁炉</button>
     <button type="button" class="chip" data-k="sound" data-v="stream">溪流</button>
+    <button type="button" class="chip" data-k="sound" data-v="forest">森林</button>
+    <button type="button" class="chip" data-k="sound" data-v="rockrain">岩雨</button>
+    <button type="button" class="chip" data-k="sound" data-v="springrain">春雨</button>
+    <button type="button" class="chip" data-k="sound" data-v="pond">池塘</button>
+    <button type="button" class="chip" data-k="sound" data-v="wind">林风</button>
+    <button type="button" class="chip" data-k="sound" data-v="fire">壁炉</button>
     <button type="button" class="chip" data-k="sound" data-v="pink">粉噪</button>
     <button type="button" class="chip" data-k="sound" data-v="pad">轻柔</button>
   </div>
-  <p style="font-size:12px;color:var(--muted);margin:4px 0 0">适合阅读的自然环境音，在本地即时生成，不另下载，可随时关掉。</p>
-  <p id="pdfNote" style="display:none;font-size:12px;color:var(--muted);margin:8px 0 0">PDF 版面是固定的，字体和行距改的是菜单；背景颜色会作用在页面四周。</p>
+  <p id="soundHint">真实环境录音只在点选时加载，不影响第一次打开；粉噪和轻柔仍在本地生成。可随时关掉。</p>
+  <p id="setMsg"></p>
+  <p id="pdfNote" style="display:none;margin:8px 0 0">PDF 版面是固定的，字体和行距改的是菜单；背景颜色会作用在页面四周。</p>
 </div>
 <script>
+
 const BASE="https://pub-fc3f445745ea452f882ce28d1361de6f.r2.dev/";
 const LOCAL=new URL(".", location.href).href;
-const FONTS={
-  default:'-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif',
-  hei:'"PingFang SC","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif',
-  song:'"Songti SC","STSong","SimSun","Noto Serif SC",serif',
-  kai:'"Kaiti SC","STKaiti","KaiTi","STKaiTi",serif'
+const WEB_FONTS={
+  shsans:{family:"CLEC-SHSans", file:"fonts/SourceHanSansCN-Regular.woff2"},
+  huosong:{family:"CLEC-HuoSong", file:"fonts/ChillHuoSong-Regular.woff2"},
+  wenkai:{family:"CLEC-WenKai", file:"fonts/LXGWWenKaiGBLite-Regular.woff2"}
 };
+const LOCAL_FONTS={
+  jinkai:{family:"CLEC-JinKai", label:"仓耳今楷", locals:["仓耳今楷","仓耳今楷01","仓耳今楷01-W04","仓耳今楷01-W03","仓耳今楷02-W04","仓耳今楷05-W04","TsangerJinKai","TsangerJinKai01-W04","Tsanger JinKai","TsangerJinKai-W04","TsangerJinkai"]},
+  lanting:{family:"CLEC-LanTing", label:"方正兰亭黑", locals:["方正兰亭黑","方正兰亭黑简体","方正兰亭黑_GBK","FZLanTingHei-R-GBK","FZLantingHei-R-GBK","FZLanTingHeiS-R-GB","FZLanTingHei-R-GB18030","Lantinghei SC","LantingHei SC","Lantinghei SC Regular"]}
+};
+const FILE_SOUNDS={
+  library:"sounds/library.mp3",
+  pages:"sounds/pages.mp3",
+  ocean:"sounds/ocean.mp3",
+  stream:"sounds/stream.mp3",
+  forest:"sounds/forest.mp3",
+  rockrain:"sounds/rockrain.mp3",
+  springrain:"sounds/springrain.mp3",
+  pond:"sounds/pond.mp3",
+  wind:"sounds/wind.mp3",
+  fire:"sounds/fire.mp3"
+};
+function fontStack(id){
+  if(id==="hei") return '"PingFang SC","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif';
+  if(id==="song") return '"Songti SC","STSong","SimSun","Noto Serif SC",serif';
+  if(id==="kai") return '"Kaiti SC","STKaiti","KaiTi","STKaiTi",serif';
+  if(id==="shsans") return '"CLEC-SHSans","PingFang SC","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif';
+  if(id==="huosong") return '"CLEC-HuoSong","Songti SC","STSong","SimSun",serif';
+  if(id==="wenkai") return '"CLEC-WenKai","Kaiti SC","STKaiti","KaiTi",serif';
+  if(id==="jinkai") return '"CLEC-JinKai","Kaiti SC","STKaiti","KaiTi",serif';
+  if(id==="lanting") return '"CLEC-LanTing","PingFang SC","Heiti SC","Microsoft YaHei",sans-serif';
+  return '-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
+}
+const FONTS={default:fontStack("default"),hei:fontStack("hei"),song:fontStack("song"),kai:fontStack("kai")};
 const q=new URLSearchParams(location.search);
 const key=q.get("f")||"";
 const name=q.get("t")||key.replace(/\.[^.]+$/,"");
@@ -116,9 +157,19 @@ if(!isEpub) document.getElementById("toc").style.display="none";
 if(isPdf) document.getElementById("pdfNote").style.display="block";
 
 let actx, masterGain, soundNodes=[], soundTimers=[], playingSound="off";
+let fileAudio=null, epubRend=null;
+const loadedWebFaces={};
+const webFontPending={};
+const localFontOk={};
 const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false,sound:"off"}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
 if(!pref.sound || pref.sound===true) pref.sound=pref.music?"pad":"off";
 function savePref(){localStorage.setItem("clec-read", JSON.stringify(pref));}
+function setStatus(t){
+  const el=document.getElementById("setMsg");
+  if(!el) return;
+  el.textContent=t||"";
+  el.style.display=t?"block":"none";
+}
 function applyChrome(){
   document.body.className=pref.theme==="paper"?"":pref.theme;
   document.querySelectorAll("[data-k]").forEach(b=>{
@@ -129,7 +180,155 @@ function applyChrome(){
 }
 applyChrome();
 
-/* ---- 背景音：本地生成的自然环境声，不另下文件 ---- */
+function typoCss(){
+  const fam=fontStack(pref.font);
+  const lh=pref.lh;
+  const fs=(16*(Number(pref.fs)||100)/100).toFixed(2)+"px";
+  const bg=getComputedStyle(document.body).backgroundColor;
+  const fg=getComputedStyle(document.body).color;
+  let faces="";
+  Object.keys(loadedWebFaces).forEach(id=>{
+    const rec=loadedWebFaces[id];
+    faces+='@font-face{font-family:"'+rec.family+'";src:url("'+rec.url+'") format("woff2");font-weight:400;font-style:normal;font-display:swap;}';
+  });
+  const sel="body,p,div,span,li,h1,h2,h3,h4,h5,h6,a,em,i,b,strong,section,article,blockquote,td,th,aside,header,footer,nav,main,figcaption,dt,dd,ul,ol";
+  return faces+
+    "html,body{background:"+bg+" !important;color:"+fg+" !important;font-family:"+fam+" !important;font-size:"+fs+" !important;line-height:"+lh+" !important;}"+
+    sel+"{font-family:"+fam+" !important;line-height:"+lh+" !important;}"+
+    "body p,body div,body span,body li,body a,body em,body i,body b,body strong,body td,body th,body blockquote,body section,body article,body aside,body figcaption,body dt,body dd,body ul,body ol{font-size:inherit !important;}"+
+    "a{color:"+fg+" !important;}";
+}
+function injectTypo(doc){
+  if(!doc||!doc.head) return;
+  try{
+    if(doc.defaultView&&doc.defaultView.FontFace&&doc.fonts){
+      Object.keys(loadedWebFaces).forEach(id=>{
+        const rec=loadedWebFaces[id];
+        const mark="data-clec-ff-"+rec.family;
+        if(doc.documentElement.getAttribute(mark)) return;
+        try{
+          const ff=new doc.defaultView.FontFace(rec.family, 'url("'+rec.url+'") format("woff2")');
+          doc.fonts.add(ff);
+          ff.load().catch(function(){});
+          doc.documentElement.setAttribute(mark,"1");
+        }catch(e){}
+      });
+    }
+  }catch(e){}
+  let st=doc.getElementById("clec-typo");
+  if(!st){
+    st=doc.createElement("style");
+    st.id="clec-typo";
+    doc.head.appendChild(st);
+  }
+  st.textContent=typoCss();
+}
+function applyEpubTypo(){
+  if(!epubRend) return;
+  try{
+    if(epubRend.themes){
+      epubRend.themes.font(fontStack(pref.font));
+      epubRend.themes.fontSize((pref.fs||100)+"%");
+      const bg=getComputedStyle(document.body).backgroundColor;
+      const fg=getComputedStyle(document.body).color;
+      epubRend.themes.override("background", bg);
+      epubRend.themes.override("color", fg);
+    }
+  }catch(e){}
+  try{
+    const list=epubRend.getContents?epubRend.getContents():[];
+    (list||[]).forEach(c=>{
+      const doc=(c&&c.document)||(c&&c.content&&c.content.document)||c;
+      injectTypo(doc);
+    });
+  }catch(e){}
+}
+function canvasHasFamily(family){
+  try{
+    const t="汉字阅读CLECmwmwmwll";
+    const c=document.createElement("canvas");
+    const x=c.getContext("2d");
+    x.font='20px "Comic Sans MS","Courier New",monospace';
+    const a=x.measureText(t).width;
+    x.font='20px "'+family+'","Comic Sans MS","Courier New",monospace';
+    return x.measureText(t).width!==a;
+  }catch(e){ return true; }
+}
+async function loadWebFont(id){
+  if(loadedWebFaces[id]) return true;
+  if(webFontPending[id]) return webFontPending[id];
+  const meta=WEB_FONTS[id];
+  if(!meta) return false;
+  const href=new URL(meta.file, LOCAL).href;
+  webFontPending[id]=(async()=>{
+    const face=new FontFace(meta.family, 'url("'+href+'") format("woff2")');
+    await withTimeout(Promise.resolve(face.load()), 20000, "字体");
+    document.fonts.add(face);
+    loadedWebFaces[id]={family:meta.family,url:href,face:face};
+    return true;
+  })();
+  try{ return await webFontPending[id]; }
+  catch(e){ delete webFontPending[id]; return false; }
+}
+async function loadLocalFont(id){
+  if(localFontOk[id]) return true;
+  const meta=LOCAL_FONTS[id];
+  if(!meta||!document.fonts||!window.FontFace) return false;
+  const src=meta.locals.map(n=>'local("'+n+'")').join(", ");
+  const face=new FontFace(meta.family, src);
+  try{
+    await withTimeout(Promise.resolve(face.load()), 4000, "字体");
+    document.fonts.add(face);
+    const ok=document.fonts.check('16px "'+meta.family+'"') && canvasHasFamily(meta.family);
+    if(ok) localFontOk[id]=true;
+    return ok;
+  }catch(e){ return false; }
+}
+async function chooseFont(id){
+  setStatus("");
+  if(WEB_FONTS[id]){
+    setStatus("正在加载字体…");
+    const ok=await loadWebFont(id);
+    if(!ok){
+      setStatus("字体加载失败，仍使用上一款字体。");
+      applyChrome();
+      return;
+    }
+    setStatus("");
+  }else if(LOCAL_FONTS[id]){
+    const ok=await loadLocalFont(id);
+    if(!ok){
+      setStatus(LOCAL_FONTS[id].label+" 未在本机安装，因版权限制无法打包进网页。请在本机安装后再选，或改用「文楷」「思源黑体」。");
+      applyChrome();
+      return;
+    }
+    setStatus("");
+  }
+  pref.font=id;
+  savePref();
+  applyChrome();
+  applyBookStyle();
+}
+async function applySavedFont(){
+  const id=pref.font;
+  if(WEB_FONTS[id]){
+    const ok=await loadWebFont(id);
+    if(ok) applyBookStyle();
+    else { setStatus("字体加载失败，已先用系统字体显示。"); }
+  }else if(LOCAL_FONTS[id]){
+    const ok=await loadLocalFont(id);
+    if(ok) applyBookStyle();
+    else {
+      setStatus(LOCAL_FONTS[id].label+" 未在本机安装，因版权限制无法打包进网页。已先用系统字体显示。");
+      pref.font="default";
+      savePref();
+      applyChrome();
+      applyBookStyle();
+    }
+  }
+}
+
+/* ---- 背景音：录音仅在点选时加载；粉噪/轻柔仍本地生成 ---- */
 const noiseCache={};
 function noiseBuf(sec, kind){
   const key=kind+"_"+sec;
@@ -163,101 +362,31 @@ function lfoTo(param,freq,depth){
 }
 function later(fn,ms){ const id=setTimeout(fn,ms); soundTimers.push(id); return id; }
 
+function stopFileAudio(){
+  if(!fileAudio) return;
+  const a=fileAudio; fileAudio=null;
+  try{ a.onerror=null; a.pause(); a.removeAttribute("src"); a.load(); }catch(e){}
+}
 function stopSound(){
   soundTimers.forEach(clearTimeout); soundTimers=[];
   const nodes=soundNodes.slice(), mg=masterGain;
   soundNodes=[]; masterGain=null; playingSound="off";
+  stopFileAudio();
   if(!mg||!actx) return;
   try{ const t=actx.currentTime; mg.gain.cancelScheduledValues(t); mg.gain.setValueAtTime(mg.gain.value,t); mg.gain.linearRampToValueAtTime(0,t+0.3);}catch(e){}
   setTimeout(()=>{ nodes.forEach(n=>{try{n.stop&&n.stop(); n.disconnect();}catch(e){}}); try{mg.disconnect();}catch(e){} }, 350);
 }
 
-function startSound(id){
+function startProcSound(id){
   const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){ pref.sound="off"; savePref(); return; }
+  if(!AC){ playingSound="off"; applyChrome(); return; }
   actx=actx||new AC();
   if(actx.state==="suspended") actx.resume();
   stopSound();
   if(!id||id==="off"){ applyChrome(); return; }
   masterGain=actx.createGain(); masterGain.gain.value=0; masterGain.connect(actx.destination);
   const out=masterGain, now=actx.currentTime;
-  if(id==="rain"){
-    const a=loopSrc(noiseBuf(3,"pink")), hp=filt("highpass",400), lp=filt("lowpass",7000), g=gain(0.22);
-    a.connect(hp); hp.connect(lp); lp.connect(g); g.connect(out);
-    const b=loopSrc(noiseBuf(4,"brown")), lp2=filt("lowpass",200), g2=gain(0.06);
-    b.connect(lp2); lp2.connect(g2); g2.connect(out);
-    const drip=()=>{
-      if(playingSound!=="rain") return;
-      const src=actx.createBufferSource(); src.buffer=noiseBuf(2,"white");
-      const f=filt("bandpass",1800+Math.random()*2200,4), dg=gain(0);
-      src.connect(f); f.connect(dg); dg.connect(out);
-      const t=actx.currentTime, dur=0.04+Math.random()*0.07;
-      dg.gain.setValueAtTime(0.08+Math.random()*0.1,t); dg.gain.exponentialRampToValueAtTime(0.001,t+dur);
-      src.start(t); src.stop(t+dur+0.02); later(drip,200+Math.random()*900);
-    };
-    later(drip,400);
-    out.gain.linearRampToValueAtTime(0.7, now+1);
-  }else if(id==="ocean"){
-    const a=loopSrc(noiseBuf(5,"brown")), lp=filt("lowpass",500), g=gain(0.55);
-    lp.frequency.value=420; lfoTo(lp.frequency,0.07,260); lfoTo(g.gain,0.08,0.2);
-    a.connect(lp); lp.connect(g); g.connect(out);
-    const foam=loopSrc(noiseBuf(3,"white")), hp=filt("highpass",700), lp2=filt("lowpass",2800), g2=gain(0.08);
-    lfoTo(g2.gain,0.11,0.04);
-    foam.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
-    out.gain.linearRampToValueAtTime(0.85, now+1.4);
-  }else if(id==="forest"){
-    const a=loopSrc(noiseBuf(5,"brown")), lp=filt("lowpass",500), g=gain(0.22);
-    lfoTo(g.gain,0.05,0.08); lfoTo(lp.frequency,0.04,120);
-    a.connect(lp); lp.connect(g); g.connect(out);
-    const leaves=loopSrc(noiseBuf(3,"pink")), hp=filt("highpass",1200), lp2=filt("lowpass",4000), g2=gain(0.04);
-    leaves.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
-    const bird=()=>{
-      if(playingSound!=="forest") return;
-      const o=actx.createOscillator(); o.type="sine";
-      const f0=1600+Math.random()*1400; o.frequency.setValueAtTime(f0,actx.currentTime);
-      o.frequency.linearRampToValueAtTime(f0+(Math.random()<.5?-400:350), actx.currentTime+0.18);
-      const bg=gain(0); const t=actx.currentTime;
-      bg.gain.setValueAtTime(0.0001,t); bg.gain.linearRampToValueAtTime(0.03,t+0.04); bg.gain.exponentialRampToValueAtTime(0.0001,t+0.2);
-      o.connect(bg); bg.connect(out); o.start(t); o.stop(t+0.22);
-      later(bird,6000+Math.random()*10000);
-    };
-    later(bird,3000);
-    out.gain.linearRampToValueAtTime(0.8, now+1.2);
-  }else if(id==="fire"){
-    const rumble=loopSrc(noiseBuf(4,"brown")), lp=filt("lowpass",180), g=gain(0.28);
-    rumble.connect(lp); lp.connect(g); g.connect(out);
-    const hiss=loopSrc(noiseBuf(2,"pink")), hp=filt("highpass",800), lp2=filt("lowpass",2400), g2=gain(0.05);
-    hiss.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
-    const crack=()=>{
-      if(playingSound!=="fire") return;
-      const src=actx.createBufferSource(); src.buffer=noiseBuf(2,"white");
-      const f=filt("bandpass",1500+Math.random()*3500,2.5), cg=gain(0);
-      src.connect(f); f.connect(cg); cg.connect(out);
-      const t=actx.currentTime, dur=0.02+Math.random()*0.05;
-      cg.gain.setValueAtTime(0.1+Math.random()*0.18,t); cg.gain.exponentialRampToValueAtTime(0.001,t+dur);
-      src.start(t); src.stop(t+dur+0.02); later(crack,80+Math.random()*420);
-    };
-    later(crack,200);
-    out.gain.linearRampToValueAtTime(0.75, now+0.8);
-  }else if(id==="stream"){
-    const a=loopSrc(noiseBuf(3,"white")), bp=filt("bandpass",1100,0.8), g=gain(0.18);
-    a.connect(bp); bp.connect(g); g.connect(out);
-    const b=loopSrc(noiseBuf(3,"pink")), bp2=filt("bandpass",2600,1.1), g2=gain(0.09);
-    lfoTo(bp2.frequency,0.13,400);
-    b.connect(bp2); bp2.connect(g2); g2.connect(out);
-    const bubble=()=>{
-      if(playingSound!=="stream") return;
-      const o=actx.createOscillator(); o.type="sine";
-      const f0=500+Math.random()*900; o.frequency.setValueAtTime(f0,actx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(Math.max(180,f0-300), actx.currentTime+0.12);
-      const bg=gain(0), lp=filt("lowpass",2000); const t=actx.currentTime;
-      bg.gain.setValueAtTime(0.05,t); bg.gain.exponentialRampToValueAtTime(0.001,t+0.12);
-      o.connect(lp); lp.connect(bg); bg.connect(out); o.start(t); o.stop(t+0.14);
-      later(bubble,300+Math.random()*1100);
-    };
-    later(bubble,500);
-    out.gain.linearRampToValueAtTime(0.7, now+1);
-  }else if(id==="pink"){
+  if(id==="pink"){
     const a=loopSrc(noiseBuf(4,"pink")), lp=filt("lowpass",6000), g=gain(0.16);
     a.connect(lp); lp.connect(g); g.connect(out);
     out.gain.linearRampToValueAtTime(0.7, now+0.8);
@@ -274,8 +403,42 @@ function startSound(id){
   playingSound=id;
 }
 
+function startFileSound(id){
+  const rel=FILE_SOUNDS[id];
+  stopSound();
+  if(!rel){ applyChrome(); return; }
+  let a;
+  try{ a=new Audio(); }catch(e){ setStatus("此环境不能播放背景音，书仍可继续阅读。"); applyChrome(); return; }
+  a.loop=true;
+  a.preload="auto";
+  a.volume=0.7;
+  const href=new URL(rel, LOCAL).href;
+  const fail=()=>{
+    if(fileAudio!==a) return;
+    setStatus("背景音加载失败，可改选其他声音或关闭。书仍可继续阅读。");
+    stopFileAudio();
+    playingSound="off";
+    applyChrome();
+  };
+  a.onerror=fail;
+  a.src=href;
+  fileAudio=a;
+  playingSound=id;
+  applyChrome();
+  const p=a.play();
+  if(p&&p.catch) p.catch(fail);
+}
+
+function startSound(id){
+  if(!id||id==="off"){ stopSound(); applyChrome(); return; }
+  if(FILE_SOUNDS[id]) startFileSound(id);
+  else startProcSound(id);
+  applyChrome();
+}
+
 function setSound(id){
   pref.sound=id; pref.music=(id!=="off"); savePref();
+  setStatus("");
   startSound(id);
   applyChrome();
 }
@@ -289,6 +452,7 @@ document.getElementById("fsUp").onclick=()=>{pref.fs=Math.min(180,pref.fs+10);sa
 document.getElementById("panel").addEventListener("click",e=>{
   const b=e.target.closest("[data-k]"); if(!b) return;
   if(b.dataset.k==="sound"){ setSound(b.dataset.v); return; }
+  if(b.dataset.k==="font"){ chooseFont(b.dataset.v); return; }
   pref[b.dataset.k]=b.dataset.v;
   savePref(); applyChrome(); applyBookStyle();
 });
@@ -388,6 +552,7 @@ async function openPdf(){
     goNext=()=>{if(pageNo<pdf.numPages) render(pageNo+1);};
     applyBookStyle=()=>{/* PDF 版面固定，仅背景随主题 */};
     await render(pageNo);
+    applySavedFont().catch(function(){});
     let x0=null;
     view.addEventListener("touchstart",e=>{x0=e.changedTouches[0].screenX;},{passive:true});
     view.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].screenX-x0;if(dx>50)goPrev();if(dx<-50)goNext();x0=null;},{passive:true});
@@ -418,15 +583,24 @@ async function openEpub(){
     const w=Math.max(280, view.clientWidth||document.documentElement.clientWidth||window.innerWidth);
     const h=Math.max(320, view.clientHeight||(window.innerHeight-96));
     const rend=book.renderTo(view,{width:w,height:h,flow:"paginated",spread:"none",allowScriptedContent:false});
-    applyBookStyle=()=>{
-      rend.themes.font(FONTS[pref.font]||FONTS.default);
-      rend.themes.fontSize(pref.fs+"%");
-      const bg=getComputedStyle(document.body).backgroundColor;
-      const fg=getComputedStyle(document.body).color;
-      rend.themes.override("background", bg);
-      rend.themes.override("color", fg);
-      rend.themes.default({body:{"line-height":pref.lh+" !important","padding":"0 10px !important","background":bg+" !important","color":fg+" !important","font-family":(FONTS[pref.font]||FONTS.default)+" !important"},p:{"line-height":pref.lh+" !important"},a:{"color":fg+" !important"}});
-    };
+    epubRend=rend;
+    applyBookStyle=()=>applyEpubTypo();
+    try{
+      if(rend.hooks&&rend.hooks.content&&rend.hooks.content.register){
+        rend.hooks.content.register(function(contents){
+          try{ injectTypo(contents.document||(contents.content&&contents.content.document)); }catch(err){}
+        });
+      }
+    }catch(e){}
+    try{
+      rend.on("rendered", function(section, view){
+        try{
+          const doc=(view&&view.document)||(view&&view.contents&&view.contents.document);
+          if(doc) injectTypo(doc);
+          else applyEpubTypo();
+        }catch(err){ try{ applyEpubTypo(); }catch(e2){} }
+      });
+    }catch(e){}
     const saved=localStorage.getItem("clec-pos:"+key);
     try{
       await withTimeout(rend.display(saved||undefined), 20000, "排版");
@@ -436,6 +610,7 @@ async function openEpub(){
     }
     applyBookStyle();
     msg.classList.add("hide");
+    applySavedFont().catch(function(){});
     window.addEventListener("resize",()=>{
       const nw=Math.max(280, view.clientWidth||window.innerWidth);
       const nh=Math.max(320, view.clientHeight||(window.innerHeight-96));

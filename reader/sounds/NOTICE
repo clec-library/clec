@@ -1,0 +1,101 @@
+CLEC reader background sounds
+=============================
+
+All recordings below were taken from official Freesound sound pages. The
+license on each page was verified as CC0 1.0 (Public Domain Dedication) on
+2026-11-13: https://creativecommons.org/publicdomain/zero/1.0/
+
+Hosted files are short mono 48 kbps MP3 transcodes (trimmed, with short fade
+in/out) of the official Freesound HQ previews, made only to keep the reader
+small. Audio is fetched only when the reader clicks that sound. Nothing is
+downloaded on first open. There is no autoplay.
+
+No Epidemic Sound (epidemicsound.com) or other commercial-library audio is
+included, even if a copy was provided privately.
+
+library.mp3  — 图书馆
+  Title: Quiet library ambience
+  Author: xkeril
+  URL: https://freesound.org/people/xkeril/sounds/620683/
+  License: CC0 1.0
+  Original duration 9:40.607; a quiet mid excerpt is used.
+
+pages.mp3  — 翻书
+  Title: MixMultiplePeopleTurningPages.mp3
+  Author: blackatomproductions
+  URL: https://freesound.org/people/blackatomproductions/sounds/575764/
+  License: CC0 1.0
+  Description on the official page: a mix of 3 people turning book pages,
+  like in a library. Original duration 2:02; an excerpt is used.
+
+ocean.mp3  — 海浪
+  Title: Calm ocean waves
+  Author: SamsterBirdies
+  URL: https://freesound.org/people/SamsterBirdies/sounds/578524/
+  License: CC0 1.0
+  Original duration 2:59.710; an excerpt is used.
+
+stream.mp3  — 溪流
+  Title: 200620 Brook, Stream, flowing water, close, gentle, Mineral Springs Rd, Hamilton, 3pm.flac
+  Author: TRP
+  URL: https://freesound.org/people/TRP/sounds/567730/
+  License: CC0 1.0
+  Original duration 4:01.486; an excerpt is used.
+
+forest.mp3  — 森林
+  Title: Da Woid - Bavarian Forest
+  Author: myLoop
+  URL: https://freesound.org/people/myLoop/sounds/857800/
+  License: CC0 1.0
+  Official pack note (https://freesound.org/people/myLoop/packs/46669/): All CC0.
+  Original duration 5:48.266; an excerpt is used.
+
+rockrain.mp3  — 岩雨
+  Title: RainOnStoneRuinsRiver_Spring_Montalegre_ORTF.wav
+  Author: melissapons
+  URL: https://freesound.org/people/melissapons/sounds/157785/
+  License: CC0 1.0
+  Official description: rain under stone ruins, with a river dam noticeable.
+  Original duration 1:29.959; an excerpt is used.
+
+springrain.mp3  — 春雨
+  Title: Rain in Munich Westpark
+  Author: myLoop
+  URL: https://freesound.org/people/myLoop/sounds/849800/
+  License: CC0 1.0
+  Official description: gentle rain recorded in Munich, looped for seamless play.
+  Original duration 1:27.605; an excerpt is used.
+
+pond.mp3  — 池塘
+  Title: Pond Ambience: Frogs and Insects
+  Author: feeshy
+  URL: https://freesound.org/people/feeshy/sounds/402826/
+  License: CC0 1.0
+  Original duration 2:59.092; an excerpt is used.
+
+wind.mp3  — 林风
+  Title: Soft Wind in the Trees - Leaves rustle
+  Author: Borgory
+  URL: https://freesound.org/people/Borgory/sounds/751473/
+  License: CC0 1.0
+  Official description: leaves rustle in the wind.
+  Original duration 2:26.750; an excerpt is used.
+
+fire.mp3  — 壁炉
+  Title: fire-crackling.wav
+  Author: jmehlferber
+  URL: https://freesound.org/people/jmehlferber/sounds/370938/
+  License: CC0 1.0
+  Original duration 0:24.496; used in full (short loop).
+
+粉噪 and 轻柔 are generated locally in the browser (not recordings).
+
+CC-BY / CC-BY-NC candidates that were considered and NOT used:
+- bulldozia readingroom.aif (CC BY-NC 4.0)
+- kevp888 library recording (CC BY 4.0) — a CC0 library recording was used instead
+- leosalom FIREPLACE (CC BY 3.0) — a CC0 fire recording was used instead
+- jakobthiesen Water Lap with Wind in Trees (CC BY 3.0)
+- daveincamas StormInOregonRainforest-Pool (CC BY 4.0)
+- calebjay Rain on a Mountain Stream (CC BY 4.0)
+- roman_gens Ambience Pond with frogs (CC BY 4.0)
+- arnaud coutancier Rain drops on stone (CC BY-NC)
