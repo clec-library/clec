@@ -12,16 +12,25 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:
 body.night{--bg:#161513;--fg:#e6e0d4;--bar:#111;--barfg:#eee;--panel:#242220;--muted:#aaa;--btn:#3a3836;--accent:#d4b483}
 body.white{--bg:#fff;--fg:#222;--panel:#f7f7f7}
 body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
-#bar{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;gap:6px;padding:0 8px;padding-top:env(safe-area-inset-top);background:var(--bar);color:var(--barfg);z-index:20;box-sizing:border-box}
-#bar .t{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#bar button,#bar a,#bar select{background:#ffffff22;color:var(--barfg);border:0;border-radius:8px;padding:7px 10px;font-size:13px;text-decoration:none;line-height:1}
+#bar{position:fixed;top:0;left:0;right:0;height:48px;height:calc(48px + env(safe-area-inset-top));display:flex;align-items:center;gap:6px;padding:0 8px;padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));padding-top:env(safe-area-inset-top);background:var(--bar);color:var(--barfg);z-index:20;box-sizing:border-box}
+#bar .t{flex:1 1 0;min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar button,#bar a,#bar select{background:#ffffff22;color:var(--barfg);border:0;border-radius:8px;padding:7px 10px;font-size:13px;text-decoration:none;line-height:1;min-height:34px;box-sizing:border-box}
+#bar button,#bar a{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-width:40px}
+#bar select{flex:0 1 auto;min-width:0;max-width:46%;text-overflow:ellipsis;-webkit-appearance:menulist-button;appearance:auto}
+#bar .ic{font-size:17px;line-height:1}
+@media (max-width:560px){
+  #bar{gap:5px}
+  #bar select{flex:1 1 0;max-width:none;font-size:16px;padding:6px 6px}
+  #bar .lb{display:none}
+  #bar button,#bar a{padding:0}
+}
 #view{position:absolute;top:48px;bottom:48px;left:0;right:0;top:calc(48px + env(safe-area-inset-top));bottom:calc(48px + env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch}
 #view.pdf{display:flex;justify-content:center;align-items:flex-start;background:var(--bg)}
 #view.pdf canvas{display:block;margin:8px auto;box-shadow:0 2px 16px #0003;max-width:100%}
 #nav{position:fixed;bottom:0;left:0;right:0;height:48px;height:calc(48px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;justify-content:space-between;padding-left:12px;padding-right:12px;background:var(--panel);box-sizing:border-box;font-size:13px;z-index:20;border-top:1px solid #0002}
 #nav button{background:var(--bar);color:var(--barfg);border:0;border-radius:8px;padding:8px 16px;font-size:14px}
 #pos{display:flex;align-items:center;gap:6px;color:var(--muted)}
-#pos input{width:52px;text-align:center;border:1px solid #0003;border-radius:6px;background:transparent;color:var(--fg);padding:4px;font-size:13px}
+#pos input{width:52px;text-align:center;border:1px solid #0003;border-radius:6px;background:transparent;color:var(--fg);padding:4px;font-size:16px}
 #msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:15px;color:var(--muted);padding:0 28px;z-index:10;background:var(--bg)}
 #msg.hide{display:none}
 #msg .hint{font-size:13px;margin-top:8px;opacity:.8}
@@ -30,13 +39,21 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 #prog{width:200px;height:6px;background:#0002;border-radius:99px;margin-top:14px;overflow:hidden;display:none}
 #prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 #mask{display:none;position:fixed;inset:0;background:#0005;z-index:30}
-#panel{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--panel);color:var(--fg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));z-index:31;box-shadow:0 -8px 32px #0003;max-height:80%;overflow:auto}
-#panel h3{margin:0 0 12px;font-size:16px;font-weight:600}
+#panel{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:680px;background:var(--panel);color:var(--fg);border-radius:16px 16px 0 0;padding:0 16px calc(16px + env(safe-area-inset-bottom));padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));z-index:31;box-shadow:0 -8px 32px #0003;box-sizing:border-box;max-height:85vh;max-height:calc(100vh - 60px - env(safe-area-inset-top));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+@supports (height:100dvh){#panel{max-height:calc(100dvh - 60px - env(safe-area-inset-top))}}
+#panel .phead{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;background:var(--panel);padding:12px 0 6px}
+#panel h3{margin:0;font-size:16px;font-weight:600}
 .row{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
 .row label{width:56px;font-size:13px;color:var(--muted);flex-shrink:0}
-.row button,.row .chip{background:#00000010;color:var(--fg);border:1px solid transparent;border-radius:8px;padding:7px 11px;font-size:13px;white-space:nowrap}
+.row button,.row .chip{background:#00000010;color:var(--fg);border:1px solid transparent;border-radius:8px;padding:8px 12px;font-size:13px;white-space:nowrap;position:relative;overflow:hidden;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
 .row button.on,.row .chip.on{background:var(--accent);color:#fff;border-color:transparent}
-#panel .close{float:right;background:none;border:0;color:var(--muted);font-size:20px;padding:0 4px}
+/* chip loading: green progress fill ON the tapped chip */
+.row .chip.loading{background-color:#24453a;background-image:linear-gradient(90deg,#0f9d76,#10b981);background-repeat:no-repeat;background-size:var(--p,0%) 100%;color:#fff;border-color:#10b981;font-weight:600;text-shadow:0 1px 2px #0009;transition:background-size .18s linear}
+.row .chip.loading.indet{background-image:linear-gradient(135deg,#0f9d76 25%,#10b981 25% 50%,#0f9d76 50% 75%,#10b981 75%);background-size:28px 28px;background-repeat:repeat;animation:stripe .8s linear infinite;transition:none}
+@keyframes stripe{to{background-position:28px 0}}
+.row .chip.err{background:#dc2626;background-image:none;color:#fff;border-color:#dc2626}
+@media (max-width:480px){.row label{width:100%}}
+#panel .close{background:none;border:0;color:var(--muted);font-size:26px;line-height:1;width:44px;height:44px;margin:-8px -10px -8px 0;padding:0}
 #setMsg{display:none;font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.55}
 #soundHint,#pdfNote{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.55}
 </style>
@@ -45,8 +62,8 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 <div id="bar">
   <span class="t" id="title">CLEC 电子书</span>
   <select id="toc" aria-label="目录"><option value="">目录</option></select>
-  <button type="button" id="setBtn">设置</button>
-  <a id="dl" href="#" download>下载</a>
+  <button type="button" id="setBtn" aria-label="阅读设置" title="阅读设置"><span class="ic" aria-hidden="true">⚙</span><span class="lb">设置</span></button>
+  <a id="dl" href="#" download aria-label="下载" title="下载"><span class="ic" aria-hidden="true">↓</span><span class="lb">下载</span></a>
 </div>
 <div id="msg"><div class="spinner"></div><div id="msgt">正在打开…</div><div class="hint" id="hint">大文件只需加载正在看的页面，第一次会稍等片刻。</div><div id="prog"><i></i></div></div>
 <div id="view"></div>
@@ -57,8 +74,7 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 </div>
 <div id="mask"></div>
 <div id="panel" role="dialog" aria-label="阅读设置">
-  <button type="button" class="close" id="closeSet">×</button>
-  <h3>阅读设置</h3>
+  <div class="phead"><h3>阅读设置</h3><button type="button" class="close" id="closeSet" aria-label="关闭">×</button></div>
   <div class="row"><label>字体</label>
     <button type="button" class="chip" data-k="font" data-v="default">系统</button>
     <button type="button" class="chip" data-k="font" data-v="hei">黑体</button>
@@ -157,7 +173,7 @@ if(!isEpub) document.getElementById("toc").style.display="none";
 if(isPdf) document.getElementById("pdfNote").style.display="block";
 
 let actx, masterGain, soundNodes=[], soundTimers=[], playingSound="off";
-let fileAudio=null, epubRend=null;
+let soundReq=0, soundAbort=null, loadingSound=null, silentEl=null, epubRend=null;
 const loadedWebFaces={};
 const webFontPending={};
 const localFontOk={};
@@ -180,7 +196,7 @@ function applyChrome(){
 }
 applyChrome();
 
-function typoCss(){
+function typoCss(doc){
   const fam=fontStack(pref.font);
   const lh=pref.lh;
   const fs=(16*(Number(pref.fs)||100)/100).toFixed(2)+"px";
@@ -189,6 +205,7 @@ function typoCss(){
   let faces="";
   Object.keys(loadedWebFaces).forEach(id=>{
     const rec=loadedWebFaces[id];
+    if(doc&&doc.documentElement&&doc.documentElement.getAttribute("data-clec-ff-"+rec.family)) return;
     faces+='@font-face{font-family:"'+rec.family+'";src:url("'+rec.url+'") format("woff2");font-weight:400;font-style:normal;font-display:swap;}';
   });
   const sel="body,p,div,span,li,h1,h2,h3,h4,h5,h6,a,em,i,b,strong,section,article,blockquote,td,th,aside,header,footer,nav,main,figcaption,dt,dd,ul,ol";
@@ -207,7 +224,9 @@ function injectTypo(doc){
         const mark="data-clec-ff-"+rec.family;
         if(doc.documentElement.getAttribute(mark)) return;
         try{
-          const ff=new doc.defaultView.FontFace(rec.family, 'url("'+rec.url+'") format("woff2")');
+          let ff;
+          try{ ff=new doc.defaultView.FontFace(rec.family, rec.buf); }
+          catch(e1){ ff=new doc.defaultView.FontFace(rec.family, 'url("'+rec.url+'") format("woff2")'); }
           doc.fonts.add(ff);
           ff.load().catch(function(){});
           doc.documentElement.setAttribute(mark,"1");
@@ -221,7 +240,7 @@ function injectTypo(doc){
     st.id="clec-typo";
     doc.head.appendChild(st);
   }
-  st.textContent=typoCss();
+  st.textContent=typoCss(doc);
 }
 function applyEpubTypo(){
   if(!epubRend) return;
@@ -254,6 +273,69 @@ function canvasHasFamily(family){
     return x.measureText(t).width!==a;
   }catch(e){ return true; }
 }
+/* ---- 点选的 chip 上显示高亮进度条（字体/声音） ---- */
+document.querySelectorAll(".row .chip").forEach(c=>{ c.dataset.label=c.textContent; });
+const chipTimers={};
+function chipOf(k,id){ return document.querySelector('.chip[data-k="'+k+'"][data-v="'+id+'"]'); }
+function chipReset(c){
+  c.classList.remove("loading","indet","err");
+  c.style.removeProperty("--p"); c.style.minWidth="";
+  c.removeAttribute("aria-busy");
+  c.textContent=c.dataset.label;
+}
+function chipProgress(k,id,frac){
+  const c=chipOf(k,id); if(!c) return;
+  clearTimeout(chipTimers[k+id]);
+  const label=c.dataset.label;
+  if(!c.classList.contains("loading")){
+    c.classList.remove("err","on");
+    c.textContent=label+" 100%";
+    if(c.offsetWidth>0) c.style.minWidth=c.offsetWidth+"px";
+    c.classList.add("loading"); c.setAttribute("aria-busy","true");
+  }
+  if(frac==null){
+    c.classList.add("indet"); c.style.removeProperty("--p"); c.textContent=label+" …";
+  }else{
+    const pct=Math.max(0,Math.min(100,Math.round(frac*100)));
+    c.classList.remove("indet"); c.style.setProperty("--p",pct+"%"); c.textContent=label+" "+pct+"%";
+  }
+}
+function chipDone(k,id){
+  const c=chipOf(k,id); if(!c) return;
+  clearTimeout(chipTimers[k+id]); chipReset(c);
+}
+function chipFail(k,id){
+  const c=chipOf(k,id); if(!c) return;
+  clearTimeout(chipTimers[k+id]); chipReset(c);
+  c.classList.add("err"); c.textContent=c.dataset.label+" ✕ 失败";
+  chipTimers[k+id]=setTimeout(()=>{ chipReset(c); applyChrome(); },4000);
+}
+/* fetch + ReadableStream：真实进度（有 Content-Length 时），否则 onProg(null)=不定长条纹 */
+async function fetchBuf(u,onProg,ctl){
+  const ac=ctl||new AbortController();
+  let stall; const kick=()=>{ clearTimeout(stall); stall=setTimeout(()=>ac.abort(),25000); };
+  kick();
+  try{
+    onProg(0);
+    const res=await fetch(u,{signal:ac.signal});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const total=Number(res.headers.get("Content-Length")||0);
+    const enc=res.headers.get("Content-Encoding");
+    const known=total>0&&(!enc||enc==="identity");
+    if(!known) onProg(null);
+    if(!res.body||!res.body.getReader){ kick(); return await res.arrayBuffer(); }
+    const rd=res.body.getReader(); const chunks=[]; let rec=0;
+    while(true){
+      const r=await rd.read();
+      if(r.done) break;
+      kick(); chunks.push(r.value); rec+=r.value.length;
+      if(known) onProg(Math.min(1,rec/total));
+    }
+    const out=new Uint8Array(rec); let off=0;
+    chunks.forEach(c=>{ out.set(c,off); off+=c.length; });
+    return out.buffer;
+  }finally{ clearTimeout(stall); }
+}
 async function loadWebFont(id){
   if(loadedWebFaces[id]) return true;
   if(webFontPending[id]) return webFontPending[id];
@@ -261,14 +343,17 @@ async function loadWebFont(id){
   if(!meta) return false;
   const href=new URL(meta.file, LOCAL).href;
   webFontPending[id]=(async()=>{
-    const face=new FontFace(meta.family, 'url("'+href+'") format("woff2")');
+    const buf=await fetchBuf(href,f=>chipProgress("font",id,f));
+    chipProgress("font",id,1);
+    const face=new FontFace(meta.family, buf);
     await withTimeout(Promise.resolve(face.load()), 20000, "字体");
     document.fonts.add(face);
-    loadedWebFaces[id]={family:meta.family,url:href,face:face};
+    loadedWebFaces[id]={family:meta.family,url:href,face:face,buf:buf};
+    chipDone("font",id);
     return true;
   })();
   try{ return await webFontPending[id]; }
-  catch(e){ delete webFontPending[id]; return false; }
+  catch(e){ delete webFontPending[id]; chipFail("font",id); return false; }
 }
 async function loadLocalFont(id){
   if(localFontOk[id]) return true;
@@ -276,18 +361,19 @@ async function loadLocalFont(id){
   if(!meta||!document.fonts||!window.FontFace) return false;
   const src=meta.locals.map(n=>'local("'+n+'")').join(", ");
   const face=new FontFace(meta.family, src);
+  chipProgress("font",id,null);
   try{
     await withTimeout(Promise.resolve(face.load()), 4000, "字体");
     document.fonts.add(face);
     const ok=document.fonts.check('16px "'+meta.family+'"') && canvasHasFamily(meta.family);
-    if(ok) localFontOk[id]=true;
+    if(ok){ localFontOk[id]=true; chipDone("font",id); }
+    else chipFail("font",id);
     return ok;
-  }catch(e){ return false; }
+  }catch(e){ chipFail("font",id); return false; }
 }
 async function chooseFont(id){
   setStatus("");
   if(WEB_FONTS[id]){
-    setStatus("正在加载字体…");
     const ok=await loadWebFont(id);
     if(!ok){
       setStatus("字体加载失败，仍使用上一款字体。");
@@ -362,30 +448,118 @@ function lfoTo(param,freq,depth){
 }
 function later(fn,ms){ const id=setTimeout(fn,ms); soundTimers.push(id); return id; }
 
-function stopFileAudio(){
-  if(!fileAudio) return;
-  const a=fileAudio; fileAudio=null;
-  try{ a.onerror=null; a.pause(); a.removeAttribute("src"); a.load(); }catch(e){}
+/* ---- Web Audio：录音解码后用 AudioBufferSourceNode 无缝循环 ---- */
+function ensureCtx(){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return null;
+  if(!actx){ try{ actx=new AC({latencyHint:"playback"}); }catch(e){ actx=new AC(); } }
+  try{ if(actx.state!=="running"){ const p=actx.resume(); if(p&&p.catch) p.catch(function(){}); } }catch(e){}
+  return actx;
+}
+function silentWavUrl(){
+  const n=4000, b=new ArrayBuffer(44+n*2), v=new DataView(b);
+  const w=(o,t)=>{ for(let i=0;i<t.length;i++) v.setUint8(o+i,t.charCodeAt(i)); };
+  w(0,"RIFF"); v.setUint32(4,36+n*2,true); w(8,"WAVEfmt "); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+  v.setUint32(24,8000,true); v.setUint32(28,16000,true); v.setUint16(32,2,true); v.setUint16(34,16,true); w(36,"data"); v.setUint32(40,n*2,true);
+  return URL.createObjectURL(new Blob([b],{type:"audio/wav"}));
+}
+/* 只在用户点击里调用：让 iOS Safari 的 WebAudio 在静音拨片开启时也能出声 */
+function unlockAudio(){
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
+  try{ const bf=actx.createBuffer(1,1,22050), sn=actx.createBufferSource(); sn.buffer=bf; sn.connect(actx.destination); sn.start(0); }catch(e){}
+  if(!navigator.audioSession){
+    try{
+      if(!silentEl){ silentEl=new Audio(silentWavUrl()); silentEl.loop=true; silentEl.setAttribute("playsinline",""); silentEl.volume=0.01; }
+      const p=silentEl.play(); if(p&&p.catch) p.catch(function(){});
+    }catch(e){}
+  }
+}
+document.addEventListener("visibilitychange",function(){
+  if(!document.hidden && actx && playingSound!=="off" && actx.state!=="running"){ try{ const p=actx.resume(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+});
+document.addEventListener("pointerdown",function(){
+  if(actx && playingSound!=="off" && actx.state!=="running"){ try{ const p=actx.resume(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+},true);
+
+function decodeAudio(ac,ab){
+  return new Promise(function(res,rej){
+    try{ const p=ac.decodeAudioData(ab,res,rej); if(p&&p.then) p.then(res,rej); }catch(e){ rej(e); }
+  });
+}
+/* 去掉 MP3 编码器填充/淡入淡出造成的静音，并把循环点做成等功率交叉淡化，循环点无空白、无爆音。
+   在解码后的 buffer 上原地处理：循环区间 [loopStart, loopEnd)，区间尾部 xf 长度的内容混入开头。 */
+function prepareLoop(buf){
+  const sr=buf.sampleRate, n=buf.length, nc=buf.numberOfChannels;
+  const chans=[]; for(let c=0;c<nc;c++) chans.push(buf.getChannelData(c));
+  const win=Math.max(1,Math.round(sr*0.02)), nw=Math.floor(n/win);
+  let s=0, e=n;
+  if(nw>=40){
+    const rms=new Float32Array(nw);
+    for(let w=0;w<nw;w++){
+      let acc=0;
+      for(let c=0;c<nc;c++){ const d=chans[c]; for(let i=w*win,m=i+win;i<m;i++) acc+=d[i]*d[i]; }
+      rms[w]=Math.sqrt(acc/(win*nc));
+    }
+    const mid=Array.prototype.slice.call(rms,Math.floor(nw*0.2),Math.ceil(nw*0.8)).sort((a,b)=>a-b);
+    const ref=mid[mid.length>>1]||0;
+    if(ref>0){
+      const thr=ref*0.75;                                   /* 低于稳态响度 75% 的开头/结尾视为填充或淡变 */
+      const maxW=Math.min(Math.floor(1.5/0.02), Math.floor(nw*0.1));
+      let i=0; while(i<maxW && rms[i]<thr) i++;
+      let j=nw-1, k=0; while(k<maxW && rms[j]<thr){ j--; k++; }
+      s=i*win; e=(j+1)*win;
+    }
+  }
+  if(e-s<sr*2){ s=0; e=n; }
+  const xf=Math.max(1,Math.min(Math.round(sr*0.8), Math.floor((e-s)/4)));
+  for(let c=0;c<nc;c++){
+    const d=chans[c];
+    for(let i=0;i<xf;i++){
+      const t=(i+0.5)/xf, a=Math.sin(t*Math.PI/2), b=Math.cos(t*Math.PI/2);
+      d[s+i]=d[s+i]*a+d[e-xf+i]*b;
+    }
+  }
+  return {buffer:buf, loopStart:s/sr, loopEnd:(e-xf)/sr};
+}
+const soundCache=[];
+function cacheGet(id){ for(let i=0;i<soundCache.length;i++) if(soundCache[i].id===id) return soundCache[i].rec; return null; }
+function cacheSet(id,rec){ soundCache.unshift({id:id,rec:rec}); while(soundCache.length>3) soundCache.pop(); }
+
+function playLoop(rec){
+  const src=actx.createBufferSource();
+  src.buffer=rec.buffer;
+  src.loop=true;
+  src.loopStart=rec.loopStart;
+  src.loopEnd=rec.loopEnd;
+  masterGain=actx.createGain();
+  const now=actx.currentTime;
+  masterGain.gain.setValueAtTime(0,now);
+  masterGain.gain.linearRampToValueAtTime(0.7,now+1.5);
+  src.connect(masterGain); masterGain.connect(actx.destination);
+  src.start(0, rec.loopStart);
+  track(src);
 }
 function stopSound(){
+  soundReq++;
+  if(loadingSound){ const id=loadingSound; loadingSound=null; try{ soundAbort&&soundAbort.abort(); }catch(e){} chipDone("sound",id); }
   soundTimers.forEach(clearTimeout); soundTimers=[];
   const nodes=soundNodes.slice(), mg=masterGain;
   soundNodes=[]; masterGain=null; playingSound="off";
-  stopFileAudio();
-  if(!mg||!actx) return;
-  try{ const t=actx.currentTime; mg.gain.cancelScheduledValues(t); mg.gain.setValueAtTime(mg.gain.value,t); mg.gain.linearRampToValueAtTime(0,t+0.3);}catch(e){}
-  setTimeout(()=>{ nodes.forEach(n=>{try{n.stop&&n.stop(); n.disconnect();}catch(e){}}); try{mg.disconnect();}catch(e){} }, 350);
+  if(actx&&mg){
+    try{ const t=actx.currentTime; mg.gain.cancelScheduledValues(t); mg.gain.setValueAtTime(mg.gain.value,t); mg.gain.linearRampToValueAtTime(0,t+0.45);}catch(e){}
+    setTimeout(()=>{ nodes.forEach(n=>{try{n.stop&&n.stop(); n.disconnect();}catch(e){}}); try{mg.disconnect();}catch(e){} }, 520);
+  }
+  setTimeout(()=>{ if(silentEl && playingSound==="off" && !loadingSound){ try{ silentEl.pause(); }catch(e){} } }, 600);
 }
 
 function startProcSound(id){
-  const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){ playingSound="off"; applyChrome(); return; }
-  actx=actx||new AC();
-  if(actx.state==="suspended") actx.resume();
+  if(!ensureCtx()){ playingSound="off"; applyChrome(); return; }
+  unlockAudio();
   stopSound();
   if(!id||id==="off"){ applyChrome(); return; }
   masterGain=actx.createGain(); masterGain.gain.value=0; masterGain.connect(actx.destination);
   const out=masterGain, now=actx.currentTime;
+  out.gain.setValueAtTime(0,now);
   if(id==="pink"){
     const a=loopSrc(noiseBuf(4,"pink")), lp=filt("lowpass",6000), g=gain(0.16);
     a.connect(lp); lp.connect(g); g.connect(out);
@@ -403,30 +577,42 @@ function startProcSound(id){
   playingSound=id;
 }
 
-function startFileSound(id){
+async function startFileSound(id){
   const rel=FILE_SOUNDS[id];
+  /* 以下同步部分必须在点击事件里执行：创建/恢复 AudioContext（iOS Safari） */
+  if(!ensureCtx()){ stopSound(); setStatus("此浏览器不能播放背景音，书仍可继续阅读。"); applyChrome(); return; }
+  unlockAudio();
   stopSound();
   if(!rel){ applyChrome(); return; }
-  let a;
-  try{ a=new Audio(); }catch(e){ setStatus("此环境不能播放背景音，书仍可继续阅读。"); applyChrome(); return; }
-  a.loop=true;
-  a.preload="auto";
-  a.volume=0.7;
-  const href=new URL(rel, LOCAL).href;
-  const fail=()=>{
-    if(fileAudio!==a) return;
-    setStatus("背景音加载失败，可改选其他声音或关闭。书仍可继续阅读。");
-    stopFileAudio();
-    playingSound="off";
-    applyChrome();
-  };
-  a.onerror=fail;
-  a.src=href;
-  fileAudio=a;
-  playingSound=id;
+  const req=soundReq;
+  const ctl=new AbortController(); soundAbort=ctl; loadingSound=id;
   applyChrome();
-  const p=a.play();
-  if(p&&p.catch) p.catch(fail);
+  try{
+    let rec=cacheGet(id);
+    if(!rec){
+      chipProgress("sound",id,0);
+      const raw=await fetchBuf(new URL(rel, LOCAL).href, f=>{ if(req===soundReq) chipProgress("sound",id,f==null?null:f*0.92); }, ctl);
+      if(req!==soundReq) return;
+      chipProgress("sound",id,0.95);
+      const buf=await decodeAudio(actx,raw);
+      if(req!==soundReq) return;
+      rec=prepareLoop(buf);
+      cacheSet(id,rec);
+    }
+    if(req!==soundReq) return;
+    if(actx.state!=="running"){ try{ await actx.resume(); }catch(e){} }
+    playLoop(rec);
+    playingSound=id; loadingSound=null;
+    chipDone("sound",id);
+  }catch(e){
+    if(req!==soundReq) return;
+    console.warn("sound failed", e);
+    loadingSound=null; playingSound="off";
+    chipFail("sound",id);
+    setStatus("背景音加载失败，可改选其他声音或关闭。书仍可继续阅读。");
+  }finally{
+    if(req===soundReq) applyChrome();
+  }
 }
 
 function startSound(id){
@@ -451,7 +637,7 @@ document.getElementById("fsDown").onclick=()=>{pref.fs=Math.max(80,pref.fs-10);s
 document.getElementById("fsUp").onclick=()=>{pref.fs=Math.min(180,pref.fs+10);savePref();applyChrome();applyBookStyle();};
 document.getElementById("panel").addEventListener("click",e=>{
   const b=e.target.closest("[data-k]"); if(!b) return;
-  if(b.dataset.k==="sound"){ setSound(b.dataset.v); return; }
+  if(b.dataset.k==="sound"){ const v=b.dataset.v; setSound((v!=="off"&&(v===playingSound||v===loadingSound))?"off":v); return; }
   if(b.dataset.k==="font"){ chooseFont(b.dataset.v); return; }
   pref[b.dataset.k]=b.dataset.v;
   savePref(); applyChrome(); applyBookStyle();
