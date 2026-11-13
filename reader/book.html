@@ -3,66 +3,345 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>CLEC 电子书</title>
+<link rel="preconnect" href="https://pub-fc3f445745ea452f882ce28d1361de6f.r2.dev" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>
-html,body{margin:0;height:100%;background:#f7f4ee;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333}
-#bar{position:fixed;top:0;left:0;right:0;height:46px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#3a3a3a;color:#fff;z-index:5;box-sizing:border-box}
+:root{--bg:#f4efe4;--fg:#2b2b2b;--bar:#2f2f2f;--barfg:#fff;--panel:#fff;--muted:#6b6b6b;--btn:#4a4a4a;--accent:#8b5a2b}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+body.night{--bg:#161513;--fg:#e6e0d4;--bar:#111;--barfg:#eee;--panel:#242220;--muted:#aaa;--btn:#3a3836;--accent:#d4b483}
+body.white{--bg:#fff;--fg:#222;--panel:#f7f7f7}
+body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
+#bar{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;gap:6px;padding:0 8px;padding-top:env(safe-area-inset-top);background:var(--bar);color:var(--barfg);z-index:20;box-sizing:border-box}
 #bar .t{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#bar button,#bar a,#bar select{background:#555;color:#fff;border:0;border-radius:6px;padding:6px 9px;font-size:13px;text-decoration:none}
-#bar select{max-width:90px}
-#view{position:absolute;top:46px;bottom:44px;left:0;right:0}
-#nav{position:fixed;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#eee8dc;box-sizing:border-box;font-size:13px}
-#nav button{background:#3a3a3a;color:#fff;border:0;border-radius:6px;padding:7px 16px;font-size:14px}
-#msg{position:absolute;top:40%;left:0;right:0;text-align:center;font-size:15px;color:#666;padding:0 20px}
+#bar button,#bar a,#bar select{background:#ffffff22;color:var(--barfg);border:0;border-radius:8px;padding:7px 10px;font-size:13px;text-decoration:none;line-height:1}
+#view{position:absolute;top:48px;bottom:48px;left:0;right:0;top:calc(48px + env(safe-area-inset-top));bottom:calc(48px + env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch}
+#view.pdf{display:flex;justify-content:center;align-items:flex-start;background:var(--bg)}
+#view.pdf canvas{display:block;margin:8px auto;box-shadow:0 2px 16px #0003;max-width:100%}
+#nav{position:fixed;bottom:0;left:0;right:0;height:48px;height:calc(48px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;justify-content:space-between;padding-left:12px;padding-right:12px;background:var(--panel);box-sizing:border-box;font-size:13px;z-index:20;border-top:1px solid #0002}
+#nav button{background:var(--bar);color:var(--barfg);border:0;border-radius:8px;padding:8px 16px;font-size:14px}
+#pos{display:flex;align-items:center;gap:6px;color:var(--muted)}
+#pos input{width:52px;text-align:center;border:1px solid #0003;border-radius:6px;background:transparent;color:var(--fg);padding:4px;font-size:13px}
+#msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:15px;color:var(--muted);padding:0 28px;z-index:10;background:var(--bg)}
+#msg.hide{display:none}
+#msg .hint{font-size:13px;margin-top:8px;opacity:.8}
+.spinner{width:28px;height:28px;border:3px solid #0002;border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin-bottom:14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+#prog{width:200px;height:6px;background:#0002;border-radius:99px;margin-top:14px;overflow:hidden;display:none}
+#prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+#mask{display:none;position:fixed;inset:0;background:#0005;z-index:30}
+#panel{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--panel);color:var(--fg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));z-index:31;box-shadow:0 -8px 32px #0003}
+#panel h3{margin:0 0 12px;font-size:16px;font-weight:600}
+.row{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.row label{width:56px;font-size:13px;color:var(--muted);flex-shrink:0}
+.row button,.row .chip{background:#00000010;color:var(--fg);border:1px solid transparent;border-radius:8px;padding:7px 11px;font-size:13px}
+.row button.on,.row .chip.on{background:var(--accent);color:#fff;border-color:transparent}
+#panel .close{float:right;background:none;border:0;color:var(--muted);font-size:20px;padding:0 4px}
 </style>
 </head>
 <body>
-<div id="bar"><span class="t" id="title">CLEC 电子书</span>
-<select id="toc"><option value="">目录</option></select>
-<button id="fs" title="字号">A±</button>
-<a id="dl" href="#" download>下载</a></div>
+<div id="bar">
+  <span class="t" id="title">CLEC 电子书</span>
+  <select id="toc" aria-label="目录"><option value="">目录</option></select>
+  <button type="button" id="setBtn">设置</button>
+  <a id="dl" href="#" download>下载</a>
+</div>
+<div id="msg"><div class="spinner"></div><div id="msgt">正在打开…</div><div class="hint" id="hint">大文件只需加载正在看的页面，第一次会稍等片刻。</div><div id="prog"><i></i></div></div>
 <div id="view"></div>
-<div id="msg">正在打开…</div>
-<div id="nav"><button id="prev">上一页</button><span id="pos"></span><button id="next">下一页</button></div>
+<div id="nav">
+  <button type="button" id="prev">上一页</button>
+  <span id="pos"></span>
+  <button type="button" id="next">下一页</button>
+</div>
+<div id="mask"></div>
+<div id="panel" role="dialog" aria-label="阅读设置">
+  <button type="button" class="close" id="closeSet">×</button>
+  <h3>阅读设置</h3>
+  <div class="row"><label>字体</label>
+    <button type="button" class="chip" data-k="font" data-v="default">系统</button>
+    <button type="button" class="chip" data-k="font" data-v="hei">黑体</button>
+    <button type="button" class="chip" data-k="font" data-v="song">宋体</button>
+    <button type="button" class="chip" data-k="font" data-v="kai">楷体</button>
+  </div>
+  <div class="row"><label>字号</label>
+    <button type="button" id="fsDown">A−</button>
+    <span id="fsVal"></span>
+    <button type="button" id="fsUp">A+</button>
+  </div>
+  <div class="row"><label>行距</label>
+    <button type="button" class="chip" data-k="lh" data-v="1.5">紧凑</button>
+    <button type="button" class="chip" data-k="lh" data-v="1.8">适中</button>
+    <button type="button" class="chip" data-k="lh" data-v="2.1">宽松</button>
+  </div>
+  <div class="row"><label>背景</label>
+    <button type="button" class="chip" data-k="theme" data-v="paper">米色</button>
+    <button type="button" class="chip" data-k="theme" data-v="white">白色</button>
+    <button type="button" class="chip" data-k="theme" data-v="green">护眼</button>
+    <button type="button" class="chip" data-k="theme" data-v="night">夜间</button>
+  </div>
+  <div class="row"><label>背景音</label>
+    <button type="button" id="musicBtn">关闭</button>
+    <span class="hint" style="font-size:12px;color:var(--muted)">轻柔环境音，可随时关掉</span>
+  </div>
+  <p id="pdfNote" style="display:none;font-size:12px;color:var(--muted);margin:8px 0 0">PDF 版面是固定的，字体和行距改的是菜单；背景颜色会作用在页面四周。</p>
+</div>
 <script>
 const BASE="https://pub-fc3f445745ea452f882ce28d1361de6f.r2.dev/";
+const LOCAL=new URL(".", location.href).href;
+const FONTS={
+  default:'-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif',
+  hei:'"PingFang SC","Heiti SC","Noto Sans SC","Microsoft YaHei",sans-serif',
+  song:'"Songti SC","STSong","SimSun","Noto Serif SC",serif',
+  kai:'"Kaiti SC","STKaiti","KaiTi","STKaiTi",serif'
+};
 const q=new URLSearchParams(location.search);
 const key=q.get("f")||"";
 const name=q.get("t")||key.replace(/\.[^.]+$/,"");
 const url=BASE+key.split("/").map(encodeURIComponent).join("/");
-const msg=document.getElementById("msg");
-document.title=name+" · CLEC 电子书";
-document.getElementById("title").textContent=name;
-document.getElementById("dl").href=url;
 const ext=(key.split(".").pop()||"").toLowerCase();
-if(!key||key.includes("..")){msg.textContent="链接不完整，请回到电子书库重新点书名。";}
-else if(ext==="pdf"){location.replace("pdfjs/web/viewer.html?file="+encodeURIComponent(url)+"#pagemode=none");}
-else if(ext==="epub"){
-  const s1=document.createElement("script");s1.src="jszip.min.js";
-  s1.onload=()=>{const s2=document.createElement("script");s2.src="epub.min.js";s2.onload=openEpub;document.head.appendChild(s2);};
-  document.head.appendChild(s1);
-} else {msg.innerHTML='这个格式暂不支持在线阅读，请点右上角「下载」。';}
-function openEpub(){
-  const book=ePub(url,{openAs:"epub"});
-  const rend=book.renderTo("view",{width:"100%",height:"100%",flow:"paginated",spread:"none",allowScriptedContent:false});
-  let size=Number(localStorage.getItem("clec-fs")||100);
-  rend.themes.fontSize(size+"%");
-  rend.themes.default({body:{"line-height":"1.75 !important","padding":"0 6px !important"}});
-  const saved=localStorage.getItem("clec-pos:"+key);
-  rend.display(saved||undefined).then(()=>{msg.style.display="none";}).catch(e=>{msg.textContent="打开失败，请检查网络后刷新，或点右上角「下载」。";});
-  book.loaded.navigation.then(nav=>{const sel=document.getElementById("toc");
-    const add=(items,d)=>items.forEach(i=>{const o=document.createElement("option");o.value=i.href;o.textContent="　".repeat(d)+i.label.trim();sel.appendChild(o);if(i.subitems)add(i.subitems,d+1);});
-    add(nav.toc,0);sel.onchange=()=>{if(sel.value)rend.display(sel.value);sel.value="";};});
-  rend.on("relocated",loc=>{localStorage.setItem("clec-pos:"+key,loc.start.cfi);
-    const p=loc.start.displayed;document.getElementById("pos").textContent=p?("本章 "+p.page+" / "+p.total):"";});
-  document.getElementById("prev").onclick=()=>rend.prev();
-  document.getElementById("next").onclick=()=>rend.next();
-  document.getElementById("fs").onclick=()=>{size=size>=140?90:size+10;localStorage.setItem("clec-fs",size);rend.themes.fontSize(size+"%");};
-  document.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")rend.prev();if(e.key==="ArrowRight")rend.next();});
-  let x0=null;rend.on("touchstart",e=>{x0=e.changedTouches[0].screenX;});
-  rend.on("touchend",e=>{if(x0===null)return;const dx=e.changedTouches[0].screenX-x0;if(dx>50)rend.prev();if(dx<-50)rend.next();x0=null;});
+const isPdf=ext==="pdf", isEpub=ext==="epub";
+const msg=document.getElementById("msg"), msgt=document.getElementById("msgt");
+const view=document.getElementById("view"), posEl=document.getElementById("pos");
+document.title=name+" · CLEC 电子书";
+document.getElementById("title").textContent=name||"CLEC 电子书";
+document.getElementById("dl").href=url;
+if(!isEpub) document.getElementById("toc").style.display="none";
+if(isPdf) document.getElementById("pdfNote").style.display="block";
+
+let musicOn=false, actx, padGain;
+const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
+function savePref(){localStorage.setItem("clec-read", JSON.stringify(pref));}
+function applyChrome(){
+  document.body.className=pref.theme==="paper"?"":pref.theme;
+  document.querySelectorAll("[data-k]").forEach(b=>{
+    b.classList.toggle("on", String(pref[b.dataset.k])===b.dataset.v);
+  });
+  document.getElementById("fsVal").textContent=pref.fs+"%";
+  document.getElementById("musicBtn").textContent=musicOn?"播放中":"关闭";
+  document.getElementById("musicBtn").className=musicOn?"on":"";
 }
-if(ext!=="epub"){document.getElementById("nav").style.display="none";document.getElementById("toc").style.display="none";document.getElementById("fs").style.display="none";}
+applyChrome();
+
+/* ---- 轻柔背景音（本地生成，不另下文件） ---- */
+function toggleMusic(force){
+  const want=force===undefined?!musicOn:force;
+  pref.music=want; savePref();
+  if(!want){ stopMusic(); applyChrome(); return; }
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC){ pref.music=false; savePref(); applyChrome(); return; }
+  actx=actx||new AC();
+  if(actx.state==="suspended") actx.resume();
+  stopMusic();
+  padGain=actx.createGain(); padGain.gain.value=0;
+  padGain.connect(actx.destination);
+  const make=(freq,type,detune)=>{
+    const o=actx.createOscillator(); o.type=type; o.frequency.value=freq; o.detune.value=detune;
+    const g=actx.createGain(); g.gain.value=0.35;
+    const f=actx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=900;
+    o.connect(g); g.connect(f); f.connect(padGain); o.start();
+    return o;
+  };
+  padGain._oscs=[make(110,"sine",0),make(164.81,"sine",6),make(220,"triangle",-4)];
+  const now=actx.currentTime;
+  padGain.gain.linearRampToValueAtTime(0.045, now+1.2);
+  const lfo=actx.createOscillator(); lfo.frequency.value=0.07;
+  const lg=actx.createGain(); lg.gain.value=0.012;
+  lfo.connect(lg); lg.connect(padGain.gain); lfo.start();
+  padGain._oscs.push(lfo); musicOn=true; applyChrome();
+}
+function stopMusic(){
+  if(!padGain) return;
+  try{ padGain.gain.cancelScheduledValues(0); padGain.gain.linearRampToValueAtTime(0, (actx.currentTime||0)+0.3);}catch(e){}
+  setTimeout(()=>{ if(padGain&&padGain._oscs){ padGain._oscs.forEach(o=>{try{o.stop()}catch(e){}}); padGain.disconnect(); padGain=null; } musicOn=false; }, 400);
+}
+
+document.getElementById("setBtn").onclick=()=>{document.getElementById("mask").style.display="block";document.getElementById("panel").style.display="block";};
+function closeSet(){document.getElementById("mask").style.display="none";document.getElementById("panel").style.display="none";}
+document.getElementById("mask").onclick=closeSet;
+document.getElementById("closeSet").onclick=closeSet;
+document.getElementById("musicBtn").onclick=()=>toggleMusic();
+document.getElementById("fsDown").onclick=()=>{pref.fs=Math.max(80,pref.fs-10);savePref();applyChrome();applyBookStyle();};
+document.getElementById("fsUp").onclick=()=>{pref.fs=Math.min(180,pref.fs+10);savePref();applyChrome();applyBookStyle();};
+document.getElementById("panel").addEventListener("click",e=>{
+  const b=e.target.closest("[data-k]"); if(!b) return;
+  pref[b.dataset.k]=b.dataset.k==="lh"?b.dataset.v:b.dataset.v;
+  savePref(); applyChrome(); applyBookStyle();
+});
+
+let applyBookStyle=()=>{};
+let goPrev=()=>{}, goNext=()=>{};
+document.getElementById("prev").onclick=()=>goPrev();
+document.getElementById("next").onclick=()=>goNext();
+document.addEventListener("keydown",e=>{
+  if(e.target.matches("input,select,textarea")) return;
+  if(e.key==="ArrowLeft"||e.key==="PageUp") goPrev();
+  if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" ") {e.preventDefault(); goNext();}
+});
+
+if(!key||key.includes("..")){msgt.textContent="链接不完整，请回到电子书库重新点书名。";document.querySelector(".spinner").style.display="none";document.getElementById("hint").style.display="none";}
+else if(isPdf) openPdf();
+else if(isEpub) openEpub();
+else {msgt.innerHTML='这个格式暂不支持在线阅读，请点右上角「下载」。';document.querySelector(".spinner").style.display="none";}
+
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+function loadModule(src){return import(src);}
+
+async function openPdf(){
+  msgt.textContent="正在打开第一页…";
+  document.getElementById("hint").textContent="不用下载整本，只加载当前页。打开后翻页会快很多。";
+  const cdns=[
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs",
+    "https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.min.mjs",
+    LOCAL+"pdfjs/build/pdf.mjs"
+  ];
+  const workers=[
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs",
+    "https://unpkg.com/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.mjs",
+    LOCAL+"pdfjs/build/pdf.worker.mjs"
+  ];
+  const cmapCdn="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/";
+  const fontCdn="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/standard_fonts/";
+  let pdfjsLib=null, workerSrc=workers[0], used=0;
+  for(let i=0;i<cdns.length;i++){
+    try{ pdfjsLib=await loadModule(cdns[i]); workerSrc=workers[i]; used=i; break; }
+    catch(e){ console.warn("pdf.js 加载失败", cdns[i], e); }
+  }
+  if(!pdfjsLib){ msgt.textContent="阅读组件加载失败，请检查网络后刷新，或点右上角「下载」。"; return; }
+  pdfjsLib.GlobalWorkerOptions.workerSrc=workerSrc;
+  const cmapUrl=used<2?cmapCdn:(LOCAL+"pdfjs/web/cmaps/");
+  const fontUrl=used<2?fontCdn:(LOCAL+"pdfjs/web/standard_fonts/");
+  try{
+    const task=pdfjsLib.getDocument({
+      url,
+      cMapUrl:cmapUrl,
+      cMapPacked:true,
+      standardFontDataUrl:fontUrl,
+      disableAutoFetch:true,
+      disableStream:false,
+      disableRange:false,
+      rangeChunkSize:262144,
+      withCredentials:false
+    });
+    const pdf=await task.promise;
+    let pageNo=Math.max(1, parseInt(localStorage.getItem("clec-pdf:"+key)||"1",10)||1);
+    if(pageNo>pdf.numPages) pageNo=1;
+    view.classList.add("pdf");
+    const canvas=document.createElement("canvas");
+    view.appendChild(canvas);
+    let rendering=false, pending=null;
+    async function render(n){
+      if(rendering){pending=n;return;}
+      rendering=true; pageNo=n;
+      localStorage.setItem("clec-pdf:"+key, String(n));
+      const page=await pdf.getPage(n);
+      const vw=Math.max(280, view.clientWidth||document.documentElement.clientWidth);
+      const unscaled=page.getViewport({scale:1});
+      const scale=Math.min(2.4, (vw-8)/unscaled.width) * (window.devicePixelRatio||1);
+      const vp=page.getViewport({scale});
+      canvas.width=vp.width; canvas.height=vp.height;
+      canvas.style.width=Math.floor(vp.width/(window.devicePixelRatio||1))+"px";
+      canvas.style.height=Math.floor(vp.height/(window.devicePixelRatio||1))+"px";
+      await page.render({canvasContext:canvas.getContext("2d",{alpha:false}), viewport:vp}).promise;
+      posEl.innerHTML='<input id="pg" type="number" min="1" max="'+pdf.numPages+'" value="'+n+'"> / '+pdf.numPages;
+      const inp=document.getElementById("pg");
+      inp.onchange=()=>{const v=Math.min(pdf.numPages, Math.max(1, parseInt(inp.value,10)||1)); render(v);};
+      msg.classList.add("hide");
+      rendering=false;
+      if(pending && pending!==n){const p=pending;pending=null;render(p);}
+      else pending=null;
+    }
+    goPrev=()=>{if(pageNo>1) render(pageNo-1);};
+    goNext=()=>{if(pageNo<pdf.numPages) render(pageNo+1);};
+    applyBookStyle=()=>{/* PDF 版面固定，仅背景随主题 */};
+    await render(pageNo);
+    let x0=null;
+    view.addEventListener("touchstart",e=>{x0=e.changedTouches[0].screenX;},{passive:true});
+    view.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].screenX-x0;if(dx>50)goPrev();if(dx<-50)goNext();x0=null;},{passive:true});
+  }catch(e){
+    console.error(e);
+    msgt.textContent="打开失败，请检查网络后刷新，或点右上角「下载」。";
+  }
+}
+
+async function openEpub(){
+  msgt.textContent="正在打开电子书…";
+  document.getElementById("hint").textContent="电子书需要先加载整本（一般只有几兆），加载时可看进度。";
+  try{
+    await loadScript(LOCAL+"jszip.min.js");
+    await loadScript(LOCAL+"epub.min.js");
+  }catch(e){
+    try{ await loadScript("https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"); await loadScript("https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"); }
+    catch(e2){ msgt.textContent="阅读组件加载失败，请检查网络后刷新，或点右上角「下载」。"; return; }
+  }
+  try{
+    const buf=await downloadWithProgress(url);
+    const book=ePub(buf,{openAs:"epub"});
+    const rend=book.renderTo("view",{width:"100%",height:"100%",flow:"paginated",spread:"none",allowScriptedContent:false});
+    applyBookStyle=()=>{
+      rend.themes.font(FONTS[pref.font]||FONTS.default);
+      rend.themes.fontSize(pref.fs+"%");
+      const bg=getComputedStyle(document.body).backgroundColor;
+      const fg=getComputedStyle(document.body).color;
+      rend.themes.override("background", bg);
+      rend.themes.override("color", fg);
+      rend.themes.default({body:{"line-height":pref.lh+" !important","padding":"0 10px !important","background":bg+" !important","color":fg+" !important","font-family":(FONTS[pref.font]||FONTS.default)+" !important"},p:{"line-height":pref.lh+" !important"},a:{"color":fg+" !important"}});
+    };
+    applyBookStyle();
+    const saved=localStorage.getItem("clec-pos:"+key);
+    await rend.display(saved||undefined);
+    msg.classList.add("hide");
+    book.loaded.navigation.then(nav=>{
+      const sel=document.getElementById("toc");
+      const add=(items,d)=>items.forEach(i=>{const o=document.createElement("option");o.value=i.href;o.textContent="　".repeat(d)+(i.label||"").trim();sel.appendChild(o);if(i.subitems)add(i.subitems,d+1);});
+      add(nav.toc,0);
+      sel.onchange=()=>{if(sel.value) rend.display(sel.value); sel.selectedIndex=0;};
+    });
+    rend.on("relocated",loc=>{
+      localStorage.setItem("clec-pos:"+key, loc.start.cfi);
+      const p=loc.start.displayed;
+      posEl.textContent=p?("本章 "+p.page+" / "+p.total):"";
+    });
+    goPrev=()=>rend.prev();
+    goNext=async()=>{
+      const before=rend.currentLocation && rend.currentLocation();
+      await rend.next();
+      const after=rend.currentLocation && rend.currentLocation();
+      if(before && after && before.start && after.start && before.start.cfi===after.start.cfi){
+        const idx=before.start.index;
+        const item=book.spine.get(idx+1);
+        if(item) rend.display(item.href);
+      }
+    };
+    let x0=null;
+    view.addEventListener("touchstart",e=>{x0=e.changedTouches[0].screenX;},{passive:true});
+    view.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].screenX-x0;if(dx>50)goPrev();if(dx<-50)goNext();x0=null;},{passive:true});
+  }catch(e){
+    console.error(e);
+    msgt.textContent="打开失败，请检查网络后刷新，或点右上角「下载」。";
+  }
+}
+
+async function downloadWithProgress(u){
+  const bar=document.getElementById("prog"); const i=bar.querySelector("i");
+  bar.style.display="block";
+  const res=await fetch(u);
+  if(!res.ok) throw new Error("HTTP "+res.status);
+  const total=Number(res.headers.get("Content-Length")||0);
+  if(!res.body||!res.body.getReader) return await res.arrayBuffer();
+  const reader=res.body.getReader();
+  const chunks=[]; let rec=0;
+  while(true){
+    const {done,value}=await reader.read();
+    if(done) break;
+    chunks.push(value); rec+=value.length;
+    if(total){ i.style.width=Math.min(100, rec/total*100)+"%"; msgt.textContent="正在加载 "+(rec/1e6).toFixed(1)+" / "+(total/1e6).toFixed(1)+" MB"; }
+    else { msgt.textContent="正在加载 "+(rec/1e6).toFixed(1)+" MB"; }
+  }
+  const out=new Uint8Array(rec); let off=0;
+  chunks.forEach(c=>{out.set(c,off);off+=c.length;});
+  return out.buffer;
+}
 </script>
 </body>
 </html>
