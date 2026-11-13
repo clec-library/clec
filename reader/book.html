@@ -80,9 +80,16 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
     <button type="button" class="chip" data-k="theme" data-v="night">夜间</button>
   </div>
   <div class="row"><label>背景音</label>
-    <button type="button" id="musicBtn">关闭</button>
-    <span class="hint" style="font-size:12px;color:var(--muted)">轻柔环境音，可随时关掉</span>
+    <button type="button" class="chip" data-k="sound" data-v="off">关闭</button>
+    <button type="button" class="chip" data-k="sound" data-v="rain">雨声</button>
+    <button type="button" class="chip" data-k="sound" data-v="ocean">海浪</button>
+    <button type="button" class="chip" data-k="sound" data-v="forest">森林</button>
+    <button type="button" class="chip" data-k="sound" data-v="fire">壁炉</button>
+    <button type="button" class="chip" data-k="sound" data-v="stream">溪流</button>
+    <button type="button" class="chip" data-k="sound" data-v="pink">粉噪</button>
+    <button type="button" class="chip" data-k="sound" data-v="pad">轻柔</button>
   </div>
+  <p style="font-size:12px;color:var(--muted);margin:4px 0 0">适合阅读的自然环境音，在本地即时生成，不另下载，可随时关掉。</p>
   <p id="pdfNote" style="display:none;font-size:12px;color:var(--muted);margin:8px 0 0">PDF 版面是固定的，字体和行距改的是菜单；背景颜色会作用在页面四周。</p>
 </div>
 <script>
@@ -108,63 +115,181 @@ document.getElementById("dl").href=url;
 if(!isEpub) document.getElementById("toc").style.display="none";
 if(isPdf) document.getElementById("pdfNote").style.display="block";
 
-let musicOn=false, actx, padGain;
-const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
+let actx, masterGain, soundNodes=[], soundTimers=[], playingSound="off";
+const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false,sound:"off"}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
+if(!pref.sound || pref.sound===true) pref.sound=pref.music?"pad":"off";
 function savePref(){localStorage.setItem("clec-read", JSON.stringify(pref));}
 function applyChrome(){
   document.body.className=pref.theme==="paper"?"":pref.theme;
   document.querySelectorAll("[data-k]").forEach(b=>{
-    b.classList.toggle("on", String(pref[b.dataset.k])===b.dataset.v);
+    const cur=b.dataset.k==="sound"?(playingSound||"off"):pref[b.dataset.k];
+    b.classList.toggle("on", String(cur)===b.dataset.v);
   });
   document.getElementById("fsVal").textContent=pref.fs+"%";
-  document.getElementById("musicBtn").textContent=musicOn?"播放中":"关闭";
-  document.getElementById("musicBtn").className=musicOn?"on":"";
 }
 applyChrome();
 
-/* ---- 轻柔背景音（本地生成，不另下文件） ---- */
-function toggleMusic(force){
-  const want=force===undefined?!musicOn:force;
-  pref.music=want; savePref();
-  if(!want){ stopMusic(); applyChrome(); return; }
+/* ---- 背景音：本地生成的自然环境声，不另下文件 ---- */
+const noiseCache={};
+function noiseBuf(sec, kind){
+  const key=kind+"_"+sec;
+  if(noiseCache[key]) return noiseCache[key];
+  const rate=actx.sampleRate, n=Math.floor(rate*sec);
+  const buf=actx.createBuffer(1,n,rate), d=buf.getChannelData(0);
+  if(kind==="white"){
+    for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+  }else if(kind==="brown"){
+    let last=0;
+    for(let i=0;i<n;i++){ last=(last+0.02*(Math.random()*2-1))/1.02; d[i]=Math.max(-1,Math.min(1,last*3.5)); }
+  }else{
+    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<n;i++){
+      const w=Math.random()*2-1;
+      b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759; b2=0.96900*b2+w*0.1538520;
+      b3=0.86650*b3+w*0.3104856; b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+      d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+    }
+  }
+  return noiseCache[key]=buf;
+}
+function track(n){ soundNodes.push(n); return n; }
+function loopSrc(buf){ const s=actx.createBufferSource(); s.buffer=buf; s.loop=true; s.start(); return track(s); }
+function filt(type,freq,q){ const f=actx.createBiquadFilter(); f.type=type; f.frequency.value=freq; if(q!=null) f.Q.value=q; return track(f); }
+function gain(v){ const g=actx.createGain(); g.gain.value=v; return track(g); }
+function lfoTo(param,freq,depth){
+  const o=actx.createOscillator(); o.type="sine"; o.frequency.value=freq;
+  const g=actx.createGain(); g.gain.value=depth;
+  o.connect(g); g.connect(param); o.start(); track(o); track(g); return o;
+}
+function later(fn,ms){ const id=setTimeout(fn,ms); soundTimers.push(id); return id; }
+
+function stopSound(){
+  soundTimers.forEach(clearTimeout); soundTimers=[];
+  const nodes=soundNodes.slice(), mg=masterGain;
+  soundNodes=[]; masterGain=null; playingSound="off";
+  if(!mg||!actx) return;
+  try{ const t=actx.currentTime; mg.gain.cancelScheduledValues(t); mg.gain.setValueAtTime(mg.gain.value,t); mg.gain.linearRampToValueAtTime(0,t+0.3);}catch(e){}
+  setTimeout(()=>{ nodes.forEach(n=>{try{n.stop&&n.stop(); n.disconnect();}catch(e){}}); try{mg.disconnect();}catch(e){} }, 350);
+}
+
+function startSound(id){
   const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){ pref.music=false; savePref(); applyChrome(); return; }
+  if(!AC){ pref.sound="off"; savePref(); return; }
   actx=actx||new AC();
   if(actx.state==="suspended") actx.resume();
-  stopMusic();
-  padGain=actx.createGain(); padGain.gain.value=0;
-  padGain.connect(actx.destination);
-  const make=(freq,type,detune)=>{
-    const o=actx.createOscillator(); o.type=type; o.frequency.value=freq; o.detune.value=detune;
-    const g=actx.createGain(); g.gain.value=0.35;
-    const f=actx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=900;
-    o.connect(g); g.connect(f); f.connect(padGain); o.start();
-    return o;
-  };
-  padGain._oscs=[make(110,"sine",0),make(164.81,"sine",6),make(220,"triangle",-4)];
-  const now=actx.currentTime;
-  padGain.gain.linearRampToValueAtTime(0.045, now+1.2);
-  const lfo=actx.createOscillator(); lfo.frequency.value=0.07;
-  const lg=actx.createGain(); lg.gain.value=0.012;
-  lfo.connect(lg); lg.connect(padGain.gain); lfo.start();
-  padGain._oscs.push(lfo); musicOn=true; applyChrome();
+  stopSound();
+  if(!id||id==="off"){ applyChrome(); return; }
+  masterGain=actx.createGain(); masterGain.gain.value=0; masterGain.connect(actx.destination);
+  const out=masterGain, now=actx.currentTime;
+  if(id==="rain"){
+    const a=loopSrc(noiseBuf(3,"pink")), hp=filt("highpass",400), lp=filt("lowpass",7000), g=gain(0.22);
+    a.connect(hp); hp.connect(lp); lp.connect(g); g.connect(out);
+    const b=loopSrc(noiseBuf(4,"brown")), lp2=filt("lowpass",200), g2=gain(0.06);
+    b.connect(lp2); lp2.connect(g2); g2.connect(out);
+    const drip=()=>{
+      if(playingSound!=="rain") return;
+      const src=actx.createBufferSource(); src.buffer=noiseBuf(2,"white");
+      const f=filt("bandpass",1800+Math.random()*2200,4), dg=gain(0);
+      src.connect(f); f.connect(dg); dg.connect(out);
+      const t=actx.currentTime, dur=0.04+Math.random()*0.07;
+      dg.gain.setValueAtTime(0.08+Math.random()*0.1,t); dg.gain.exponentialRampToValueAtTime(0.001,t+dur);
+      src.start(t); src.stop(t+dur+0.02); later(drip,200+Math.random()*900);
+    };
+    later(drip,400);
+    out.gain.linearRampToValueAtTime(0.7, now+1);
+  }else if(id==="ocean"){
+    const a=loopSrc(noiseBuf(5,"brown")), lp=filt("lowpass",500), g=gain(0.55);
+    lp.frequency.value=420; lfoTo(lp.frequency,0.07,260); lfoTo(g.gain,0.08,0.2);
+    a.connect(lp); lp.connect(g); g.connect(out);
+    const foam=loopSrc(noiseBuf(3,"white")), hp=filt("highpass",700), lp2=filt("lowpass",2800), g2=gain(0.08);
+    lfoTo(g2.gain,0.11,0.04);
+    foam.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
+    out.gain.linearRampToValueAtTime(0.85, now+1.4);
+  }else if(id==="forest"){
+    const a=loopSrc(noiseBuf(5,"brown")), lp=filt("lowpass",500), g=gain(0.22);
+    lfoTo(g.gain,0.05,0.08); lfoTo(lp.frequency,0.04,120);
+    a.connect(lp); lp.connect(g); g.connect(out);
+    const leaves=loopSrc(noiseBuf(3,"pink")), hp=filt("highpass",1200), lp2=filt("lowpass",4000), g2=gain(0.04);
+    leaves.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
+    const bird=()=>{
+      if(playingSound!=="forest") return;
+      const o=actx.createOscillator(); o.type="sine";
+      const f0=1600+Math.random()*1400; o.frequency.setValueAtTime(f0,actx.currentTime);
+      o.frequency.linearRampToValueAtTime(f0+(Math.random()<.5?-400:350), actx.currentTime+0.18);
+      const bg=gain(0); const t=actx.currentTime;
+      bg.gain.setValueAtTime(0.0001,t); bg.gain.linearRampToValueAtTime(0.03,t+0.04); bg.gain.exponentialRampToValueAtTime(0.0001,t+0.2);
+      o.connect(bg); bg.connect(out); o.start(t); o.stop(t+0.22);
+      later(bird,6000+Math.random()*10000);
+    };
+    later(bird,3000);
+    out.gain.linearRampToValueAtTime(0.8, now+1.2);
+  }else if(id==="fire"){
+    const rumble=loopSrc(noiseBuf(4,"brown")), lp=filt("lowpass",180), g=gain(0.28);
+    rumble.connect(lp); lp.connect(g); g.connect(out);
+    const hiss=loopSrc(noiseBuf(2,"pink")), hp=filt("highpass",800), lp2=filt("lowpass",2400), g2=gain(0.05);
+    hiss.connect(hp); hp.connect(lp2); lp2.connect(g2); g2.connect(out);
+    const crack=()=>{
+      if(playingSound!=="fire") return;
+      const src=actx.createBufferSource(); src.buffer=noiseBuf(2,"white");
+      const f=filt("bandpass",1500+Math.random()*3500,2.5), cg=gain(0);
+      src.connect(f); f.connect(cg); cg.connect(out);
+      const t=actx.currentTime, dur=0.02+Math.random()*0.05;
+      cg.gain.setValueAtTime(0.1+Math.random()*0.18,t); cg.gain.exponentialRampToValueAtTime(0.001,t+dur);
+      src.start(t); src.stop(t+dur+0.02); later(crack,80+Math.random()*420);
+    };
+    later(crack,200);
+    out.gain.linearRampToValueAtTime(0.75, now+0.8);
+  }else if(id==="stream"){
+    const a=loopSrc(noiseBuf(3,"white")), bp=filt("bandpass",1100,0.8), g=gain(0.18);
+    a.connect(bp); bp.connect(g); g.connect(out);
+    const b=loopSrc(noiseBuf(3,"pink")), bp2=filt("bandpass",2600,1.1), g2=gain(0.09);
+    lfoTo(bp2.frequency,0.13,400);
+    b.connect(bp2); bp2.connect(g2); g2.connect(out);
+    const bubble=()=>{
+      if(playingSound!=="stream") return;
+      const o=actx.createOscillator(); o.type="sine";
+      const f0=500+Math.random()*900; o.frequency.setValueAtTime(f0,actx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(Math.max(180,f0-300), actx.currentTime+0.12);
+      const bg=gain(0), lp=filt("lowpass",2000); const t=actx.currentTime;
+      bg.gain.setValueAtTime(0.05,t); bg.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+      o.connect(lp); lp.connect(bg); bg.connect(out); o.start(t); o.stop(t+0.14);
+      later(bubble,300+Math.random()*1100);
+    };
+    later(bubble,500);
+    out.gain.linearRampToValueAtTime(0.7, now+1);
+  }else if(id==="pink"){
+    const a=loopSrc(noiseBuf(4,"pink")), lp=filt("lowpass",6000), g=gain(0.16);
+    a.connect(lp); lp.connect(g); g.connect(out);
+    out.gain.linearRampToValueAtTime(0.7, now+0.8);
+  }else{
+    const make=(freq,type,detune)=>{
+      const o=actx.createOscillator(); o.type=type; o.frequency.value=freq; o.detune.value=detune;
+      const g=gain(0.35), f=filt("lowpass",900);
+      o.connect(g); g.connect(f); f.connect(out); o.start(); return track(o);
+    };
+    make(110,"sine",0); make(164.81,"sine",6); make(220,"triangle",-4);
+    lfoTo(out.gain,0.07,0.012);
+    out.gain.linearRampToValueAtTime(0.045, now+1.2);
+  }
+  playingSound=id;
 }
-function stopMusic(){
-  if(!padGain) return;
-  try{ padGain.gain.cancelScheduledValues(0); padGain.gain.linearRampToValueAtTime(0, (actx.currentTime||0)+0.3);}catch(e){}
-  setTimeout(()=>{ if(padGain&&padGain._oscs){ padGain._oscs.forEach(o=>{try{o.stop()}catch(e){}}); padGain.disconnect(); padGain=null; } musicOn=false; }, 400);
+
+function setSound(id){
+  pref.sound=id; pref.music=(id!=="off"); savePref();
+  startSound(id);
+  applyChrome();
 }
 
 document.getElementById("setBtn").onclick=()=>{document.getElementById("mask").style.display="block";document.getElementById("panel").style.display="block";};
 function closeSet(){document.getElementById("mask").style.display="none";document.getElementById("panel").style.display="none";}
 document.getElementById("mask").onclick=closeSet;
 document.getElementById("closeSet").onclick=closeSet;
-document.getElementById("musicBtn").onclick=()=>toggleMusic();
 document.getElementById("fsDown").onclick=()=>{pref.fs=Math.max(80,pref.fs-10);savePref();applyChrome();applyBookStyle();};
 document.getElementById("fsUp").onclick=()=>{pref.fs=Math.min(180,pref.fs+10);savePref();applyChrome();applyBookStyle();};
 document.getElementById("panel").addEventListener("click",e=>{
   const b=e.target.closest("[data-k]"); if(!b) return;
-  pref[b.dataset.k]=b.dataset.k==="lh"?b.dataset.v:b.dataset.v;
+  if(b.dataset.k==="sound"){ setSound(b.dataset.v); return; }
+  pref[b.dataset.k]=b.dataset.v;
   savePref(); applyChrome(); applyBookStyle();
 });
 
