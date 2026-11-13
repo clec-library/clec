@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CLEC 电子书</title>
+<style>
+html,body{margin:0;height:100%;background:#f7f4ee;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#333}
+#bar{position:fixed;top:0;left:0;right:0;height:46px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#3a3a3a;color:#fff;z-index:5;box-sizing:border-box}
+#bar .t{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar button,#bar a,#bar select{background:#555;color:#fff;border:0;border-radius:6px;padding:6px 9px;font-size:13px;text-decoration:none}
+#bar select{max-width:90px}
+#view{position:absolute;top:46px;bottom:44px;left:0;right:0}
+#nav{position:fixed;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#eee8dc;box-sizing:border-box;font-size:13px}
+#nav button{background:#3a3a3a;color:#fff;border:0;border-radius:6px;padding:7px 16px;font-size:14px}
+#msg{position:absolute;top:40%;left:0;right:0;text-align:center;font-size:15px;color:#666;padding:0 20px}
+</style>
+</head>
+<body>
+<div id="bar"><span class="t" id="title">CLEC 电子书</span>
+<select id="toc"><option value="">目录</option></select>
+<button id="fs" title="字号">A±</button>
+<a id="dl" href="#" download>下载</a></div>
+<div id="view"></div>
+<div id="msg">正在打开…</div>
+<div id="nav"><button id="prev">上一页</button><span id="pos"></span><button id="next">下一页</button></div>
+<script>
+const BASE="https://pub-fc3f445745ea452f882ce28d1361de6f.r2.dev/";
+const q=new URLSearchParams(location.search);
+const key=q.get("f")||"";
+const name=q.get("t")||key.replace(/\.[^.]+$/,"");
+const url=BASE+key.split("/").map(encodeURIComponent).join("/");
+const msg=document.getElementById("msg");
+document.title=name+" · CLEC 电子书";
+document.getElementById("title").textContent=name;
+document.getElementById("dl").href=url;
+const ext=(key.split(".").pop()||"").toLowerCase();
+if(!key||key.includes("..")){msg.textContent="链接不完整，请回到电子书库重新点书名。";}
+else if(ext==="pdf"){location.replace("pdfjs/web/viewer.html?file="+encodeURIComponent(url)+"#pagemode=none");}
+else if(ext==="epub"){
+  const s1=document.createElement("script");s1.src="jszip.min.js";
+  s1.onload=()=>{const s2=document.createElement("script");s2.src="epub.min.js";s2.onload=openEpub;document.head.appendChild(s2);};
+  document.head.appendChild(s1);
+} else {msg.innerHTML='这个格式暂不支持在线阅读，请点右上角「下载」。';}
+function openEpub(){
+  const book=ePub(url,{openAs:"epub"});
+  const rend=book.renderTo("view",{width:"100%",height:"100%",flow:"paginated",spread:"none",allowScriptedContent:false});
+  let size=Number(localStorage.getItem("clec-fs")||100);
+  rend.themes.fontSize(size+"%");
+  rend.themes.default({body:{"line-height":"1.75 !important","padding":"0 6px !important"}});
+  const saved=localStorage.getItem("clec-pos:"+key);
+  rend.display(saved||undefined).then(()=>{msg.style.display="none";}).catch(e=>{msg.textContent="打开失败，请检查网络后刷新，或点右上角「下载」。";});
+  book.loaded.navigation.then(nav=>{const sel=document.getElementById("toc");
+    const add=(items,d)=>items.forEach(i=>{const o=document.createElement("option");o.value=i.href;o.textContent="　".repeat(d)+i.label.trim();sel.appendChild(o);if(i.subitems)add(i.subitems,d+1);});
+    add(nav.toc,0);sel.onchange=()=>{if(sel.value)rend.display(sel.value);sel.value="";};});
+  rend.on("relocated",loc=>{localStorage.setItem("clec-pos:"+key,loc.start.cfi);
+    const p=loc.start.displayed;document.getElementById("pos").textContent=p?("本章 "+p.page+" / "+p.total):"";});
+  document.getElementById("prev").onclick=()=>rend.prev();
+  document.getElementById("next").onclick=()=>rend.next();
+  document.getElementById("fs").onclick=()=>{size=size>=140?90:size+10;localStorage.setItem("clec-fs",size);rend.themes.fontSize(size+"%");};
+  document.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")rend.prev();if(e.key==="ArrowRight")rend.next();});
+  let x0=null;rend.on("touchstart",e=>{x0=e.changedTouches[0].screenX;});
+  rend.on("touchend",e=>{if(x0===null)return;const dx=e.changedTouches[0].screenX-x0;if(dx>50)rend.prev();if(dx<-50)rend.next();x0=null;});
+}
+if(ext!=="epub"){document.getElementById("nav").style.display="none";document.getElementById("toc").style.display="none";document.getElementById("fs").style.display="none";}
+</script>
+</body>
+</html>
