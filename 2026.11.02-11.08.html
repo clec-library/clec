@@ -1437,4 +1437,29 @@ html{scroll-padding-top:calc(var(--date-nav-height,0px) + 80px)}
   }
 })();
 </script>
+<script>
+/* One report voice at a time. Changing date or group tabs does not pause. Starting another voice pauses the others and keeps their position. */
+(function(){
+  if (window.__clecReportAudioExclusive) return;
+  window.__clecReportAudioExclusive = true;
+  function isReportAudio(el){
+    return !!(el && el.tagName === 'AUDIO');
+  }
+  function pauseOthers(current){
+    var list = document.getElementsByTagName('audio');
+    for (var i = 0; i < list.length; i++) {
+      var other = list[i];
+      if (other !== current && !other.paused) {
+        try { other.pause(); } catch (err) {}
+      }
+    }
+  }
+  function onStart(ev){
+    if (!isReportAudio(ev.target)) return;
+    pauseOthers(ev.target);
+  }
+  document.addEventListener('play', onStart, true);
+  document.addEventListener('playing', onStart, true);
+})();
+</script>
 </body></html>

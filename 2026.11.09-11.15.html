@@ -868,7 +868,6 @@ html{scroll-padding-top:calc(var(--date-nav-height,0px) + 80px)}
 (function(){
   function qs(sel, root){ return (root||document).querySelector(sel); }
   function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
-  function pauseAll(){ qsa('audio').forEach(function(a){ try{a.pause()}catch(e){} }); }
   function showGroupInDate(dateId, groupId){
     var datePanel = qs('.date-panel[data-date="'+dateId+'"]');
     if(!datePanel) return;
@@ -890,11 +889,10 @@ html{scroll-padding-top:calc(var(--date-nav-height,0px) + 80px)}
     window.scrollTo({top:0, behavior:'smooth'});
   }
   qsa('#date-tabs button').forEach(function(b){
-    b.addEventListener('click', function(){ pauseAll(); showDate(b.getAttribute('data-date')); syncDateNavHeight(); });
+    b.addEventListener('click', function(){ showDate(b.getAttribute('data-date')); syncDateNavHeight(); });
   });
   qsa('.group-tabs button').forEach(function(b){
     b.addEventListener('click', function(){
-      pauseAll();
       var dateId = b.getAttribute('data-date');
       var groupId = b.getAttribute('data-group');
       showGroupInDate(dateId, groupId);
@@ -916,6 +914,31 @@ html{scroll-padding-top:calc(var(--date-nav-height,0px) + 80px)}
   window.addEventListener('orientationchange', function(){ syncDateNavHeight(); requestAnimationFrame(syncDateNavHeight); });
   window.addEventListener('pageshow', syncDateNavHeight);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncDateNavHeight);
+})();
+</script>
+<script>
+/* One report voice at a time. Changing date or group tabs does not pause. Starting another voice pauses the others and keeps their position. */
+(function(){
+  if (window.__clecReportAudioExclusive) return;
+  window.__clecReportAudioExclusive = true;
+  function isReportAudio(el){
+    return !!(el && el.tagName === 'AUDIO');
+  }
+  function pauseOthers(current){
+    var list = document.getElementsByTagName('audio');
+    for (var i = 0; i < list.length; i++) {
+      var other = list[i];
+      if (other !== current && !other.paused) {
+        try { other.pause(); } catch (err) {}
+      }
+    }
+  }
+  function onStart(ev){
+    if (!isReportAudio(ev.target)) return;
+    pauseOthers(ev.target);
+  }
+  document.addEventListener('play', onStart, true);
+  document.addEventListener('playing', onStart, true);
 })();
 </script>
 </body></html>
