@@ -677,7 +677,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" ") {e.preventDefault(); goNext();}
 });
 
-if(!key||key.includes("..")){msgt.textContent="链接不完整，请回到电子书库重新点书名。";document.querySelector(".spinner").style.display="none";document.getElementById("hint").style.display="none";}
+if(!key||key.split("/").includes("..")){msgt.textContent="链接不完整，请回到电子书库重新点书名。";document.querySelector(".spinner").style.display="none";document.getElementById("hint").style.display="none";}
 else if(isPdf) openPdf();
 else if(isEpub) openEpub();
 else {msgt.innerHTML='这个格式暂不支持在线阅读，请点右上角「下载」。';document.querySelector(".spinner").style.display="none";}
