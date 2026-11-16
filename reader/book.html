@@ -70,16 +70,6 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
 #histList .hm{font-size:12px;color:var(--muted);margin-top:2px}
 #histList .cur{color:var(--accent)}
 #histEmpty{font-size:12px;color:var(--muted);margin:6px 0}
-
-/* ---- 听书 ---- */
-#ttsBtn.on{background:var(--accent);color:#fff}
-#ttsBar{display:none;position:fixed;left:0;right:0;bottom:calc(48px + env(safe-area-inset-bottom));z-index:22;background:var(--panel);border-top:1px solid #0002;padding:8px 12px;box-sizing:border-box;box-shadow:0 -4px 16px #0002}
-#ttsBar.show{display:block}
-#ttsBar .ttsRow{display:flex;align-items:center;gap:8px}
-#ttsBar .ttsTxt{flex:1;min-width:0;font-size:13px;line-height:1.5;color:var(--fg);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-#ttsBar button{background:var(--bar);color:var(--barfg);border:0;border-radius:8px;padding:8px 12px;font-size:14px;flex:none;min-height:36px}
-#ttsBar button.ghost{background:transparent;color:var(--muted);border:1px solid #0003}
-#ttsBar .ttsMeta{font-size:11px;color:var(--muted);margin-top:4px}
 </style>
 </head>
 <body>
@@ -87,7 +77,6 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
   <span class="t" id="title">CLEC 电子书</span>
   <select id="toc" aria-label="目录"><option value="">目录</option></select>
   <button type="button" id="setBtn" aria-label="阅读设置" title="阅读设置"><span class="ic" aria-hidden="true">⚙</span><span class="lb">设置</span></button>
-  <button type="button" id="ttsBtn" aria-label="听书" title="听书"><span class="ic" aria-hidden="true">🎧</span><span class="lb">听书</span></button>
   <a id="dl" href="#" download aria-label="下载" title="下载"><span class="ic" aria-hidden="true">↓</span><span class="lb">下载</span></a>
 </div>
 <div id="msg"><div class="spinner"></div><div id="msgt">正在打开…</div><div class="hint" id="hint">大文件只需加载正在看的页面，第一次会稍等片刻。</div><div id="prog"><i></i></div></div>
@@ -96,15 +85,6 @@ body.green{--bg:#cce8c9;--fg:#1f2a1c;--panel:#e7f5e5;--bar:#2e4a2c}
   <button type="button" id="prev">上一页</button>
   <span id="pos"></span>
   <button type="button" id="next">下一页</button>
-</div>
-<div id="ttsBar" role="region" aria-label="听书">
-  <div class="ttsRow">
-    <button type="button" id="ttsPlay" aria-label="播放或暂停">⏸</button>
-    <div class="ttsTxt" id="ttsTxt">正在准备…</div>
-    <button type="button" id="ttsRate" aria-label="倍速">1×</button>
-    <button type="button" id="ttsStop" class="ghost" aria-label="停止">✕</button>
-  </div>
-  <div class="ttsMeta" id="ttsMeta"></div>
 </div>
 <div id="toast" role="status"><span id="toastT">已回到上次阅读位置</span><button type="button" id="toastBtn">从头读</button></div>
 <div id="mask"></div>
@@ -198,11 +178,10 @@ document.title=name+" · CLEC 电子书";
 document.getElementById("title").textContent=name||"CLEC 电子书";
 document.getElementById("dl").href=url;
 if(!isEpub) document.getElementById("toc").style.display="none";
-if(!isEpub) document.getElementById("ttsBtn").style.display="none";
 if(isPdf) document.getElementById("pdfNote").style.display="block";
 
 let actx, masterGain, soundNodes=[], soundTimers=[], playingSound="off";
-let soundReq=0, soundAbort=null, loadingSound=null, silentEl=null, epubRend=null, epubBook=null;
+let soundReq=0, soundAbort=null, loadingSound=null, silentEl=null, epubRend=null;
 const loadedWebFaces={};
 const webFontPending={};
 const pref=Object.assign({font:"default",fs:100,lh:"1.8",theme:"paper",music:false,sound:"off"}, JSON.parse(localStorage.getItem("clec-read")||"{}"));
@@ -723,345 +702,6 @@ function loadModule(src,ms){
   return withTimeout(import(src), ms||8000, "组件");
 }
 
-/* ---- 听书：Edge 晓晓（微软在线语音），经 Cloudflare Worker 合成 MP3 后用 <audio> 播放，可锁屏续播 ---- */
-const TTS_URL="https://upload.clec888.cn/tts";
-const TTS_RATES=[0.75,1,1.25,1.5,2];
-const TTS_CHUNK=200;
-function ttsVoice(){
-  try{ const v=localStorage.getItem("clec-tts-voice")||""; if(/^[a-z]{2}-[A-Z]{2}-[A-Za-z]+Neural$/.test(v)) return v; }catch(e){}
-  return "zh-CN-XiaoxiaoNeural";
-}
-const ttsBar=document.getElementById("ttsBar"), ttsTxt=document.getElementById("ttsTxt"), ttsMeta=document.getElementById("ttsMeta");
-const ttsPlayBtn=document.getElementById("ttsPlay"), ttsRateBtn=document.getElementById("ttsRate");
-let tts=null;
-
-function ttsSplit(text){
-  const clean=(text||"").replace(/\s+/g," ").trim();
-  if(!clean) return [];
-  const sentences=clean.match(/[^。！？；…!?]+[。！？；…!?]*/g)||[clean];
-  const chunks=[]; let cur="";
-  sentences.forEach(s=>{
-    s=s.trim(); if(!s) return;
-    if(cur && (cur+s).length>TTS_CHUNK){ chunks.push(cur); cur=s; }
-    else cur+=s;
-  });
-  if(cur) chunks.push(cur);
-  const out=[];
-  chunks.forEach(c=>{ while(c.length>TTS_CHUNK){ out.push(c.slice(0,TTS_CHUNK)); c=c.slice(TTS_CHUNK); } if(c) out.push(c); });
-  return out;
-}
-function ttsSectionText(){
-  if(!epubRend||!epubRend.getContents) return "";
-  try{
-    const list=epubRend.getContents()||[];
-    let t="";
-    list.forEach(c=>{
-      const doc=(c&&c.document)||(c&&c.content&&c.content.document);
-      if(doc&&doc.body) t+="\n"+(doc.body.innerText||doc.body.textContent||"");
-    });
-    return t;
-  }catch(e){ return ""; }
-}
-function ttsCurCfi(){
-  try{
-    const cl=epubRend&&epubRend.currentLocation&&epubRend.currentLocation();
-    return (cl&&cl.start&&cl.start.cfi)||"";
-  }catch(e){ return ""; }
-}
-function ttsRangeCfi(a,b){
-  if(!a||!b) return "";
-  const ia=a.indexOf("!"), ib=b.indexOf("!");
-  if(ia<0||ib<0) return "";
-  const preA=a.slice(0,ia), preB=b.slice(0,ib);
-  if(preA!==preB) return "";
-  return "epubcfi("+preA+"!"+a.slice(ia+1,-1)+","+b.slice(ib+1,-1)+")";
-}
-function ttsVisibleText(){
-  // 当前页正在显示的文字（不是整章开头），读它就从当前页开始。
-  try{
-    if(!epubBook||typeof epubBook.getRange!=="function") return "";
-    const cl=epubRend&&epubRend.currentLocation&&epubRend.currentLocation();
-    if(!cl||!cl.start||!cl.end) return "";
-    const rc=ttsRangeCfi(cl.start.cfi, cl.end.cfi);
-    if(!rc) return "";
-    const range=epubBook.getRange(rc);
-    if(!range) return "";
-    return (range.toString()||"").replace(/\s+/g," ").trim();
-  }catch(e){ return ""; }
-}
-function ttsChunkForPos(chunks, clean, pos){
-  // pos 是可见文字开头在整章 cleaned 文本里的字符偏移，返回它所在的段号。
-  if(pos<0) return 0;
-  let off=0;
-  for(let i=0;i<chunks.length;i++){
-    if(pos>=off&&pos<off+chunks[i].length) return i;
-    off+=chunks[i].length;
-  }
-  return 0;
-}
-function ttsCurIdx(){
-  try{
-    const cl=epubRend&&epubRend.currentLocation&&epubRend.currentLocation();
-    return (cl&&cl.start&&typeof cl.start.index==="number")?cl.start.index:-1;
-  }catch(e){ return -1; }
-}
-function ttsSave(){
-  if(!tts||!key) return;
-  try{ localStorage.setItem("clec-tts:"+key, JSON.stringify({cfi:tts.cfi, chunk:tts.idx})); }catch(e){}
-}
-function ttsSetBar(show){
-  ttsBar.classList.toggle("show", !!show);
-  const view=document.getElementById("view");
-  if(show){
-    const h=ttsBar.offsetHeight||76;
-    view.style.bottom="calc(48px + "+h+"px + env(safe-area-inset-bottom))";
-  }else{
-    view.style.bottom="";
-  }
-}
-function ttsUpdateMeta(){
-  if(!tts) return;
-  const total=tts.chunks.length;
-  ttsMeta.textContent=total?("第 "+(tts.idx+1)+" / "+total+" 段 · "+tts.rate+"×"):"";
-  ttsRateBtn.textContent=tts.rate+"×";
-}
-function ttsSetPlayingUI(){
-  ttsPlayBtn.textContent=(tts&&tts.paused)?"▶":"⏸";
-}
-async function ttsFetchChunk(i){
-  const res=await fetch(TTS_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({text:tts.chunks[i], voice:ttsVoice()})
-  });
-  if(!res.ok){
-    let msg="语音服务异常";
-    try{ const j=await res.json(); if(j&&j.error) msg=j.error; }catch(e){}
-    throw new Error(msg);
-  }
-  const blob=await res.blob();
-  return URL.createObjectURL(blob);
-}
-function ttsPrefetch(i){
-  if(!tts||i<0||i>=tts.chunks.length) return;
-  if(tts.nextUrl&&tts.nextIdx===i) return;
-  if(tts.fetching) return;
-  tts.fetching=ttsFetchChunk(i).then(url=>{
-    if(!tts){ try{ URL.revokeObjectURL(url); }catch(e){} return; }
-    if(tts.nextUrl&&tts.nextIdx!==i){ try{ URL.revokeObjectURL(tts.nextUrl); }catch(e){} }
-    tts.nextUrl=url; tts.nextIdx=i;
-  }).catch(()=>{}).finally(()=>{ if(tts) tts.fetching=null; });
-}
-async function ttsPlayChunk(i){
-  if(!tts) return;
-  tts.idx=i;
-  ttsSave();
-  const text=tts.chunks[i]||"";
-  ttsTxt.textContent=text;
-  ttsUpdateMeta();
-  ttsSetPlayingUI();
-  let url=null;
-  if(tts.nextUrl&&tts.nextIdx===i){ url=tts.nextUrl; tts.nextUrl=null; tts.nextIdx=-1; }
-  if(!url){
-    ttsTxt.textContent="正在加载语音…";
-    try{ url=await ttsFetchChunk(i); }
-    catch(e){
-      ttsTxt.textContent="语音加载失败："+(e.message||"网络异常")+"，点 ▶ 重试。";
-      tts.paused=true; ttsSetPlayingUI();
-      return;
-    }
-    if(!tts||tts.idx!==i) return;
-  }
-  if(tts.curUrl&&tts.curUrl!==url){ try{ URL.revokeObjectURL(tts.curUrl); }catch(e){} }
-  tts.curUrl=url;
-  const audio=tts.audio;
-  audio.src=url;
-  try{ audio.playbackRate=tts.rate; }catch(e){}
-  try{ await audio.play(); }catch(e){
-    ttsTxt.textContent="播放被浏览器拦截了，请再点一次 ▶。";
-    tts.paused=true; ttsSetPlayingUI();
-    return;
-  }
-  tts.paused=false; ttsSetPlayingUI();
-  ttsTxt.textContent=text;
-  ttsPrefetch(i+1);
-}
-function ttsOnEnded(){
-  if(!tts||tts.paused) return;
-  const next=tts.idx+1;
-  if(next<tts.chunks.length){ ttsPlayChunk(next); return; }
-  ttsNextSection();
-}
-async function ttsNextSection(){
-  if(!tts) return;
-  for(let k=0;k<10;k++){
-    const idx=ttsCurIdx();
-    if(idx<0) break;
-    let item=null;
-    try{ item=epubBook&&epubBook.spine&&epubBook.spine.get(idx+1); }catch(e){}
-    if(!item){ ttsFinishBook(); return; }
-    tts.advancing=true;
-    try{ await epubRend.display(item.href); }catch(e){}
-    if(!tts) return;
-    const text=ttsSectionText();
-    const chunks=ttsSplit(text);
-    tts.spineIdx=ttsCurIdx();
-    tts.cfi=ttsCurCfi();
-    tts.advancing=false;
-    if(chunks.length){
-      tts.chunks=chunks;
-      ttsPlayChunk(0);
-      return;
-    }
-  }
-  ttsFinishBook();
-}
-function ttsFinishBook(){
-  if(!tts) return;
-  ttsTxt.textContent="本书已读完。";
-  ttsMeta.textContent="";
-  tts.paused=true; ttsSetPlayingUI();
-}
-function ttsNewSession(){
-  let rate=1;
-  try{ const r=parseFloat(localStorage.getItem("clec-tts-rate")||""); if(TTS_RATES.indexOf(r)>=0) rate=r; }catch(e){}
-  const audio=new Audio();
-  audio.preload="auto";
-  try{ audio.playbackRate=rate; }catch(e){}
-  try{ audio.preservesPitch=true; if("webkitPreservesPitch" in audio) audio.webkitPreservesPitch=true; }catch(e){}
-  audio.addEventListener("ended", ttsOnEnded);
-  return { playing:true, paused:false, rate:rate, chunks:[], idx:0, audio:audio, curUrl:null, nextUrl:null, nextIdx:-1, fetching:null, cfi:"", spineIdx:-1, advancing:false };
-}
-async function ttsStart(){
-  if(!isEpub||!epubRend){
-    ttsTxt.textContent="请等书加载完再点听书。";
-    ttsPlayBtn.textContent="▶";
-    ttsSetBar(true);
-    return;
-  }
-  if(tts) ttsStop(true);
-  const text=ttsSectionText();
-  const chunks=ttsSplit(text);
-  tts=ttsNewSession();
-  document.getElementById("ttsBtn").classList.add("on");
-  ttsSetBar(true);
-  if(!chunks.length){
-    ttsTxt.textContent="本章没有可朗读的文字，正在跳到下一章…";
-    ttsNextSection();
-    return;
-  }
-  tts.chunks=chunks;
-  tts.cfi=ttsCurCfi();
-  tts.spineIdx=ttsCurIdx();
-  let startIdx=0, resumed=false;
-  try{
-    const saved=JSON.parse(localStorage.getItem("clec-tts:"+key)||"null");
-    if(saved&&saved.cfi&&saved.cfi===tts.cfi&&typeof saved.chunk==="number"&&saved.chunk>=0&&saved.chunk<chunks.length){
-      startIdx=saved.chunk;
-      resumed=true;
-    }
-  }catch(e){}
-  if(!resumed){
-    // 没断点可续时，从当前页正在显示的文字开始读，而不是整章开头。
-    const vis=ttsVisibleText();
-    const clean=(text||"").replace(/\s+/g," ").trim();
-    const probe=vis?vis.slice(0,30):"";
-    const pos=probe?clean.indexOf(probe):-1;
-    startIdx=ttsChunkForPos(chunks, clean, pos);
-  }
-  ttsMediaSession();
-  ttsPlayChunk(startIdx);
-}
-function ttsPause(){
-  if(!tts) return;
-  tts.paused=true;
-  try{ tts.audio.pause(); }catch(e){}
-  ttsSetPlayingUI();
-  try{ if("mediaSession" in navigator) navigator.mediaSession.playbackState="paused"; }catch(e){}
-}
-async function ttsResume(){
-  if(!tts) return;
-  if(!tts.audio.src||tts.audio.ended){
-    tts.paused=false;
-    ttsPlayChunk(tts.idx);
-    return;
-  }
-  tts.paused=false;
-  try{ await tts.audio.play(); }catch(e){}
-  ttsSetPlayingUI();
-  try{ if("mediaSession" in navigator) navigator.mediaSession.playbackState="playing"; }catch(e){}
-}
-function ttsCycleRate(){
-  if(!tts) return;
-  const i=TTS_RATES.indexOf(tts.rate);
-  const next=TTS_RATES[(i+1)%TTS_RATES.length];
-  tts.rate=next;
-  try{ localStorage.setItem("clec-tts-rate", String(next)); }catch(e){}
-  ttsRateBtn.textContent=next+"×";
-  ttsUpdateMeta();
-  // 倍速只改本地播放速度，不重新合成：秒切，不再“加载中”。
-  try{ tts.audio.playbackRate=next; }catch(e){}
-}
-function ttsSkip(delta){
-  if(!tts||!tts.chunks.length) return;
-  let n=tts.idx+delta;
-  if(n<0) n=0;
-  if(n>=tts.chunks.length){ ttsNextSection(); return; }
-  if(tts.nextUrl){ try{ URL.revokeObjectURL(tts.nextUrl); }catch(e){} tts.nextUrl=null; tts.nextIdx=-1; }
-  try{ tts.audio.pause(); }catch(e){}
-  tts.paused=false;
-  ttsPlayChunk(n);
-}
-function ttsStop(silent){
-  if(!tts) return;
-  try{ tts.audio.pause(); }catch(e){}
-  try{ tts.audio.removeEventListener("ended", ttsOnEnded); }catch(e){}
-  if(tts.curUrl){ try{ URL.revokeObjectURL(tts.curUrl); }catch(e){} }
-  if(tts.nextUrl){ try{ URL.revokeObjectURL(tts.nextUrl); }catch(e){} }
-  ttsSave();
-  tts=null;
-  document.getElementById("ttsBtn").classList.remove("on");
-  ttsSetBar(false);
-  if(!silent){ try{ if("mediaSession" in navigator) navigator.mediaSession.playbackState="none"; }catch(e){} }
-}
-function ttsOnRelocated(loc){
-  if(!tts||!tts.playing||tts.advancing) return;
-  const idx=loc&&loc.start?loc.start.index:-1;
-  if(idx>=0&&idx!==tts.spineIdx){
-    const text=ttsSectionText();
-    const chunks=ttsSplit(text);
-    if(!chunks.length) return;
-    tts.chunks=chunks; tts.idx=0; tts.cfi=ttsCurCfi(); tts.spineIdx=idx;
-    if(tts.nextUrl){ try{ URL.revokeObjectURL(tts.nextUrl); }catch(e){} tts.nextUrl=null; tts.nextIdx=-1; }
-    try{ tts.audio.pause(); }catch(e){}
-    tts.paused=false;
-    ttsPlayChunk(0);
-  }
-}
-function ttsMediaSession(){
-  try{
-    if(!("mediaSession" in navigator)) return;
-    navigator.mediaSession.metadata=new MediaMetadata({title:name||"CLEC 电子书", artist:"CLEC 电子书"});
-    navigator.mediaSession.playbackState="playing";
-    navigator.mediaSession.setActionHandler("play", ()=>{ if(tts) ttsResume(); });
-    navigator.mediaSession.setActionHandler("pause", ()=>{ if(tts) ttsPause(); });
-    navigator.mediaSession.setActionHandler("nexttrack", ()=>{ if(tts) ttsSkip(1); });
-    navigator.mediaSession.setActionHandler("previoustrack", ()=>{ if(tts) ttsSkip(-1); });
-  }catch(e){}
-}
-document.getElementById("ttsBtn").onclick=()=>{
-  if(tts){ ttsStop(); return; }
-  ttsStart();
-};
-ttsPlayBtn.onclick=()=>{
-  if(!tts){ ttsStart(); return; }
-  if(tts.paused) ttsResume(); else ttsPause();
-};
-ttsRateBtn.onclick=()=>ttsCycleRate();
-document.getElementById("ttsStop").onclick=()=>ttsStop();
-window.addEventListener("resize", ()=>{ if(tts) ttsSetBar(true); });
-window.addEventListener("pagehide", ()=>{ ttsSave(); });
-
 async function openPdf(){
   msgt.textContent="正在加载阅读组件…";
   document.getElementById("hint").textContent="不用下载整本，只加载当前页。打开后翻页会快很多。";
@@ -1176,7 +816,6 @@ async function openEpub(){
     const buf=await downloadWithProgress(url);
     msgt.textContent="正在排版…";
     const book=ePub();
-    epubBook=book;
     await withTimeout(book.open(buf, "binary"), 20000, "打开电子书");
     const w=Math.max(280, view.clientWidth||document.documentElement.clientWidth||window.innerWidth);
     const h=Math.max(320, view.clientHeight||(window.innerHeight-96));
@@ -1212,7 +851,6 @@ async function openEpub(){
       if(n>0){ const fr=(d&&d.total>1)?(d.page-1)/d.total:0; pct=Math.min(100,Math.max(0,(idx+fr)/n*100)); if(idx>=n-1&&d&&d.page>=d.total) pct=100; }
       pct=Math.round(pct);
       notePos({kind:"epub",store:loc.start.cfi,pos:loc.start.cfi,pct:pct,lab:(n>1?("第 "+(idx+1)+" / "+n+" 节 · "):"")+pct+"%"});
-      try{ ttsOnRelocated(loc); }catch(e){}
     };
     rend.on("relocated",onLoc);
     try{
