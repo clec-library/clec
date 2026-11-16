@@ -726,7 +726,11 @@ function loadModule(src,ms){
 /* ---- 听书：Edge 晓晓（微软在线语音），经 Cloudflare Worker 合成 MP3 后用 <audio> 播放，可锁屏续播 ---- */
 const TTS_URL="https://upload.clec888.cn/tts";
 const TTS_RATES=[0.75,1,1.25,1.5,2];
-const TTS_RATE_STR={"0.75":"-25%","1":"+0%","1.25":"+25%","1.5":"+50%","2":"+100%"};
+const TTS_CHUNK=200;
+function ttsVoice(){
+  try{ const v=localStorage.getItem("clec-tts-voice")||""; if(/^[a-z]{2}-[A-Z]{2}-[A-Za-z]+Neural$/.test(v)) return v; }catch(e){}
+  return "zh-CN-XiaoxiaoNeural";
+}
 const ttsBar=document.getElementById("ttsBar"), ttsTxt=document.getElementById("ttsTxt"), ttsMeta=document.getElementById("ttsMeta");
 const ttsPlayBtn=document.getElementById("ttsPlay"), ttsRateBtn=document.getElementById("ttsRate");
 let tts=null;
@@ -738,12 +742,12 @@ function ttsSplit(text){
   const chunks=[]; let cur="";
   sentences.forEach(s=>{
     s=s.trim(); if(!s) return;
-    if(cur && (cur+s).length>400){ chunks.push(cur); cur=s; }
+    if(cur && (cur+s).length>TTS_CHUNK){ chunks.push(cur); cur=s; }
     else cur+=s;
   });
   if(cur) chunks.push(cur);
   const out=[];
-  chunks.forEach(c=>{ while(c.length>400){ out.push(c.slice(0,400)); c=c.slice(400); } if(c) out.push(c); });
+  chunks.forEach(c=>{ while(c.length>TTS_CHUNK){ out.push(c.slice(0,TTS_CHUNK)); c=c.slice(TTS_CHUNK); } if(c) out.push(c); });
   return out;
 }
 function ttsSectionText(){
@@ -763,6 +767,37 @@ function ttsCurCfi(){
     const cl=epubRend&&epubRend.currentLocation&&epubRend.currentLocation();
     return (cl&&cl.start&&cl.start.cfi)||"";
   }catch(e){ return ""; }
+}
+function ttsRangeCfi(a,b){
+  if(!a||!b) return "";
+  const ia=a.indexOf("!"), ib=b.indexOf("!");
+  if(ia<0||ib<0) return "";
+  const preA=a.slice(0,ia), preB=b.slice(0,ib);
+  if(preA!==preB) return "";
+  return "epubcfi("+preA+"!"+a.slice(ia+1,-1)+","+b.slice(ib+1,-1)+")";
+}
+function ttsVisibleText(){
+  // 当前页正在显示的文字（不是整章开头），读它就从当前页开始。
+  try{
+    if(!epubBook||typeof epubBook.getRange!=="function") return "";
+    const cl=epubRend&&epubRend.currentLocation&&epubRend.currentLocation();
+    if(!cl||!cl.start||!cl.end) return "";
+    const rc=ttsRangeCfi(cl.start.cfi, cl.end.cfi);
+    if(!rc) return "";
+    const range=epubBook.getRange(rc);
+    if(!range) return "";
+    return (range.toString()||"").replace(/\s+/g," ").trim();
+  }catch(e){ return ""; }
+}
+function ttsChunkForPos(chunks, clean, pos){
+  // pos 是可见文字开头在整章 cleaned 文本里的字符偏移，返回它所在的段号。
+  if(pos<0) return 0;
+  let off=0;
+  for(let i=0;i<chunks.length;i++){
+    if(pos>=off&&pos<off+chunks[i].length) return i;
+    off+=chunks[i].length;
+  }
+  return 0;
 }
 function ttsCurIdx(){
   try{
@@ -797,7 +832,7 @@ async function ttsFetchChunk(i){
   const res=await fetch(TTS_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({text:tts.chunks[i], rate:TTS_RATE_STR[String(tts.rate)]})
+    body:JSON.stringify({text:tts.chunks[i], voice:ttsVoice()})
   });
   if(!res.ok){
     let msg="语音服务异常";
@@ -841,6 +876,7 @@ async function ttsPlayChunk(i){
   tts.curUrl=url;
   const audio=tts.audio;
   audio.src=url;
+  try{ audio.playbackRate=tts.rate; }catch(e){}
   try{ await audio.play(); }catch(e){
     ttsTxt.textContent="播放被浏览器拦截了，请再点一次 ▶。";
     tts.paused=true; ttsSetPlayingUI();
@@ -891,6 +927,8 @@ function ttsNewSession(){
   try{ const r=parseFloat(localStorage.getItem("clec-tts-rate")||""); if(TTS_RATES.indexOf(r)>=0) rate=r; }catch(e){}
   const audio=new Audio();
   audio.preload="auto";
+  try{ audio.playbackRate=rate; }catch(e){}
+  try{ audio.preservesPitch=true; if("webkitPreservesPitch" in audio) audio.webkitPreservesPitch=true; }catch(e){}
   audio.addEventListener("ended", ttsOnEnded);
   return { playing:true, paused:false, rate:rate, chunks:[], idx:0, audio:audio, curUrl:null, nextUrl:null, nextIdx:-1, fetching:null, cfi:"", spineIdx:-1, advancing:false };
 }
@@ -915,13 +953,22 @@ async function ttsStart(){
   tts.chunks=chunks;
   tts.cfi=ttsCurCfi();
   tts.spineIdx=ttsCurIdx();
-  let startIdx=0;
+  let startIdx=0, resumed=false;
   try{
     const saved=JSON.parse(localStorage.getItem("clec-tts:"+key)||"null");
     if(saved&&saved.cfi&&saved.cfi===tts.cfi&&typeof saved.chunk==="number"&&saved.chunk>=0&&saved.chunk<chunks.length){
       startIdx=saved.chunk;
+      resumed=true;
     }
   }catch(e){}
+  if(!resumed){
+    // 没断点可续时，从当前页正在显示的文字开始读，而不是整章开头。
+    const vis=ttsVisibleText();
+    const clean=(text||"").replace(/\s+/g," ").trim();
+    const probe=vis?vis.slice(0,30):"";
+    const pos=probe?clean.indexOf(probe):-1;
+    startIdx=ttsChunkForPos(chunks, clean, pos);
+  }
   ttsMediaSession();
   ttsPlayChunk(startIdx);
 }
@@ -952,10 +999,8 @@ function ttsCycleRate(){
   try{ localStorage.setItem("clec-tts-rate", String(next)); }catch(e){}
   ttsRateBtn.textContent=next+"×";
   ttsUpdateMeta();
-  if(tts.nextUrl){ try{ URL.revokeObjectURL(tts.nextUrl); }catch(e){} tts.nextUrl=null; tts.nextIdx=-1; }
-  try{ tts.audio.pause(); }catch(e){}
-  tts.paused=false;
-  ttsPlayChunk(tts.idx);
+  // 倍速只改本地播放速度，不重新合成：秒切，不再“加载中”。
+  try{ tts.audio.playbackRate=next; }catch(e){}
 }
 function ttsSkip(delta){
   if(!tts||!tts.chunks.length) return;
