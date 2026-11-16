@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CLEC多群合并日报 · 2026-11-16</title>
+<title>CLEC多群本周日报 · 2026-11-16～2026-11-22</title>
 <style>
 
 
@@ -156,14 +156,24 @@ summary{min-height:40px}
 .panel.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
+
+.collection-note{
+  margin:12px 0 0;background:#f0f7ff;border:1px dashed #b7d0f5;border-radius:12px;
+  padding:10px 14px;font-size:13px;color:#35598c}
+.date-tabs{margin-top:8px}
+.date-tabs button{min-width:108px}
+.date-panel{display:none;animation:fade .25s ease}
+.date-panel.active{display:block}
+.date-panel > .group-tabs{position:sticky;top:var(--date-nav-height,0px);z-index:90;background:#f4f6f8}
+
 </style></head><body>
 <div class="wrap">
-<div class="tabs">
-<button class="active" data-group="1">1群</button>
-<button data-group="2">2群</button>
-<button data-group="3">3群</button>
-<button data-group="4">花钱的艺术群</button>
-</div>
+<div class="collection-note">ℹ️ 周合集：本周为 2026-11-16～2026-11-22，默认打开最新一天（11-16 周一）。点日期可回溯当日四群完整日报与原语音；不覆盖、不修改各日正式日报。日期 Tab 倒序为最新一天 → … → 11-16。</div>
+<div class="collection-note">ℹ️ 本周日报合集：默认打开最新一天，点日期可回溯本周每天四群完整日报与语音。</div>
+<nav class="tabs date-tabs" id="date-tabs"><button class="active" data-date="20261116"><span class="short">11-16 周一</span></button>
+</nav>
+<section class="date-panel active" id="date-20261116" data-date="20261116">
+<nav class="tabs group-tabs"><button class="active" data-group="1" data-date="20261116"><span class="short">1群</span></button><button data-group="2" data-date="20261116"><span class="short">2群</span></button><button data-group="3" data-date="20261116"><span class="short">3群</span></button><button data-group="4" data-date="20261116"><span class="short">花钱的艺术群</span></button></nav>
 <section class="panel group-panel active" data-group="1" id="g-1">
 <div class="hero"><span class="badge">📈 微信群日报 · DAILY</span><h1>CLEC世界粉丝1群日报</h1><div class="sub">James 老师🇨🇳纳指投资粉丝群</div><div class="chips"><span class="chip">📅 2026-11-16</span><span class="chip">⏰ 00:52 ~ 23:28</span><span class="chip">💬 约 约 330 条消息</span></div></div>
 <div class="slogan">富有是天赋，快乐是人权，有钱就买，打死不卖！</div>
@@ -631,24 +641,62 @@ summary{min-height:40px}
 <div class="foot"><p class="big">富有是天赋，快乐是人权，有钱就买，打死不卖！</p><p class="small">本日报仅作群聊信息整理，不构成任何投资建议，不预测涨跌。📊</p></div>
 <div class="source">数据来源：CLEC花钱的艺术群 聊天记录 · 整理时间 2026-11-17 05:30</div>
 </section>
+</section>
 </div>
 
 <script>
 (function(){
+  function qs(sel, root){ return (root||document).querySelector(sel); }
   function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
   document.addEventListener('play', function(e){
     var t=e.target;
     if(!t || t.tagName!=='AUDIO') return;
     qsa('audio').forEach(function(a){ if(a!==t){ try{ a.pause(); }catch(err){} } });
   }, true);
-  qsa('.tabs button').forEach(function(b){
+  var nav = qs('#date-tabs');
+  function syncDateNavHeight(){
+    if(!nav) return;
+    var height = Math.ceil(nav.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--date-nav-height', height + 'px');
+  }
+  function showGroupInDate(dateId, groupId){
+    var datePanel = qs('.date-panel[data-date="'+dateId+'"]');
+    if(!datePanel) return;
+    qsa('.group-tabs button', datePanel).forEach(function(b){
+      b.classList.toggle('active', String(b.getAttribute('data-group')) === String(groupId));
+    });
+    qsa('.group-panel', datePanel).forEach(function(p){
+      p.classList.toggle('active', String(p.getAttribute('data-group')) === String(groupId));
+    });
+  }
+  function showDate(dateId){
+    qsa('#date-tabs button').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-date') === dateId);
+    });
+    qsa('.date-panel').forEach(function(p){
+      p.classList.toggle('active', p.getAttribute('data-date') === dateId);
+    });
+    showGroupInDate(dateId, 1);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  qsa('#date-tabs button').forEach(function(b){
+    b.addEventListener('click', function(){ showDate(b.getAttribute('data-date')); syncDateNavHeight(); });
+  });
+  qsa('.group-tabs button').forEach(function(b){
     b.addEventListener('click', function(){
-      var g=b.getAttribute('data-group');
-      qsa('.tabs button').forEach(function(x){ x.classList.toggle('active', x===b); });
-      qsa('.group-panel').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-group')===g); });
+      var dateId = b.getAttribute('data-date');
+      var groupId = b.getAttribute('data-group');
+      if(dateId) showGroupInDate(dateId, groupId);
       window.scrollTo({top:0, behavior:'smooth'});
+      syncDateNavHeight();
     });
   });
+  syncDateNavHeight();
+  if (window.ResizeObserver && nav) {
+    new ResizeObserver(function(){ syncDateNavHeight(); }).observe(nav);
+  }
+  window.addEventListener('resize', syncDateNavHeight);
+  window.addEventListener('orientationchange', function(){ syncDateNavHeight(); requestAnimationFrame(syncDateNavHeight); });
 })();
 </script>
 
