@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CLEC多群本周日报 · 2026-11-23～2026-11-29</title>
+<style>
+
+
+
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --ink:#1f2a37; --ink-soft:#5b6573;
+  --line:#e7ebf0; --brand:#0f9d76; --brand-2:#10b981; --gold:#d99a17;
+  --red:#e23b3b; --blue:#2f6df0; --violet:#7c5cd6;
+  --shadow:0 10px 30px rgba(20,40,60,.08); --radius:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:840px;margin:0 auto;padding:20px 16px 48px}
+.hero{
+  background:linear-gradient(135deg,#0f9d76 0%,#10b981 55%,#34d399 100%);
+  color:#fff;border-radius:var(--radius);padding:28px 26px 24px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+  background:rgba(255,255,255,.12);border-radius:50%}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.04em}
+.hero h1{margin:14px 0 6px;font-size:26px;font-weight:800;letter-spacing:.02em}
+.hero .sub{opacity:.92;font-size:14px;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.28);
+  padding:6px 12px;border-radius:999px;font-size:12.5px;backdrop-filter:blur(6px)}
+.slogan{
+  margin:16px 0 8px;background:#fff8e8;border-left:4px solid var(--gold);
+  border-radius:12px;padding:14px 16px;color:#7a5a10;font-weight:700;font-size:15px;
+  box-shadow:0 4px 14px rgba(217,154,23,.08)}
+.partial{
+  margin:12px 0 0;background:#f0f7ff;border:1px dashed #b7d0f5;border-radius:12px;
+  padding:10px 14px;font-size:13px;color:#35598c}
+.section{
+  background:var(--card);border-radius:var(--radius);padding:22px 22px 18px;
+  margin-top:16px;box-shadow:var(--shadow);border:1px solid rgba(231,235,240,.8)}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.sec-head .idx{font-weight:800;font-size:13px;letter-spacing:.08em;opacity:.75}
+.sec-head .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sec-head h2{margin:0;font-size:18px;font-weight:800;flex:1}
+.sec-head .sdesc{font-size:12px;color:var(--ink-soft);letter-spacing:.06em}
+.c1 .dot{background:#0f9d76} .c2 .dot{background:#2f6df0} .c3 .dot{background:#d99a17}
+.c4 .dot{background:#7c5cd6} .c5 .dot{background:#0ea5e9} .c6 .dot{background:#ec4899}
+.disc{font-size:12px;color:var(--ink-soft);background:#f7faf9;border:1px dashed #cde8dc;
+  border-radius:10px;padding:8px 12px;margin:0 0 14px}
+.hl{background:linear-gradient(180deg,transparent 60%,rgba(16,185,129,.28) 60%);font-weight:700;color:#0b7a5a}
+.topic{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;background:#fff}
+.topic:last-child{margin-bottom:0}
+.topic h3{margin:0 0 6px;font-size:15.5px;font-weight:800}
+.topic .meta{font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+.topic p{margin:0 0 8px;font-size:13.5px;color:var(--ink-soft)}
+.topic p:last-child{margin-bottom:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.tag{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700}
+.tag.r{background:#fee2e2;color:#b91c1c}.tag.b{background:#dbeafe;color:#1d4ed8}
+.tag.p{background:#fce7f3;color:#be185d}.tag.v{background:#ede9fe;color:#6d28d9}
+.tag.g{background:#d1fae5;color:#047857}.tag.y{background:#fef3c7;color:#b45309}
+.quote{margin:8px 0 0;padding:10px 12px;background:#fff8e8;border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;color:#8a6514;font-size:13px}
+.quote::before{content:"「金句」 ";font-weight:800;color:var(--gold);font-size:11px}
+ol.view,ol.qa,ol.link{margin:0;padding-left:22px}
+ol.view li,ol.qa li,ol.link li{margin-bottom:12px;padding-left:4px}
+ol.view li strong,ol.qa li strong,ol.link li strong{color:var(--ink);font-size:14.5px}
+.muted{color:var(--ink-soft);font-size:13.5px;display:block;margin-top:4px}
+.summary{
+  background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #bbf7d0;
+  border-radius:14px;padding:16px 18px;font-size:15px;font-weight:700;color:#065f46;line-height:1.7}
+.learn{background:#fdf9f0 !important;border-color:#f0e6d2}
+.learn-lead{font-size:13.5px;color:var(--ink-soft);margin:0 0 12px}
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lgrid>.litem:only-child{grid-column:1/-1}
+.litem{background:#fff;border:1px solid #f0e6d2;border-radius:12px;padding:12px}
+.litem .name{display:block;color:var(--brand);font-weight:800;font-size:13px;margin-bottom:4px}
+.litem a{color:#b84c2e;text-decoration:none;border-bottom:1px dashed #b84c2e;font-size:12.5px;word-break:break-all}
+.litem a:hover{border-bottom-style:solid}
+.litem .plain{font-size:12.5px;color:#7c5a48}
+.learn-foot{margin-top:16px;padding-top:14px;border-top:1px dashed #e8d9b8;font-size:13px;color:#6b5a3e}
+.learn-foot .note{margin-top:8px;font-size:12px;color:#9a7b55}
+.foot{
+  margin-top:18px;background:linear-gradient(135deg,#0f9d76,#10b981);
+  color:#fff;border-radius:var(--radius);padding:26px 22px;text-align:center;box-shadow:var(--shadow)}
+.foot .big{font-size:18px;font-weight:800;margin:0 0 10px;line-height:1.5}
+.foot .small{font-size:12.5px;opacity:.92;margin:0}
+.source{text-align:center;font-size:11.5px;color:#94a3b8;margin-top:14px;padding:0 8px}
+.empty{font-size:13.5px;color:var(--ink-soft);margin:0}
+.msg{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
+.msg .who{font-size:12px;color:var(--ink-soft);margin-bottom:4px}
+.msg .who b{color:var(--ink)}
+.msg .body{font-size:13px;color:#334155;white-space:pre-wrap}
+@media (max-width:640px){
+  .lgrid{grid-template-columns:1fr}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:22px}
+  .section{padding:18px 14px}
+}
+
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.n1{background:#0ea5e9}.n2{background:#ec4899}.n3{background:#0f9d76}.n4{background:#2f6df0}.n5{background:#d99a17}.n6{background:#e08a12}.n7{background:#7c5cd6}.n8{background:#d99a17}
+.tl{position:relative;padding-left:22px;border-left:2px solid #e2e8f0;margin-left:6px}
+.ev{position:relative;margin-bottom:16px}
+.ev::before{content:"";position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:#2f6df0;border:2px solid #fff;box-shadow:0 0 0 2px #2f6df0}
+.ev.hot::before{background:#ec4899;box-shadow:0 0 0 2px #ec4899}.ev.know::before{background:#8b5cf6;box-shadow:0 0 0 2px #8b5cf6}
+.ev .t{font-size:12px;color:#0ea5e9;font-weight:700}.ev h3{margin:2px 0 4px;font-size:15px;font-weight:800}.ev p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+details.ctx,details{
+  margin-top:8px;background:#fff;border:1px solid #d7e8e1;border-radius:12px;
+  box-shadow:0 2px 8px rgba(15,157,118,.06);overflow:hidden}
+details[open]{border-color:#b7dccf;box-shadow:0 4px 14px rgba(15,157,118,.10)}
+summary{
+  cursor:pointer;font-size:12.5px;color:#0f9d76;font-weight:700;list-style:none;
+  padding:10px 12px;background:linear-gradient(180deg,#f3fbf8,#eef8f4);
+  border-bottom:1px solid transparent;display:flex;align-items:center;gap:2px}
+details[open] summary{border-bottom-color:#d7e8e1;background:linear-gradient(180deg,#eaf7f1,#e3f3ec)}
+summary::-webkit-details-marker{display:none}
+.arr{display:inline-block;transition:transform .2s;margin-right:4px}details[open] .arr{transform:rotate(90deg)}
+.orig{
+  background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;
+  padding:10px 12px;margin:10px 12px 12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.rm{padding:6px 0;border-bottom:1px dashed #e5e7eb}.rm:last-of-type{border-bottom:0}
+.rm .who{font-weight:800;font-size:13px}.rm .when{color:#94a3b8;font-size:12px;margin-left:6px}.rm .txt{display:block;color:#1f2a37;font-size:13px;margin-top:2px}
+.w0,.c0{color:#0f9d76}.w1,.c1{color:#2f6df0}.w2,.c2{color:#c2410c}.w3,.c3{color:#7c5cd6}.w4,.c4{color:#db2777}.c5{color:#0891b2}.c6{color:#ca8a04}.c7{color:#4f46e5}
+.who-palette .who,.rm .who{font-weight:800}
+.rm .who.c0{color:#0f9d76}.rm .who.c1{color:#2f6df0}.rm .who.c2{color:#c2410c}
+.rm .who.c3{color:#7c5cd6}.rm .who.c4{color:#db2777}.rm .who.c5{color:#0891b2}
+.rm .who.c6{color:#ca8a04}.rm .who.c7{color:#4f46e5}.who-unknown{display:inline-block;font-weight:400;font-size:11px;color:#94a3b8;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:999px;padding:0 7px;line-height:1.6;vertical-align:middle;margin-right:2px}
+.mtag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;
+  background:#eef2ff;color:#4338ca;margin:0 2px;vertical-align:1px;white-space:nowrap}
+.mtag.img{background:#fce7f3;color:#be185d}.mtag.file{background:#ecfdf5;color:#047857}
+.mtag.link{background:#e0f2fe;color:#0369a1;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.more-orig{font-size:12px;color:#64748b;padding:6px 0 2px;font-weight:600}
+summary{min-height:40px}
+.orignote{font-size:11.5px;color:#94a3b8;margin-top:6px}
+.rank{display:inline-flex;width:24px;height:24px;border-radius:50%;background:#ec4899;color:#fff;font-weight:800;font-size:12px;align-items:center;justify-content:center;margin-right:6px}
+.lbl{font-size:11px;padding:1px 8px;border-radius:999px;font-weight:800;margin-right:6px}.lbl.w{background:#fef3c7;color:#b45309}.lbl.x{background:#fee2e2;color:#b91c1c}
+.red{color:#e23b3b;font-weight:700}
+.disclaimer{margin-top:14px;font-size:12px;color:#64748b;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:10px 12px}
+.opbox{margin-top:10px;background:#fff7ed;border-left:3px solid #d99a17;padding:8px 12px;border-radius:0 10px 10px 0;font-size:13px;color:#7c4a03}
+
+.tabs{
+  position:sticky;top:0;z-index:50;display:flex;gap:8px;flex-wrap:wrap;
+  background:rgba(244,246,248,.86);backdrop-filter:blur(12px);
+  padding:12px 0 10px;margin:0 0 8px;border-bottom:1px solid rgba(231,235,240,.9)}
+.tabs button{
+  border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+  border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .15s}
+.tabs button.active{
+  background:linear-gradient(135deg,#0f9d76,#10b981);color:#fff;border-color:transparent;
+  box-shadow:0 6px 16px rgba(15,157,118,.25)}
+.tabs button .short{display:inline}
+.tabs button .full{display:none !important}
+.panel{display:none;animation:fade .25s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+
+.collection-note{
+  margin:12px 0 0;background:#f0f7ff;border:1px dashed #b7d0f5;border-radius:12px;
+  padding:10px 14px;font-size:13px;color:#35598c}
+.date-tabs{margin-top:8px}
+.date-tabs button{min-width:108px}
+.date-panel{display:none;animation:fade .25s ease}
+.date-panel.active{display:block}
+.date-panel > .group-tabs{position:sticky;top:var(--date-nav-height,0px);z-index:90;background:#f4f6f8}
+
+</style></head><body>
+<div class="wrap">
+
+<div class="collection-note">ℹ️ 本周日报合集：默认打开最新一天，点日期可回溯本周每天四群完整日报与语音。</div>
+<nav class="tabs date-tabs" id="date-tabs"><button class="active" data-date="20261123"><span class="short">11-23 周一</span></button></nav>
+<section class="date-panel active" id="date-20261123" data-date="20261123">
+<nav class="tabs group-tabs"><button class="active" data-group="1" data-date="20261123"><span class="short">1群</span></button><button data-group="2" data-date="20261123"><span class="short">2群</span></button><button data-group="3" data-date="20261123"><span class="short">3群</span></button><button data-group="4" data-date="20261123"><span class="short">花钱艺术</span></button></nav>
+<section class="panel group-panel active" data-group="1" id="g-1-1123">
+<div class="hero"><span class="badge">📈 微信群日报 · DAILY</span><h1>CLEC世界粉丝1群日报</h1><div class="sub">James 老师🇨🇳纳指投资粉丝群</div><div class="chips"><span class="chip">📅 2026-11-23</span><span class="chip">⏰ 01:10 ~ 23:37</span><span class="chip">💬 约 330 条消息</span></div></div>
+<div class="slogan">富有是天赋，快乐是人权，有钱就买，打死不卖！</div>
+<div class="audio-bar" style="margin:12px 0;padding:10px 12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;font-size:14px;color:#0f9d76">🎧 今日语音播报（约4分27秒）· 播报者：云扬<br><audio controls preload="none" style="width:100%" src="audio/2026-11-23-g1.mp3"></audio></div>
+<div class="section c5"><div class="sec-head"><span class="sec-num n1">01</span><h2>今日大事记</h2><span class="sdesc">TIMELINE</span></div><div class="tl">
+<div class="ev"><div class="t">08:44–08:58 · 早上</div><h3>山东-Gargener：交易里大部分收益只源于少数几天</h3><p>山东-Gargener转来小红书笔记：交易里大部分收益只源于少数几天，一千天里最值钱的约只有十天。湖北-Du接了一句，雷劈下来的时候也得在场；山东-Gargener说下跌时或买或熬，没有其他选择。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c5">山东-Gargener</span><span class="when">08:44</span><span class="txt">交易里大部分收益只源于少数几天</span></div><div class="rm"><span class="who c3">湖北-Du</span><span class="when">08:58</span><span class="txt">真的就是那句，雷劈下来的时候也得在场</span></div><div class="rm"><span class="who c5">山东-Gargener</span><span class="when">08:58</span><span class="txt">下跌时或买或熬，没有其他选择</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">08:59–09:10 · 早上</div><h3>山东-专家更新入群规则：群已满员，邀请人要担审核责任</h3><p>山东-专家发了入群规则更新：本群已满员，邀请好友入群时要担负起审核责任，务必提前核实对方身份，确认是否认同CLEC长期投资理念。若被邀请进来的人查实是骗子、冒充人员、违规营销号，邀请人将一并移出群聊。近期冒充CLEC收费荐课、诱导转账的仿冒账号很多，请大家谨慎邀请，共同守住群内财产安全，只接纳同频长期投资伙伴。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c3">山东-专家</span><span class="when">08:59</span><span class="txt">各位老师 师兄 师姐上午好，本群已满员，更新一下入群规则：为共同守护社群安全，请大家邀请好友入群时要担负起审核责任，务必提前核实对方身份，确认是否认同CLEC长期投资理念。</span></div><div class="rm"><span class="who c3">山东-专家</span><span class="when">08:59</span><span class="txt">近期冒充CLEC收费荐课、诱导转账的仿冒账号很多，请大家谨慎邀请，共同守住群内财产安全，珍惜满员名额，只接纳同频长期投资伙伴。</span></div><div class="rm"><span class="who c6">陕西-Ryzcal</span><span class="when">09:09</span><span class="txt">收到</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">10:34–10:51 · 上午</div><h3>场内溢价不降反增：跌得少，所以溢价涨</h3><p>南京牛牛爱生活说场内溢价不降反增，溢价这么高，单价都便宜爆了。成都-夜曲解释，因为没有跌指数那么多，溢价率会涨。广东-自由之森算了一下，算上期货，溢价与上周五差不多。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c4">南京 牛牛爱生活</span><span class="when">10:34</span><span class="txt">场内溢价 不降反增</span></div><div class="rm"><span class="who c0">成都-夜曲</span><span class="when">10:34</span><span class="txt">因为没有跌指数那么多，溢价率会涨</span></div><div class="rm"><span class="who c4">南京 牛牛爱生活</span><span class="when">10:42</span><span class="txt">溢价这么高，单价都便宜爆了</span></div><div class="rm"><span class="who c4">广东-自由之森</span><span class="when">10:51</span><span class="txt">算上期货，溢价与上周五差不多</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">11:34–12:21 · 上午到中午</div><h3>QQQ盘中一度跌至606.22，截图显示跌5.67%</h3><p>南京牛牛爱生活说溢价都要突破百分之二十了，都疯了。群里贴出的行情截图显示，QQQ盘中一度跌至六百零六点二二，上一交易日收盘六百四十五点零四，截图跌幅百分之五点六七。群里说见证历史。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c4">南京 牛牛爱生活</span><span class="when">11:34</span><span class="txt">溢价都要突破20了 都疯了</span></div><div class="rm"><span class="who c4">南京 牛牛爱生活</span><span class="when">11:34</span><span class="txt">溢价都要突破20了 都疯了</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">13:46–14:02 · 下午</div><h3>溢价继续走高：嘉实23%，513100报22.74%</h3><p>宁波-吴连杰问，今天溢价怎么又高了。北京-东东侠说嘉实溢价二十三了。群里贴出的实时参考净值显示，五一三一零零溢价率百分之二十二点七四。北京王浩说这溢价，根本下不来。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">宁波-吴连杰</span><span class="when">13:46</span><span class="txt">今天溢价怎么又高了？</span></div><div class="rm"><span class="who c7">北京 - 东东侠 CLEC</span><span class="when">13:49</span><span class="txt">嘉实溢价23了</span></div><div class="rm"><span class="who c7">北京王浩</span><span class="when">14:08</span><span class="txt">这溢价，根本下不来</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">14:08–14:10 · 下午</div><h3>北京王浩的啤酒比喻：买的资产，四分之一是水分</h3><p>北京王浩说买的资产，四分之一是水分；一杯啤酒，四分之一是啤酒泡沫。广东清远--定投改变命运接了一句干了，兄弟。陈小婷天津说不纠结溢价，我都已经买完了，躺平。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c7">北京王浩</span><span class="when">14:09</span><span class="txt">买的资产，1/4是水分</span></div><div class="rm"><span class="who c7">北京王浩</span><span class="when">14:09</span><span class="txt">一杯啤酒，1/4 是啤酒泡沫</span></div><div class="rm"><span class="who c4">陈小婷天津</span><span class="when">14:10</span><span class="txt">不纠结溢价，我都已经买完了，躺平</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">17:43–17:48 · 晚上</div><h3>长沙柯言：溢价对我们也很温柔；柚子：经历会让人成长</h3><p>长沙柯言发表感想，在看《投资最重要的事》时觉得，我们此时此刻就是在学习投资最重要的经验，而且场内纳指溢价对我们也很温柔，让我们既经历了QQQ的大跌，实际上又没有太大的亏损，妙哉妙哉。柚子接了一句，经历会让人成长，投资经历也是一样。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c7">长沙柯言 Keyan</span><span class="when">17:43</span><span class="txt">我在看《投资最重要的事》看到这句话，我觉得我们此时此刻就是在学习投资最重要的经验，而且场内纳指溢价对我们也很温柔，让我们既经历了QQQ的大跌，但是实际上又没有太大的亏损，妙哉妙哉。</span></div><div class="rm"><span class="who c1">柚子 CLEC</span><span class="when">17:44</span><span class="txt">经历会让人成长，投资经历也是一样</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">22:00–22:09 · 晚上</div><h3>英伟达董事会宣布恢复黄仁勋总裁、首席执行官及董事会成员职务</h3><p>东方财富快讯转来消息：英伟达董事会恢复黄仁勋总裁、首席执行官及董事会成员职务。公告称董事会一致投票决定，在与美国政府高层进行一系列讨论和会谈后，董事会确认恢复职务不构成国家安全风险。黄仁勋回应，很荣幸能重返工作岗位，迫不及待。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c5">东方财富快讯</span><span class="when">22:00</span><span class="txt">英伟达董事会恢复黄仁勋CEO职务</span></div><div class="rm"><span class="who c5">东方财富快讯</span><span class="when">22:09</span><span class="txt">英伟达董事会恢复黄仁勋总裁、首席执行官及董事会成员职务</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">22:34–22:36 · 晚上</div><h3>纳指100期货涨近7%后因波动过大短暂暂停交易</h3><p>群里转来消息，纳斯达克一百指数期货涨百分之七后，因波动过大短暂暂停交易。行情截图显示，纳指一百期货涨百分之六点九七，报二万六千八百七十八点五零。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c1">纳斯达克100指数期货</span><span class="when">22:34</span><span class="txt">涨7％后，因波动过大短暂暂停交易。</span></div><div class="rm"><span class="who c1">纳斯达克100指数期货</span><span class="when">22:36</span><span class="txt">26,878.50</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">22:48–23:18 · 晚上</div><h3>见证历史：NVDA盘前涨超两成，QQQ盘前回到650附近</h3><p>广东清远--定投改变命运晚间呼应：比如说今天晚上这个就很好的例子，必须一直待在场内，如果去掉一根百分之六的红K，那整年的收益估计一半都没了。杭州-树树说见证历史了，荣幸荣幸。群里贴出的盘前行情显示，英伟达盘前一度涨百分之二十七到百分之三十四，QQQ盘前报六百四十八点六三、六百五十点二一、六百五十二点四六。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c3">广东清远--定投改变命运</span><span class="when">22:48</span><span class="txt">比如说今天晚上这个就很好的例子。必须一直待在场内。如果去掉一根6%的红k，那那整年的收益估计一半都没了。</span></div><div class="rm"><span class="who c2">杭州-树树</span><span class="when">22:51</span><span class="txt">见证历史了 荣幸荣幸</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+</div></div>
+
+<div class="section c6"><div class="sec-head"><span class="sec-num n2">02</span><h2>群内热度排序话题 TOP10</h2><span class="sdesc">HOT</span></div>
+<div class="topic"><h3><span class="rank">1</span>英伟达董事会恢复黄仁勋职务，NVDA盘前涨超两成</h3><div class="tags"><span class="tag b">市场</span><span class="tag r">突发</span></div><div class="meta">22:00–22:09 · 晚上</div><p>东方财富快讯转来消息：英伟达董事会恢复黄仁勋总裁、首席执行官及董事会成员职务，董事会一致投票，在与美国政府高层讨论后确认不构成国家安全风险。群里贴出的盘前行情显示，英伟达盘前一度涨百分之二十七到百分之三十四。</p><div class="quote">英伟达董事会恢复黄仁勋CEO职务</div></div>
+<div class="topic"><h3><span class="rank">2</span>纳指期货涨近7%后暂停交易，QQQ盘前回到650附近</h3><div class="tags"><span class="tag b">市场</span><span class="tag g">期货</span></div><div class="meta">22:34–23:18 · 晚上</div><p>纳斯达克一百指数期货涨百分之六点九七，报二万六千八百七十八点五零，涨百分之七后因波动过大短暂暂停交易。QQQ盘前报六百四十八点六三、六百五十点二一、六百五十二点四六。</p><div class="quote">见证历史了 荣幸荣幸</div></div>
+<div class="topic"><h3><span class="rank">3</span>场内溢价创新高：159509纳指科技44%</h3><div class="tags"><span class="tag r">溢价</span><span class="tag y">场内</span></div><div class="meta">10:34–14:08 · 全天</div><p>全天的主线就是溢价：场内跌得少所以溢价涨，纳指科技溢价报百分之四十四，群里说活久见。五一三一零零溢价百分之二十二点七四，嘉实溢价百分之二十三，北京王浩说这溢价，根本下不来。</p><div class="quote">这溢价，根本下不来</div></div>
+<div class="topic"><h3><span class="rank">4</span>“少数几天”：一千天里最值钱的约只有十天</h3><div class="tags"><span class="tag p">心态</span><span class="tag g">长文</span></div><div class="meta">08:44–08:58 · 早上</div><p>山东-Gargener转来小红书笔记：交易里大部分收益只源于少数几天，一千天里最值钱的约只有十天。湖北-Du说雷劈下来的时候也得在场，山东-Gargener说下跌时或买或熬，没有其他选择。</p><div class="quote">雷劈下来的时候也得在场</div></div>
+<div class="topic"><h3><span class="rank">5</span>入群规则更新：满员，只接纳同频长期投资伙伴</h3><div class="tags"><span class="tag b">群规</span><span class="tag r">安全</span></div><div class="meta">08:59–09:10 · 早上</div><p>山东-专家发了入群规则更新：本群已满员，邀请好友入群时要担负起审核责任，务必提前核实对方身份，确认是否认同CLEC长期投资理念。近期冒充CLEC收费荐课、诱导转账的仿冒账号很多，请大家谨慎邀请。</p><div class="quote">只接纳同频长期投资伙伴</div></div>
+<div class="topic"><h3><span class="rank">6</span>啤酒泡沫：买的资产，四分之一是水分</h3><div class="tags"><span class="tag r">溢价</span><span class="tag y">比喻</span></div><div class="meta">14:08–14:10 · 下午</div><p>北京王浩说买的资产，四分之一是水分；一杯啤酒，四分之一是啤酒泡沫。广东清远--定投改变命运接了一句干了，兄弟。陈小婷天津说不纠结溢价，我都已经买完了，躺平。</p><div class="quote">一杯啤酒，1/4 是啤酒泡沫</div></div>
+<div class="topic"><h3><span class="rank">7</span>溢价对我们也很温柔：既经历大跌，又没太大亏损</h3><div class="tags"><span class="tag p">心态</span><span class="tag r">溢价</span></div><div class="meta">17:43–17:48 · 晚上</div><p>长沙柯言在读《投资最重要的事》时感慨，我们此时此刻就是在学习投资最重要的经验，而且场内纳指溢价对我们也很温柔，让我们既经历了QQQ的大跌，实际上又没有太大的亏损。柚子说经历会让人成长，投资经历也是一样。</p><div class="quote">妙哉妙哉</div></div>
+<div class="topic"><h3><span class="rank">8</span>必须一直待在场内：去掉一根6%的红K，整年收益少一半</h3><div class="tags"><span class="tag p">心态</span><span class="tag g">持有</span></div><div class="meta">23:18 · 晚上</div><p>广东清远--定投改变命运晚间呼应：必须一直待在场内。如果去掉一根百分之六的红K，那整年的收益估计一半都没了。</p><div class="quote">必须一直待在场内</div></div>
+<div class="topic"><h3><span class="rank">9</span>QQQ盘中一度跌至606.22，上周五收645.04</h3><div class="tags"><span class="tag b">市场</span><span class="tag g">数据</span></div><div class="meta">11:34–12:21 · 上午到中午</div><p>群里贴出的行情截图显示，QQQ盘中一度跌至六百零六点二二，上一交易日收盘六百四十五点零四，截图跌幅百分之五点六七。南京牛牛爱生活说溢价都要突破百分之二十了，都疯了。</p><div class="quote">溢价都要突破20了 都疯了</div></div>
+<div class="topic"><h3><span class="rank">10</span>标普500期货涨4.69%，报7234.20</h3><div class="tags"><span class="tag b">市场</span><span class="tag g">期货</span></div><div class="meta">晚上</div><p>群里转来的行情显示，标普五百期货涨百分之四点六九，报七千二百三十四点二零。纳指一百期货与标普期货晚间同步走高。</p><div class="quote">标普500期货涨4.69%</div></div>
+</div>
+
+<div class="section c1"><div class="sec-head"><span class="sec-num n3">03</span><h2>今日群核心观点</h2><span class="sdesc">PRINCIPLES</span></div><ol class="view">
+<li><strong>交易里大部分收益只源于少数几天</strong><span class="muted">山东-Gargener转来的小红书笔记里的说法：一千天里最值钱的约只有十天。 <span class="hl">交易里大部分收益只源于少数几天。</span></span></li>
+<li><strong>雷劈下来的时候也得在场</strong><span class="muted">湖北-Du接了一句：下跌时或买或熬，没有其他选择。 <span class="hl">雷劈下来的时候也得在场。</span></span></li>
+<li><strong>下跌时或买或熬，没有其他选择</strong><span class="muted">山东-Gargener的话：交易里大部分收益只源于少数几天。 <span class="hl">下跌时或买或熬，没有其他选择。</span></span></li>
+<li><strong>买的资产，四分之一是水分</strong><span class="muted">北京王浩的比喻：一杯啤酒，四分之一是啤酒泡沫。 <span class="hl">买的资产，四分之一是水分。</span></span></li>
+<li><strong>不纠结溢价，我都已经买完了，躺平</strong><span class="muted">陈小婷天津的话：溢价突破百分之二十之后说的。 <span class="hl">不纠结溢价，我都已经买完了，躺平。</span></span></li>
+<li><strong>经历会让人成长，投资经历也是一样</strong><span class="muted">柚子晚上的话：场内纳指溢价对我们也很温柔之后接的。 <span class="hl">经历会让人成长，投资经历也是一样。</span></span></li>
+<li><strong>我们此时此刻就是在学习投资最重要的经验</strong><span class="muted">长沙柯言在读《投资最重要的事》时的感想。 <span class="hl">我们此时此刻就是在学习投资最重要的经验。</span></span></li>
+<li><strong>必须一直待在场内</strong><span class="muted">广东清远--定投改变命运晚间的呼应：如果去掉一根百分之六的红K，那整年的收益估计一半都没了。 <span class="hl">必须一直待在场内。</span></span></li>
+</ol></div>
+
+<div class="section c2"><div class="sec-head"><span class="sec-num n4">04</span><h2>纳指 / 主题相关讨论重点</h2><span class="sdesc">MARKET</span></div><div class="disc">仅作当日群聊事实整理，不构成投资建议，不预测涨跌。</div><ol class="view">
+<li><strong>QQQ盘中一度跌至606.22，截图显示跌5.67%</strong><span class="muted">群里贴出的行情截图里的数字，群里没有展开核对。 <span class="hl">仅为群内转述：QQQ盘中一度跌至606.22，截图显示跌5.67%。</span></span></li>
+<li><strong>159509纳指科技溢价44%</strong><span class="muted">群里全天讨论的溢价数字，群里没有展开核对。 <span class="hl">仅为群内提到的数字：159509纳指科技溢价44%。</span></span></li>
+<li><strong>513100溢价22.74%，嘉实溢价23%</strong><span class="muted">群里贴出的实时参考净值与群友报的数字，群里没有展开核对。 <span class="hl">仅为群内提到的数字：513100溢价22.74%，嘉实溢价23%。</span></span></li>
+<li><strong>英伟达盘前一度涨27%至34%</strong><span class="muted">群里贴出的盘前行情截图里的数字，群里没有展开核对。 <span class="hl">仅为群内转述：英伟达盘前一度涨27%至34%。</span></span></li>
+<li><strong>纳指100期货涨6.10%至26,660.25，最高涨6.97%至26,878.50</strong><span class="muted">群里转来的期货行情里的数字，群里没有展开核对。 <span class="hl">仅为群内提到的数字：纳指100期货涨6.10%至26,660.25，最高涨6.97%至26,878.50。</span></span></li>
+<li><strong>QQQ盘前648.63、650.21、652.46</strong><span class="muted">群里贴出的不同时点盘前行情截图里的数字，群里没有展开核对。 <span class="hl">仅为群内提到的数字：QQQ盘前648.63、650.21、652.46。</span></span></li>
+<li><strong>标普500期货涨4.69%，报7,234.20</strong><span class="muted">群里转来的行情里的数字，群里没有展开核对。 <span class="hl">仅为群内转述：标普500期货涨4.69%，报7,234.20。</span></span></li>
+<li><strong>一千天里最值钱的约只有十天</strong><span class="muted">山东-Gargener转来的小红书笔记里的说法，群里没有展开核对。 <span class="hl">仅为群内转述：一千天里最值钱的约只有十天。</span></span></li>
+</ol></div>
+
+<div class="section"><div class="sec-head"><span class="sec-num n5">05</span><h2>知识分享 · 书籍分享</h2><span class="sdesc">KNOWLEDGE</span></div><div class="lgrid" style="margin-bottom:14px">
+<div class="litem"><span class="name">小红书笔记《交易里大部分收益只源于少数几天》</span><span class="plain">山东-Gargener转来；一千天里最值钱的约只有十天。</span></div>
+<div class="litem"><span class="name">《投资最重要的事》</span><span class="plain">长沙柯言在读；我们此时此刻就是在学习投资最重要的经验。</span></div>
+<div class="litem"><span class="name">英伟达董事会恢复黄仁勋职务公告（东方财富快讯）</span><span class="plain">晚上十点转来；董事会一致投票，确认恢复职务不构成国家安全风险。</span></div>
+<div class="litem"><span class="name">纳指100期货行情截图</span><span class="plain">晚上十点三十六分；涨百分之六点九七，报二万六千八百七十八点五零。</span></div>
+<div class="litem"><span class="name">QQQ盘前行情截图</span><span class="plain">晚上十一点十六分至十八分；盘前报六百四十八点六三至六百五十二点四六。</span></div>
+<div class="litem"><span class="name">入群规则更新</span><span class="plain">山东-专家发布；本群已满员，邀请人要担负起审核责任。</span></div>
+</div></div>
+
+<div class="section c3"><div class="sec-head"><span class="sec-num n6">06</span><h2>待大家后续关注问题</h2><span class="sdesc">WATCH</span></div>
+<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-left:3px solid #7c5cd6;border-radius:12px;padding:12px 14px;margin-bottom:14px"><div style="font-weight:800;font-size:14px;color:#5b21b6;margin-bottom:6px">📌 昨日待关注 · 回访</div><div style="font-size:13.5px;color:#4b5563;line-height:1.7">① <strong>英伟达、PCE、FOMC 三件事之后市场反应</strong>——晚间英伟达董事会宣布恢复黄仁勋总裁、首席执行官及董事会成员职务，董事会一致投票；英伟达盘前一度涨27%至34%，纳指100期货涨近7%。状态：<strong>已有进展</strong>。<br>② <strong>159659 的溢价后续变化</strong>——全天都在讨论溢价：159509纳指科技溢价44%，513100溢价22.74%，嘉实溢价23%，159659也在20%以上；群里反复讨论“溢价根本下不来”。状态：<strong>已有进展</strong>。<br>③ <strong>书库 222 项、219 本之后的新书同步</strong>——今天1群记录里没有提到书库，也没有新书同步的消息。状态：<strong>今日无新消息</strong>。</div></div>
+<ol class="view">
+<li><span class="lbl w">待关注</span><strong>英伟达复职之后美股开盘反应</strong><span class="muted">董事会恢复黄仁勋职务；英伟达盘前一度涨27%至34%。</span></li>
+<li><span class="lbl w">待关注</span><strong>纳指期货涨近7%之后，明天场内溢价变化</strong><span class="muted">纳指100期货涨6.97%后短暂暂停交易；QQQ盘前回到650附近。</span></li>
+<li><span class="lbl w">待关注</span><strong>159509纳指科技44%溢价后续</strong><span class="muted">群里说活久见；全天都在讨论溢价根本下不来。</span></li>
+<li><span class="lbl w">待关注</span><strong>513100、嘉实溢价后续</strong><span class="muted">513100溢价22.74%，嘉实溢价23%。</span></li>
+<li><span class="lbl w">待关注</span><strong>“少数几天”论后续讨论</strong><span class="muted">山东-Gargener转小红书笔记；一千天里最值钱的约只有十天。</span></li>
+<li><span class="lbl w">待关注</span><strong>入群口令验证制度执行情况</strong><span class="muted">山东-专家更新入群规则；邀请人要担负起审核责任。</span></li>
+<li><span class="lbl w">待关注</span><strong>冒充CLEC收费荐课仿冒账号防范</strong><span class="muted">近期冒充账号很多；只接纳同频长期投资伙伴。</span></li>
+<li><span class="lbl w">待关注</span><strong>《投资最重要的事》阅读分享后续</strong><span class="muted">长沙柯言在读；我们此时此刻就是在学习投资最重要的经验。</span></li>
+<li><span class="lbl x">红线</span><strong>转发的盘前涨幅与期货数字未经核实，不要当成结论</strong><span class="muted"><span class="red">英伟达盘前涨幅、纳指期货涨幅、QQQ盘前价都只是群内转述的截图数字。</span></span></li>
+<li><span class="lbl x">红线</span><strong>溢价高不代表安全，买之前先想清备用金</strong><span class="muted"><span class="red">场内溢价创新高；买的资产四分之一是水分只是群友的比喻。</span></span></li>
+<li><span class="lbl x">红线</span><strong>不要只看“大奇迹日”就冲动加仓</strong><span class="muted"><span class="red">见证历史是群友的感慨；加仓之前先想清生活备用金够不够。</span></span></li>
+</ol></div>
+
+<div class="section c4"><div class="sec-head"><span class="sec-num n7">07</span><h2>闲聊杂项</h2><span class="sdesc">CHAT</span></div><ol class="view">
+<li><strong>见证历史了，荣幸荣幸</strong><span class="muted">杭州-树树晚上十一点五十一分的话；英伟达复职消息出来之后。</span></li>
+<li><strong>干了，兄弟</strong><span class="muted">广东清远--定投改变命运下午的话；接北京王浩的啤酒比喻。</span></li>
+<li><strong>妙哉妙哉</strong><span class="muted">长沙柯言晚上的感慨；溢价对我们也很温柔，既经历大跌又没太大亏损。</span></li>
+<li><strong>妥妥的修行，我今天都抄经书了</strong><span class="muted">曾琼深圳儿童牙齿矫正晚上的话；接柚子“经历会让人成长”。</span></li>
+</ol></div>
+
+<div class="section learn"><div class="sec-head"><span class="sec-num n8">08</span><h2>📚 CLEC 学习资源</h2><span class="sdesc">LEARN</span></div><p class="learn-lead">大家可自行查阅。建议先保存「CLEC 资料中心」这一个入口，日报、电子书、网盘和课程都会在里面持续更新。</p>
+<p class="learn-h" style="margin:12px 0 6px;font-weight:700;color:#0f9d76">资料中心入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 资料中心</span><a href="https://clec888.cn" target="_blank" rel="noopener">https://clec888.cn</a><span class="plain">（资料中心固定入口）</span></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">日报 / 语音入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 群日报快速版</span><a href="https://daily.clec888.cn" target="_blank" rel="noopener">https://daily.clec888.cn</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">资料网盘</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 投资理财频道 百度盘</span><a href="https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC" target="_blank" rel="noopener">https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC</a></div>
+<div class="litem"><span class="name">CLEC官方云端文件</span><a href="https://u.pcloud.link/publink/show?code=Mx3italK" target="_blank" rel="noopener">https://u.pcloud.link/publink/show?code=Mx3italK</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">CLEC 官方推荐</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC James 本人</span><a href="https://x.com/CLEC168" target="_blank" rel="noopener">https://x.com/CLEC168</a></div>
+<div class="litem"><span class="name">CLEC168</span><a href="https://clec168.com/zh" target="_blank" rel="noopener">https://clec168.com/zh</a></div>
+<div class="litem"><span class="name">CLEC 台湾</span><a href="https://clectw.com/" target="_blank" rel="noopener">https://clectw.com/</a></div>
+<div class="litem"><span class="name">乘丰舰长生命舰队</span><a href="https://cfnavi.org/" target="_blank" rel="noopener">https://cfnavi.org/</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">视频与音频</p>
+<div class="lgrid">
+<div class="litem"><span class="name">哔哩哔哩 · CLEC投资理财</span><a href="https://space.bilibili.com/491004348?spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://space.bilibili.com/491004348?spm_id_from=333.337.0.0</a></div>
+<div class="litem"><span class="name">哔哩哔哩 · CLEC168投资理财频道</span><a href="https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click" target="_blank" rel="noopener">https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click</a></div>
+<div class="litem"><span class="name">喜马拉雅 · 听 CLEC 说投资</span><a href="https://xima.tv/1_m6RQX8" target="_blank" rel="noopener">https://xima.tv/1_m6RQX8</a></div>
+<div class="litem"><span class="name">小宇宙 · CLEC投资理财教育学院</span><a href="https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2" target="_blank" rel="noopener">https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2</a></div>
+<div class="litem"><span class="name">腾讯视频号</span><span class="plain">微信视频号「CLEC投资理财」· 公众号「CLEC」</span></div>
+</div>
+<div class="learn-foot">愿我们一同践行 CLEC 理念，坚守长期，持续学习，财富与心灵同步成长，感谢大家配合！<div class="note">备注：群内内容不构成任何投资建议，投资有风险，入市需谨慎。</div></div></div>
+
+
+<div class="foot"><p class="big">富有是天赋，快乐是人权，有钱就买，打死不卖！</p><p class="small">本周合集仅作群聊信息整理，不构成任何投资建议，不预测涨跌。📊</p></div>
+<div class="source">数据来源：CLEC世界粉丝同乐会1群 聊天记录 · 整理时间 2026-11-24 06:00</div>
+</section>
+
+<section class="panel group-panel" data-group="2" id="g-2-1123">
+<div class="hero"><span class="badge">📈 微信群日报 · DAILY</span><h1>CLEC世界粉丝2群日报</h1><div class="sub">James 老师🇨🇳纳指投资粉丝群</div><div class="chips"><span class="chip">📅 2026-11-23</span><span class="chip">⏰ 00:09 ~ 23:54</span><span class="chip">💬 约 780 条消息</span></div></div>
+<div class="slogan">富有是天赋，快乐是人权，有钱就买，打死不卖！</div>
+<div class="audio-bar" style="margin:12px 0;padding:10px 12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;font-size:14px;color:#0f9d76">🎧 今日语音播报（约5分27秒）· 播报者：云扬<br><audio controls preload="none" style="width:100%" src="audio/2026-11-23-g2.mp3"></audio></div>
+<div class="section c5"><div class="sec-head"><span class="sec-num n1">01</span><h2>今日大事记</h2><span class="sdesc">TIMELINE</span></div><div class="tl">
+<div class="ev"><div class="t">10:51–10:56 · 上午</div><h3>硅谷居士SMH翻倍预测引争议：老师会不会说明年翻倍</h3><p>广州xp转来硅谷居士九月二日的帖子：半导体基金SMH里权重最高的四个公司是英伟达、博通、台积电和美光，利润都在高速增长，到明年这个时候，SMH有可能翻番，如果你有闲钱，我建议尽快加仓，别等了。广州xp说他说的也是可能吧。范佩西说老师不会说明年QQQ有可能翻倍，山东garden说投资是自己的事情。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c5">广州 xp</span><span class="when">10:55</span><span class="txt">到明年这个时候，SMH有可能翻番。如果你有闲钱，我建议尽快加仓，别等了。</span></div><div class="rm"><span class="who c5">广州 xp</span><span class="when">10:55</span><span class="txt">他说的也是可能吧</span></div><div class="rm"><span class="who c2">范佩西 CLEC</span><span class="when">10:56</span><span class="txt">老师不会说明年qqq有可能翻倍</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">11:00–11:02 · 上午</div><h3>武汉音十：老师2022年全部转成QQQ也吃到了跌，拿到现在翻倍了</h3><p>武汉音十说，老师在二零二二年也是那一年全部转成了QQQ，然后也吃到了跌，拿到现在也翻倍啦。山东garden说能预测股市的神，我们就是普通人，很幸运遇到老师了，就当存了十年定期。成都-夏夏说殊途同归，意思都是现在便宜，未来更贵。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c3">武汉 音十</span><span class="when">11:00</span><span class="txt">对呀，不过没关系，我看2022年的clec，老师也是那一年全部转成了QQQ，然后也吃到了跌，拿到现在也翻倍啦！</span></div><div class="rm"><span class="who c6">山东 garden</span><span class="when">11:00</span><span class="txt">能预测股市的神，我们就是普通人。很幸运遇到老师啦，早上不说了，就当存了10年定期，打开香喷喷</span></div><div class="rm"><span class="who c0">成都-夏夏</span><span class="when">11:01</span><span class="txt">殊途同归，意思都是现在便宜，未来更贵</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">11:26 · 上午</div><h3>“401K变成301K”：X上美国人的自嘲被转进群</h3><p>群友转来X上美国人的说法，看到美国的人说他们四零一K变成三零一K了。群里当笑话看，没有展开讨论。</p></div>
+<div class="ev"><div class="t">14:38–14:49 · 下午</div><h3>贷款讨论：先息后本还是等额本息，老师更推荐哪种</h3><p>群友请教贷款的事：老师推荐的是先息后本，贷款年限越长越好是吧。北京可乐说其实老师更推荐等额本息，这样更容易还得上，因为银行每月强制你还钱；先息后本，你就要自己提前规划存钱还款。群里还讨论了等额本息资金利用率低、但不存在调头风险，先息后本考虑的是借新还旧、资金利用率高。北京可乐总结了一句，聪明的人解决风险，智慧的人避开风险。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">北京 可乐</span><span class="when">14:49</span><span class="txt">其实老师更推荐等额本息，这样更容易换的上，因为银行每月强制你还钱，先息后本，你就要自己提前规划存钱还款，都是</span></div><div class="rm"><span class="who c2">北京 可乐</span><span class="when">14:49</span><span class="txt">聪明的人解决风险，智慧的人避开风险</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">16:13–16:22 · 下午</div><h3>摩根亚洲股票高息基金：年化派息约11.5%，能不能当退休现金流</h3><p>北京-瑞瑞Flora问，有人研究过摩根亚洲股票高息基金吗，派息率看起来还挺高，不过是今年四月才成立的。她贴出数据：人民币对冲份额每月派息，每份派息税前零点零八零一元，年化派息率税前百分之十一点五，税后百分之九点二。苏州-Paul说波动不小，而且是主动管理的基金，要当退休现金流的不太保险。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">北京 - 瑞瑞Flora</span><span class="when">16:13</span><span class="txt">有人研究过摩根亚洲股票高息基金吗，派息率看起来还挺高，不过是今年4月才成立的</span></div><div class="rm"><span class="who c0">北京 - 瑞瑞Flora</span><span class="when">16:14</span><span class="txt">年化派息率（税前）11.50% 税后9.20%</span></div><div class="rm"><span class="who c4">苏州-Paul</span><span class="when">16:22</span><span class="txt">嗯，波动不小，而且是主动管理的基金，要当退休现金流的不太保险</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">16:58 · 下午</div><h3>淑芬分享：2008年每年存3万美元进403(b)，跌一半也没转债券，55岁退休</h3><p>浙江-不看转述淑芬的分享：二零零八年在学校工作，每年存三万美元进四零三B与罗斯个人退休账户，跌了一半也没有转去债券，五十五岁顺利退休；当年转去安全地方的老板现在还在上班。老师回复说用你自己的步伐走绝对没错，跷着买、散步买、跑着买都可以，重点是要买完、不要停；我的责任就是把月台上所有人踢上车。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c5">浙江-不看</span><span class="when">16:58</span><span class="txt">淑芬分享：2008年在学校工作、每年存三万美元进403（b）与Roth IRA，跌了一半也没有转去债券，55岁顺利退休；当年转去「安全地方』的老板现在还在上班。</span></div><div class="rm"><span class="who c5">浙江-不看</span><span class="when">16:58</span><span class="txt">老师回复：用你自己的步伐走绝对没错，跷着买、散步买、跑着买都可以，重点是要「买完」、不要停</span></div><div class="rm"><span class="who c5">浙江-不看</span><span class="when">16:58</span><span class="txt">老师回复：我的责任就是把月台上所有人踢上车</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">18:02–18:03 · 晚上</div><h3>柚子发群规提醒：发言注意敏感词，尽量用英文字母或代名词</h3><p>柚子CLEC发了群规提醒：大家发言注意敏感词，尽量用英文字母或代名词讨论；群聊都有监控，敏感词汇触发就会被处理。五条群规包括禁止广告引流、造谣八卦、刷屏吵架、转发不实消息等。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c1">柚子 CLEC</span><span class="when">18:02</span><span class="txt">大家发言注意敏感词</span></div><div class="rm"><span class="who c1">柚子 CLEC</span><span class="when">18:03</span><span class="txt">4、禁止转发不实消息，不传播短线投机、恐慌言论</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">19:25–19:47 · 晚上</div><h3>VXN报45.96，涨25.99%：小猪表格称40以上为恐慌区</h3><p>成都-夜曲贴出数据：VXN纳指波动指数四十五点九六，涨百分之二十五点九九。小猪的表格称四十以上为恐慌区。苏州时雨说上次出现这个数值是二零二零年三月。北京寒江雪说VXN恐慌区买入有百分之九十的胜率，群里没有展开核对。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">成都-夜曲</span><span class="when">19:25</span><span class="txt">VXN納指波动指数 45.96 9.48 25.99%</span></div><div class="rm"><span class="who c3">苏州时雨</span><span class="when">19:47</span><span class="txt">上次出现这个数值是2020年3月</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">20:43–21:58 · 晚上</div><h3>英伟达盘前走强，董事会恢复黄仁勋职务的消息进群</h3><p>深圳紫紫晚上八点四十三分说英伟达盘前牛了。晚上九点五十八分，财经快讯转来消息：英伟达董事会恢复黄仁勋总裁兼首席执行官职务，阅读量八百零三点五万。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">深圳紫紫</span><span class="when">20:43</span><span class="txt">英伟达盘前牛了</span></div><div class="rm"><span class="who c3">财经快讯</span><span class="when">21:58</span><span class="txt">英伟达董事会恢复黄仁勋总裁兼首席执行官职务。</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">23:21–23:23 · 晚上</div><h3>末日期权27倍截图流传，江苏Coisini忠告不要碰</h3><p>群里流传一张截图：有人说我买了九十万的英伟达，赚了二十七倍。江苏Coisini忠告，不要碰末日期权，赌博只有零和无数次。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c4">江苏 Coisini</span><span class="when">23:23</span><span class="txt">不要碰末日期权，赌博只有零和无数次</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+</div></div>
+
+<div class="section c6"><div class="sec-head"><span class="sec-num n2">02</span><h2>群内热度排序话题 TOP10</h2><span class="sdesc">HOT</span></div>
+<div class="topic"><h3><span class="rank">1</span>硅谷居士：SMH到明年这个时候有可能翻番</h3><div class="tags"><span class="tag r">预测</span><span class="tag b">半导体</span></div><div class="meta">10:51–10:56 · 上午</div><p>广州xp转来硅谷居士九月二日的帖子：半导体基金SMH里权重最高的四个公司是英伟达、博通、台积电和美光，利润都在高速增长，到明年这个时候，SMH有可能翻番。范佩西说老师不会说明年QQQ有可能翻倍，山东garden说投资是自己的事情。</p><div class="quote">到明年这个时候，SMH有可能翻番</div></div>
+<div class="topic"><h3><span class="rank">2</span>贷款：先息后本还是等额本息</h3><div class="tags"><span class="tag y">贷款</span><span class="tag g">还款</span></div><div class="meta">14:38–14:49 · 下午</div><p>群友请教贷款的事。北京可乐说其实老师更推荐等额本息，这样更容易还得上，因为银行每月强制你还钱；先息后本，你就要自己提前规划存钱还款。群里还讨论了等额本息资金利用率低、但不存在调头风险。</p><div class="quote">聪明的人解决风险，智慧的人避开风险</div></div>
+<div class="topic"><h3><span class="rank">3</span>淑芬分享：跌一半也没转债券，55岁顺利退休</h3><div class="tags"><span class="tag p">人物</span><span class="tag g">长期</span></div><div class="meta">16:58 · 下午</div><p>浙江-不看转述淑芬的分享：二零零八年在学校工作，每年存三万美元进四零三B与罗斯个人退休账户，跌了一半也没有转去债券，五十五岁顺利退休。老师回复说用你自己的步伐走绝对没错，重点是要买完、不要停。</p><div class="quote">用你自己的步伐走绝对没错</div></div>
+<div class="topic"><h3><span class="rank">4</span>摩根亚洲股票高息基金：年化派息约11.5%</h3><div class="tags"><span class="tag b">基金</span><span class="tag y">派息</span></div><div class="meta">16:13–16:22 · 下午</div><p>北京-瑞瑞Flora问有人研究过摩根亚洲股票高息基金吗，派息率看起来还挺高。数据是年化派息率税前百分之十一点五，税后百分之九点二。苏州-Paul说波动不小，而且是主动管理的基金，要当退休现金流的不太保险。</p><div class="quote">年化派息率（税前）11.50%</div></div>
+<div class="topic"><h3><span class="rank">5</span>VXN报45.96，涨25.99%，40以上为恐慌区</h3><div class="tags"><span class="tag r">波动</span><span class="tag g">数据</span></div><div class="meta">19:25–19:47 · 晚上</div><p>成都-夜曲贴出数据：VXN纳指波动指数四十五点九六，涨百分之二十五点九九。小猪的表格称四十以上为恐慌区。苏州时雨说上次出现这个数值是二零二零年三月。</p><div class="quote">上次出现这个数值是2020年3月</div></div>
+<div class="topic"><h3><span class="rank">6</span>柚子发群规提醒：发言注意敏感词</h3><div class="tags"><span class="tag b">群规</span><span class="tag r">安全</span></div><div class="meta">18:02–18:03 · 晚上</div><p>柚子CLEC发了群规提醒：大家发言注意敏感词，尽量用英文字母或代名词讨论。五条群规包括禁止广告引流、造谣八卦、刷屏吵架、转发不实消息等。</p><div class="quote">大家发言注意敏感词</div></div>
+<div class="topic"><h3><span class="rank">7</span>英伟达董事会恢复黄仁勋职务</h3><div class="tags"><span class="tag b">市场</span><span class="tag r">突发</span></div><div class="meta">20:43–21:58 · 晚上</div><p>深圳紫紫说英伟达盘前牛了。晚上九点五十八分，财经快讯转来消息：英伟达董事会恢复黄仁勋总裁兼首席执行官职务，阅读量八百零三点五万。</p><div class="quote">英伟达盘前牛了</div></div>
+<div class="topic"><h3><span class="rank">8</span>末日期权27倍截图流传</h3><div class="tags"><span class="tag r">期权</span><span class="tag y">提醒</span></div><div class="meta">23:21 · 晚上</div><p>群里流传一张截图：有人说我买了九十万的英伟达，赚了二十七倍。江苏Coisini忠告，不要碰末日期权，赌博只有零和无数次。</p><div class="quote">不要碰末日期权，赌博只有零和无数次</div></div>
+<div class="topic"><h3><span class="rank">9</span>“401K变成301K”：X上美国人的自嘲</h3><div class="tags"><span class="tag p">闲聊</span><span class="tag b">市场</span></div><div class="meta">11:26 · 上午</div><p>群友转来X上美国人的说法，看到美国的人说他们四零一K变成三零一K了。群里当笑话看，没有展开讨论。</p><div class="quote">401K变成301K</div></div>
+<div class="topic"><h3><span class="rank">10</span>老师2022年全部转成QQQ也吃到了跌，拿到现在翻倍了</h3><div class="tags"><span class="tag y">历史</span><span class="tag g">长期</span></div><div class="meta">11:00–11:02 · 上午</div><p>武汉音十说，老师在二零二二年也是那一年全部转成了QQQ，然后也吃到了跌，拿到现在也翻倍啦。山东garden说就当存了十年定期，成都-夏夏说殊途同归，意思都是现在便宜，未来更贵。</p><div class="quote">就当存了10年定期</div></div>
+</div>
+
+<div class="section c1"><div class="sec-head"><span class="sec-num n3">03</span><h2>今日群核心观点</h2><span class="sdesc">PRINCIPLES</span></div><ol class="view">
+<li><strong>到明年这个时候，SMH有可能翻番</strong><span class="muted">硅谷居士九月二日帖子里的说法：半导体基金SMH里权重最高的四个公司利润都在高速增长。 <span class="hl">到明年这个时候，SMH有可能翻番。</span></span></li>
+<li><strong>老师不会说明年QQQ有可能翻倍</strong><span class="muted">范佩西的话：居士帖子说的是可能，投资是自己的事情。 <span class="hl">老师不会说明年QQQ有可能翻倍。</span></span></li>
+<li><strong>用你自己的步伐走绝对没错</strong><span class="muted">老师回复淑芬分享时的话：跷着买、散步买、跑着买都可以，重点是要买完、不要停。 <span class="hl">用你自己的步伐走绝对没错。</span></span></li>
+<li><strong>我的责任就是把月台上所有人踢上车</strong><span class="muted">老师回复淑芬分享时的话：二零二零年二月九日高点二百三十四他也照买。 <span class="hl">我的责任就是把月台上所有人踢上车。</span></span></li>
+<li><strong>聪明的人解决风险，智慧的人避开风险</strong><span class="muted">北京可乐在贷款讨论里总结的一句。 <span class="hl">聪明的人解决风险，智慧的人避开风险。</span></span></li>
+<li><strong>只点还得起的兵</strong><span class="muted">北京可乐在贷款讨论里的话：老师更推荐等额本息，银行每月强制还钱。 <span class="hl">只点还得起的兵。</span></span></li>
+<li><strong>不要碰末日期权，赌博只有零和无数次</strong><span class="muted">江苏Coisini的忠告：群里流传一张末日期权二十七倍的截图之后说的。 <span class="hl">不要碰末日期权，赌博只有零和无数次。</span></span></li>
+<li><strong>就当存了十年定期，打开香喷喷</strong><span class="muted">山东garden的话：老师二零二二年全部转成QQQ也吃到了跌，拿到现在翻倍了。 <span class="hl">就当存了十年定期，打开香喷喷。</span></span></li>
+</ol></div>
+
+<div class="section c2"><div class="sec-head"><span class="sec-num n4">04</span><h2>纳指 / 主题相关讨论重点</h2><span class="sdesc">MARKET</span></div><div class="disc">仅作当日群聊事实整理，不构成投资建议，不预测涨跌。</div><ol class="view">
+<li><strong>SMH到明年这个时候有可能翻番</strong><span class="muted">硅谷居士九月二日帖子里的说法，群里有争议，范佩西说老师不会说明年QQQ有可能翻倍。 <span class="hl">仅为群内转述：SMH到明年这个时候有可能翻番。</span></span></li>
+<li><strong>VXN报45.96，涨25.99%，40以上为恐慌区</strong><span class="muted">成都-夜曲贴出的数据与小猪表格里的说法，群里没有展开核对。 <span class="hl">仅为群内提到的数字：VXN报45.96，涨25.99%，40以上为恐慌区。</span></span></li>
+<li><strong>VXN恐慌区买入有90%的胜率</strong><span class="muted">北京寒江雪的说法，群里没有展开核对。 <span class="hl">仅为群内说法：VXN恐慌区买入有90%的胜率。</span></span></li>
+<li><strong>摩根亚洲股票高息基金年化派息约11.5%（税前），税后9.2%</strong><span class="muted">北京-瑞瑞Flora贴出的数据，群里没有展开核对。 <span class="hl">仅为群内提到的数字：摩根亚洲股票高息基金年化派息约11.5%（税前），税后9.2%。</span></span></li>
+<li><strong>末日期权赚了27倍</strong><span class="muted">群里流传的截图里的说法，江苏Coisini忠告不要碰末日期权。 <span class="hl">仅为群内转述：末日期权赚了27倍。</span></span></li>
+<li><strong>淑芬每年存3万美元进403(b)与Roth IRA，55岁顺利退休</strong><span class="muted">浙江-不看转述的淑芬分享，群里没有展开核对。 <span class="hl">仅为群内转述：淑芬每年存3万美元进403(b)与Roth IRA，55岁顺利退休。</span></span></li>
+<li><strong>上次VXN出现这个数值是2020年3月</strong><span class="muted">苏州时雨的说法，群里没有展开核对。 <span class="hl">仅为群内说法：上次VXN出现这个数值是2020年3月。</span></span></li>
+<li><strong>老师2020年2月9日高点234也照买</strong><span class="muted">老师回复淑芬分享时提到的话，群里没有展开核对。 <span class="hl">仅为群内转述：老师2020年2月9日高点234也照买。</span></span></li>
+</ol></div>
+
+<div class="section"><div class="sec-head"><span class="sec-num n5">05</span><h2>知识分享 · 书籍分享</h2><span class="sdesc">KNOWLEDGE</span></div><div class="lgrid" style="margin-bottom:14px">
+<div class="litem"><span class="name">硅谷居士9月2日帖子《SMH有可能翻番》</span><span class="plain">广州xp转来；半导体基金SMH里权重最高的四个公司利润都在高速增长。</span></div>
+<div class="litem"><span class="name">淑芬分享：2008年每年存3万美元进403(b)</span><span class="plain">浙江-不看转述；跌一半也没转债券，55岁顺利退休。</span></div>
+<div class="litem"><span class="name">摩根亚洲股票高息基金派息数据</span><span class="plain">北京-瑞瑞Flora贴出；年化派息率税前11.50%，税后9.20%。</span></div>
+<div class="litem"><span class="name">VXN纳指波动指数45.96</span><span class="plain">成都-夜曲贴出；涨25.99%，小猪表格称40以上为恐慌区。</span></div>
+<div class="litem"><span class="name">群规提醒（柚子CLEC）</span><span class="plain">发言注意敏感词，尽量用英文字母或代名词讨论。</span></div>
+<div class="litem"><span class="name">英伟达董事会恢复黄仁勋职务（财经快讯）</span><span class="plain">晚上九点五十八分转来；阅读量803.5万。</span></div>
+</div></div>
+
+<div class="section c3"><div class="sec-head"><span class="sec-num n6">06</span><h2>待大家后续关注问题</h2><span class="sdesc">WATCH</span></div>
+<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-left:3px solid #7c5cd6;border-radius:12px;padding:12px 14px;margin-bottom:14px"><div style="font-weight:800;font-size:14px;color:#5b21b6;margin-bottom:6px">📌 昨日待关注 · 回访</div><div style="font-size:13.5px;color:#4b5563;line-height:1.7">① <strong>黄金暴跌破800走势</strong>——今天2群记录里没有提到黄金，也没有新的黄金走势消息。状态：<strong>今日无新消息</strong>。<br>② <strong>招行2.35%之外更低信贷利率</strong>——今天群里讨论了先息后本与等额本息两种还款方式，北京可乐说老师更推荐等额本息；但没有提到招行，也没有新的利率数字。状态：<strong>仍待观察</strong>。<br>③ <strong>天弘纳指D定投缺口</strong>——今天2群记录里没有提到天弘纳指D，也没有定投缺口的新消息。状态：<strong>今日无新消息</strong>。</div></div>
+<ol class="view">
+<li><span class="lbl w">待关注</span><strong>SMH明年翻番预测后续争议</strong><span class="muted">硅谷居士9月2日帖子；范佩西说老师不会说明年QQQ有可能翻倍。</span></li>
+<li><span class="lbl w">待关注</span><strong>贷款还款方式的选择与自己的还款规划是否匹配</strong><span class="muted">先息后本还是等额本息；北京可乐说老师更推荐等额本息。</span></li>
+<li><span class="lbl w">待关注</span><strong>摩根亚洲股票高息基金当退休现金流的讨论</strong><span class="muted">年化派息约11.5%（税前）；苏州-Paul说波动不小，不太保险。</span></li>
+<li><span class="lbl w">待关注</span><strong>VXN恐慌区后续走势</strong><span class="muted">VXN报45.96，涨25.99%；小猪表格称40以上为恐慌区。</span></li>
+<li><span class="lbl w">待关注</span><strong>英伟达复职之后美股开盘反应</strong><span class="muted">深圳紫紫说英伟达盘前牛了；董事会恢复黄仁勋职务。</span></li>
+<li><span class="lbl w">待关注</span><strong>淑芬式长期持有案例后续讨论</strong><span class="muted">2008年每年存3万美元，跌一半也没转债券，55岁退休。</span></li>
+<li><span class="lbl w">待关注</span><strong>末日期权话题后续</strong><span class="muted">群里流传27倍截图；江苏Coisini忠告不要碰末日期权。</span></li>
+<li><span class="lbl x">红线</span><strong>借钱买进之前，先问能不能还上</strong><span class="muted"><span class="red">只点还得起的兵；先息后本要自己提前规划存钱还款。</span></span></li>
+<li><span class="lbl x">红线</span><strong>不要把“可以借的钱全部借出来”当成每个人的做法</strong><span class="muted"><span class="red">贷款讨论只是群友的请教与交流，不是统一做法。</span></span></li>
+<li><span class="lbl x">红线</span><strong>预测翻倍只是群内转述，不要当成结论</strong><span class="muted"><span class="red">SMH明年翻番是硅谷居士帖子里的说法；范佩西说老师不会说明年QQQ有可能翻倍。</span></span></li>
+<li><span class="lbl x">红线</span><strong>末日期权是赌博，不要碰</strong><span class="muted"><span class="red">江苏Coisini的忠告；群里流传的27倍截图只是个例。</span></span></li>
+</ol></div>
+
+<div class="section c4"><div class="sec-head"><span class="sec-num n7">07</span><h2>闲聊杂项</h2><span class="sdesc">CHAT</span></div><ol class="view">
+<li><strong>401K变成301K了</strong><span class="muted">群友转来X上美国人的自嘲；群里当笑话看。</span></li>
+<li><strong>只恨自己没有子弹了</strong><span class="muted">广东-Kai上午的话；群里讨论跑步进场、生怕晚了喝不上热汤。</span></li>
+<li><strong>我就是，生怕晚了，喝不上热汤，谁知道碗都给我掀了</strong><span class="muted">西安竹蜻蜓上午的话；新西兰Ben说选举前破新高，大家都是跑步进场。</span></li>
+<li><strong>未来是光明的，道路是曲折的</strong><span class="muted">广州xp上午的话；群里很多人都没有做好预期管理。</span></li>
+</ol></div>
+
+<div class="section learn"><div class="sec-head"><span class="sec-num n8">08</span><h2>📚 CLEC 学习资源</h2><span class="sdesc">LEARN</span></div><p class="learn-lead">大家可自行查阅。建议先保存「CLEC 资料中心」这一个入口，日报、电子书、网盘和课程都会在里面持续更新。</p>
+<p class="learn-h" style="margin:12px 0 6px;font-weight:700;color:#0f9d76">资料中心入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 资料中心</span><a href="https://clec888.cn" target="_blank" rel="noopener">https://clec888.cn</a><span class="plain">（资料中心固定入口）</span></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">日报 / 语音入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 群日报快速版</span><a href="https://daily.clec888.cn" target="_blank" rel="noopener">https://daily.clec888.cn</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">资料网盘</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 投资理财频道 百度盘</span><a href="https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC" target="_blank" rel="noopener">https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC</a></div>
+<div class="litem"><span class="name">CLEC官方云端文件</span><a href="https://u.pcloud.link/publink/show?code=Mx3italK" target="_blank" rel="noopener">https://u.pcloud.link/publink/show?code=Mx3italK</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">CLEC 官方推荐</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC James 本人</span><a href="https://x.com/CLEC168" target="_blank" rel="noopener">https://x.com/CLEC168</a></div>
+<div class="litem"><span class="name">CLEC168</span><a href="https://clec168.com/zh" target="_blank" rel="noopener">https://clec168.com/zh</a></div>
+<div class="litem"><span class="name">CLEC 台湾</span><a href="https://clectw.com/" target="_blank" rel="noopener">https://clectw.com/</a></div>
+<div class="litem"><span class="name">乘丰舰长生命舰队</span><a href="https://cfnavi.org/" target="_blank" rel="noopener">https://cfnavi.org/</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">视频与音频</p>
+<div class="lgrid">
+<div class="litem"><span class="name">哔哩哔哩 · CLEC投资理财</span><a href="https://space.bilibili.com/491004348?spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://space.bilibili.com/491004348?spm_id_from=333.337.0.0</a></div>
+<div class="litem"><span class="name">哔哩哔哩 · CLEC168投资理财频道</span><a href="https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click" target="_blank" rel="noopener">https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click</a></div>
+<div class="litem"><span class="name">喜马拉雅 · 听 CLEC 说投资</span><a href="https://xima.tv/1_m6RQX8" target="_blank" rel="noopener">https://xima.tv/1_m6RQX8</a></div>
+<div class="litem"><span class="name">小宇宙 · CLEC投资理财教育学院</span><a href="https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2" target="_blank" rel="noopener">https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2</a></div>
+<div class="litem"><span class="name">腾讯视频号</span><span class="plain">微信视频号「CLEC投资理财」· 公众号「CLEC」</span></div>
+</div>
+<div class="learn-foot">愿我们一同践行 CLEC 理念，坚守长期，持续学习，财富与心灵同步成长，感谢大家配合！<div class="note">备注：群内内容不构成任何投资建议，投资有风险，入市需谨慎。</div></div></div>
+
+
+<div class="foot"><p class="big">富有是天赋，快乐是人权，有钱就买，打死不卖！</p><p class="small">本周合集仅作群聊信息整理，不构成任何投资建议，不预测涨跌。📊</p></div>
+<div class="source">数据来源：CLEC世界粉丝同乐会2群 聊天记录 · 整理时间 2026-11-24 06:00</div>
+</section>
+
+<section class="panel group-panel" data-group="3" id="g-3-1123">
+<div class="hero"><span class="badge">📈 微信群日报 · DAILY</span><h1>CLEC世界粉丝3群日报</h1><div class="sub">James 老师🇨🇳纳指投资粉丝群</div><div class="chips"><span class="chip">📅 2026-11-23</span><span class="chip">⏰ 01:08 ~ 23:53</span><span class="chip">💬 约 660 条消息</span></div></div>
+<div class="slogan">富有是天赋，快乐是人权，有钱就买，打死不卖！</div>
+<div class="audio-bar" style="margin:12px 0;padding:10px 12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;font-size:14px;color:#0f9d76">🎧 今日语音播报（约4分59秒）· 播报者：云扬<br><audio controls preload="none" style="width:100%" src="audio/2026-11-23-g3.mp3"></audio></div>
+<div class="section c5"><div class="sec-head"><span class="sec-num n1">01</span><h2>今日大事记</h2><span class="sdesc">TIMELINE</span></div><div class="tl">
+<div class="ev"><div class="t">07:35–07:41 · 早上</div><h3>柚子发群规提醒；长篇00585继续讨论</h3><p>柚子CLEC早上发了群规提醒：大家发言注意敏感词。群里继续讨论长篇00585《有钱就买，何必等跌？》，南宁周周说00585昨天就发了。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c1">柚子 CLEC</span><span class="when">07:35</span><span class="txt">大家发言注意敏感词</span></div><div class="rm"><span class="who c0">南宁 周周</span><span class="when">07:41</span><span class="txt">00585 啊，昨天就发了</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">08:08–09:30 · 上午</div><h3>深圳00后Annie受称赞；南京Nancy听到585里的金句</h3><p>群友热议深圳00后Annie：南京Nancy说刚刚听到她发言的部分，很棒很真诚，现在年轻人真的很多既高知识又高认知。南京Nancy在听585时听到一个金句，健康，好的关系，财富才会有意义。广东-淑芬问大家今天补仓不，金鱼说已经满仓了，安徽-Miko接了一句加一。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c4">南京 Nancy</span><span class="when">09:25</span><span class="txt">@深圳-Annie~00后 刚刚听到你发言的部分，很棒很真诚啊</span></div><div class="rm"><span class="who c4">南京 Nancy</span><span class="when">08:29</span><span class="txt">在听585，听到一个金句，“健康，好的关系，财富才会有意义”</span></div><div class="rm"><span class="who c5">广东-淑芬</span><span class="when">08:26</span><span class="txt">大家今天补仓不</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">08:51–08:55 · 上午</div><h3>新人入群：山东-牛牛、浙江-阿飞自我介绍</h3><p>山东-牛牛自我介绍：大家好，我是来自山东的牛牛，很开心加入CLEC大家庭。浙江-阿飞也做了自我介绍。群里欢迎新人加入。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">山东-牛牛</span><span class="when">08:51</span><span class="txt">大家好，我是来自山东的牛牛，很开心加入CLEC大家庭。</span></div><div class="rm"><span class="who c2">浙江-阿飞</span><span class="when">08:55</span><span class="txt">大家好～我是一名clec新手，clec理念让我认识到投资是一门哲学课，所以加入CLEC想多认识一些朋友、向大家学习，之后还请多多关照。</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">11:12–11:31 · 上午</div><h3>厦门-女乔问QQQI与遗产税；王浩HowHow解释6万美元免税额</h3><p>厦门-女乔提问：老师建议过用Firstrade加港卡买QQQI，但一些细节还不懂，比如美国遗产税，一头雾水。王浩HowHow解释，只要是在美国本土注册的证券，包括QQQI，都存在美国联邦遗产税问题；非美国税务居民的免税额只有六万美元，超出部分最高百分之四十，而且账户会被冻结直至完成完税证明。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">厦门-女乔</span><span class="when">11:12</span><span class="txt">firstrade+港卡 QQQI，老师有建议过，但一些细节还不懂，比如CSR，美国遗产税啥的，一头雾水</span></div><div class="rm"><span class="who c2">王浩HowHow CLEC杭州</span><span class="when">11:31</span><span class="txt">会，存在美国联邦遗产税问题。只要你在美国本土注册的证券（包括QQQI），就纳入美国遗产税征收范围。</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">11:24 · 上午</div><h3>新人云南-小步慢跑：从纳指估值公众号一路找到CLEC</h3><p>云南-小步慢跑做了长篇自我介绍：最初是关注发布纳指估值相关的公众号，进了博主社群后，偶然间了解到CLEC。群里欢迎她加入。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c4">云南-小步慢跑</span><span class="when">11:24</span><span class="txt">大家好，我来自中国云南的一座小县城，接触CLEC至今大概半年。</span></div><div class="rm"><span class="who c4">云南-小步慢跑</span><span class="when">11:24</span><span class="txt">最初是关注发布纳指估值相关的公众号，进了博主社群后，偶然看到群主分享的CLEC宝典，随手翻阅，一下子就被里面James老师投资理念打动</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">14:18–14:22 · 下午</div><h3>王浩HowHow测算：15%溢价持有15年，相当于每年跌1%</h3><p>广东-Rong算了一下，自己前后买入的溢价平均在百分之十，就想十五年后会怎么样。王浩HowHow测算：比如你买入的时候百分之十五溢价，持有十五年，十五年以后溢价归零，相当于十五年亏了百分之十五溢价，折算下来相当于每年跌百分之一。群里说这是假设十五年后溢价归零的算法。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c6">广东-Rong</span><span class="when">14:18</span><span class="txt">算了下 我前后买入的溢价平均在10%。我就想，15年后会怎么样呢</span></div><div class="rm"><span class="who c2">王浩HowHow CLEC杭州</span><span class="when">14:22</span><span class="txt">比如你买入的时候15%溢价，持有15年。15年以后溢价归0，相当于15年亏了15%溢价，折算下来相当于每年跌1%。</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">14:29–14:33 · 下午</div><h3>24小时开盘讨论；广东-Rong转述老师5月视频：AI年化很大可能涨到20%</h3><p>广东-淑芬说二十四小时开盘了，下个月就不用跟期货走了。广东-Rong转述老师今年五月份一个视频里的说法：AI的发展会超出人的想象，纳指的年化很大可能会涨到百分之二十，这一年两年是最后的上车机会。上海畅说反正已经上车了，等着发车就好了。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c5">广东-淑芬</span><span class="when">14:31</span><span class="txt">24小时开盘了</span></div><div class="rm"><span class="who c6">广东-Rong</span><span class="when">14:32</span><span class="txt">老师在今年5月份的一个视频中提到，AI的发展会超出人的想象，娜娜的年化很大可能会涨到20%，这一两年是最后的上车机会。</span></div><div class="rm"><span class="who c6">上海畅</span><span class="when">14:32</span><span class="txt">反正已经上车了，等着发车就好了</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">15:42–16:48 · 下午</div><h3>贵州威宁蓝湾酒店案例：1.3亿投的酒店，一天只卖7495元</h3><p>上海_芭芭拉CLEC转发案例：贵州威宁蓝湾酒店，一点三亿投的酒店，一天只卖七千四百九十五元。群里讨论说现在出可以收回七千万，意思就是亏了那六千万；年中把上海两套房子卖掉，然后继续投入已投资的重资产酒店。群里讨论不要投重资产、认知驾驭不了财富。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">上海_芭芭拉 CLEC</span><span class="when">15:42</span><span class="txt">1.3亿投的酒店，一天只卖7495元</span></div><div class="rm"><span class="who c2">上海_芭芭拉 CLEC</span><span class="when">16:45</span><span class="txt">亏损6000万出局</span></div><div class="rm"><span class="who c7">群友</span><span class="when">16:48</span><span class="txt">投的1.3e，现在出，可以收回7000，意思就是亏了那6000w</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">17:09 · 下午</div><h3>段永平小故事：停车场投币器，钱拿不回来了再搭时间就愚蠢</h3><p>群里分享了段永平的小故事：停车场的投币器，钱已经拿不回来了，再搭上时间就愚蠢了。这个故事说明沉没成本已经拿不回来，再花时间纠缠就是错上加错。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">段永平</span><span class="when">17:09</span><span class="txt">这个故事说明投币器里的钱已经拿不回来了，再搭上时间就愚蠢了。</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">20:13–20:41 · 晚上</div><h3>跨境理财通“南向通”讨论：门槛降低，能买香港纳指产品</h3><p>深圳-zhou贴出跨境理财通南向通的准入条件：目前南向通开通门槛已大幅降低，满足大湾区九市户籍或社保个税满两年，再满足以下任意一项财务要求即可具备投资者资格，包括近三年本人年均收入不低于四十万元人民币。群里讨论说通过南向通可以买香港发行的纳指产品，不能买美股QQQ；香港四三三配置里有三零八六、三零八六的港股代码等产品。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c7">深圳-zhou</span><span class="when">20:13</span><span class="txt">跨境理财通好像不限额</span></div><div class="rm"><span class="who c7">深圳-zhou</span><span class="when">20:41</span><span class="txt">日前“跨境理财通2.0”的“南向通”（内地居民买港澳理财/基金）开通门槛已大幅降低</span></div><div class="rm"><span class="who c7">深圳-zhou</span><span class="when">20:41</span><span class="txt">近3年本人年均收入不低于40万元人民币</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">21:31–22:01 · 晚上</div><h3>新人上海-Bea入群；英伟达复职消息进群，明天纳指大涨</h3><p>上海-Bea做了自我介绍，群里欢迎她加入。晚上九点五十九分，财联社快讯转来消息：英伟达董事会恢复黄仁勋总裁兼首席执行官职务。王浩HowHow说从未有一刻怀疑过达子，这就是坚守的力量；明天纳指大涨。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c6">上海-Bea</span><span class="when">21:31</span><span class="txt">hello 大家好</span></div><div class="rm"><span class="who c6">上海-Bea</span><span class="when">21:32</span><span class="txt">接触 clec 半年 目前703配置</span></div><div class="rm"><span class="who c6">上海-Bea</span><span class="when">21:32</span><span class="txt">退休后 东南亚旅居 以上</span></div><div class="rm"><span class="who c6">财联社快讯</span><span class="when">21:59</span><span class="txt">英伟达董事会恢复黄仁勋总裁兼首席执行官职务。</span></div><div class="rm"><span class="who c2">王浩HowHow CLEC杭州</span><span class="when">22:00</span><span class="txt">从未有一刻怀疑过达子，这就是坚守的力量</span></div><div class="rm"><span class="who c2">王浩HowHow CLEC杭州</span><span class="when">22:01</span><span class="txt">明天纳纳大涨</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+</div></div>
+
+<div class="section c6"><div class="sec-head"><span class="sec-num n2">02</span><h2>群内热度排序话题 TOP10</h2><span class="sdesc">HOT</span></div>
+<div class="topic"><h3><span class="rank">1</span>长篇00585：有钱就买，何必等跌？</h3><div class="tags"><span class="tag g">长篇</span><span class="tag p">心态</span></div><div class="meta">07:35–07:41 · 早上</div><p>群里继续讨论长篇00585《有钱就买，何必等跌？》。南京Nancy在听585时听到一个金句，健康，好的关系，财富才会有意义。</p><div class="quote">健康，好的关系，财富才会有意义</div></div>
+<div class="topic"><h3><span class="rank">2</span>深圳00后Annie：很棒很真诚，年轻人既高知识又高认知</h3><div class="tags"><span class="tag p">人物</span><span class="tag y">分享</span></div><div class="meta">08:08–09:30 · 上午</div><p>群友热议深圳00后Annie：南京Nancy说刚刚听到她发言的部分，很棒很真诚，现在年轻人真的很多既高知识又高认知，家庭氛围和父母能力都在塔尖了，给你足够的托举和自主权。</p><div class="quote">很棒很真诚</div></div>
+<div class="topic"><h3><span class="rank">3</span>QQQI与美国遗产税：免税额仅6万美元，超出最高40%</h3><div class="tags"><span class="tag r">税务</span><span class="tag b">QQQI</span></div><div class="meta">11:12–11:31 · 上午</div><p>厦门-女乔提问，老师建议过用Firstrade加港卡买QQQI，但美国遗产税的细节还不懂。王浩HowHow解释，非美国税务居民的免税额只有六万美元，超出部分最高百分之四十，而且账户会被冻结直至完成完税证明。</p><div class="quote">美国遗产税问题</div></div>
+<div class="topic"><h3><span class="rank">4</span>15%溢价持有15年，相当于每年跌1%</h3><div class="tags"><span class="tag r">溢价</span><span class="tag y">测算</span></div><div class="meta">14:18–14:22 · 下午</div><p>广东-Rong算了一下，自己前后买入的溢价平均在百分之十。王浩HowHow测算：买入时百分之十五溢价，持有十五年，十五年以后溢价归零，相当于十五年亏了百分之十五溢价，折算下来相当于每年跌百分之一。</p><div class="quote">相当于每年跌1%</div></div>
+<div class="topic"><h3><span class="rank">5</span>老师5月视频：AI年化很大可能涨到20%，这一两年最后上车机会</h3><div class="tags"><span class="tag b">老师</span><span class="tag g">AI</span></div><div class="meta">14:29–14:33 · 下午</div><p>广东-Rong转述老师今年五月份一个视频里的说法：AI的发展会超出人的想象，纳指的年化很大可能会涨到百分之二十，这一年两年是最后的上车机会。上海畅说反正已经上车了，等着发车就好了。</p><div class="quote">这一两年是最后的上车机会</div></div>
+<div class="topic"><h3><span class="rank">6</span>贵州威宁蓝湾酒店：1.3亿投的酒店，一天只卖7495元</h3><div class="tags"><span class="tag y">案例</span><span class="tag r">重资产</span></div><div class="meta">15:42–16:48 · 下午</div><p>上海_芭芭拉CLEC转发案例：贵州威宁蓝湾酒店，一点三亿投的酒店，一天只卖七千四百九十五元。现在出可以收回七千万，意思就是亏了那六千万。群里讨论不要投重资产、认知驾驭不了财富。</p><div class="quote">一天只卖7495元</div></div>
+<div class="topic"><h3><span class="rank">7</span>段永平小故事：停车场投币器，沉没成本</h3><div class="tags"><span class="tag p">故事</span><span class="tag g">心态</span></div><div class="meta">17:09 · 下午</div><p>群里分享了段永平的小故事：停车场的投币器，钱已经拿不回来了，再搭上时间就愚蠢了。这个故事说明沉没成本已经拿不回来，再花时间纠缠就是错上加错。</p><div class="quote">再搭上时间就愚蠢了</div></div>
+<div class="topic"><h3><span class="rank">8</span>跨境理财通“南向通”：门槛降低，能买香港纳指产品</h3><div class="tags"><span class="tag b">渠道</span><span class="tag y">香港</span></div><div class="meta">20:13–20:41 · 晚上</div><p>深圳-zhou贴出南向通的准入条件：大湾区九市户籍或社保个税满两年，再满足任意一项财务要求，包括近三年本人年均收入不低于四十万元人民币。群里讨论说通过南向通可以买香港发行的纳指产品，不能买美股QQQ。</p><div class="quote">南向通开通门槛已大幅降低</div></div>
+<div class="topic"><h3><span class="rank">9</span>新人入群：山东-牛牛、浙江-阿飞、云南-小步慢跑、上海-Bea</h3><div class="tags"><span class="tag p">新人</span><span class="tag g">欢迎</span></div><div class="meta">08:51–21:31 · 全天</div><p>全天多位新人自我介绍：山东-牛牛、浙江-阿飞、云南-小步慢跑、上海-Bea，还有静-上海、深圳-zhou。云南-小步慢跑说最初是关注发布纳指估值相关的公众号，进了博主社群后了解到CLEC。</p><div class="quote">很开心加入CLEC大家庭</div></div>
+<div class="topic"><h3><span class="rank">10</span>英伟达董事会恢复黄仁勋职务，明天纳指大涨</h3><div class="tags"><span class="tag b">市场</span><span class="tag r">突发</span></div><div class="meta">21:59–22:01 · 晚上</div><p>财联社快讯转来消息：英伟达董事会恢复黄仁勋总裁兼首席执行官职务。王浩HowHow说从未有一刻怀疑过达子，这就是坚守的力量；明天纳指大涨。</p><div class="quote">从未有一刻怀疑过达子</div></div>
+</div>
+
+<div class="section c1"><div class="sec-head"><span class="sec-num n3">03</span><h2>今日群核心观点</h2><span class="sdesc">PRINCIPLES</span></div><ol class="view">
+<li><strong>健康，好的关系，财富才会有意义</strong><span class="muted">南京Nancy在听585时听到的金句：四十五岁后才听出真味。 <span class="hl">健康，好的关系，财富才会有意义。</span></span></li>
+<li><strong>有钱就买，何必等跌？</strong><span class="muted">长篇00585的主题：把钱花在值得的体验上，市场涨跌只是浮云。 <span class="hl">有钱就买，何必等跌？</span></span></li>
+<li><strong>很棒很真诚</strong><span class="muted">南京Nancy评价深圳00后Annie发言的话：现在年轻人真的很多既高知识又高认知。 <span class="hl">很棒很真诚。</span></span></li>
+<li><strong>从未有一刻怀疑过达子，这就是坚守的力量</strong><span class="muted">王浩HowHow在英伟达复职消息出来之后的话。 <span class="hl">从未有一刻怀疑过达子，这就是坚守的力量。</span></span></li>
+<li><strong>钱已经拿不回来了，再搭上时间就愚蠢了</strong><span class="muted">段永平小故事里的话：停车场的投币器，沉没成本已经拿不回来。 <span class="hl">钱已经拿不回来了，再搭上时间就愚蠢了。</span></span></li>
+<li><strong>不要投重资产，认知驾驭不了财富</strong><span class="muted">贵州威宁蓝湾酒店案例讨论里的共识：一点三亿投的酒店，一天只卖七千四百九十五元。 <span class="hl">不要投重资产，认知驾驭不了财富。</span></span></li>
+<li><strong>反正已经上车了，等着发车就好了</strong><span class="muted">上海畅的话：老师五月视频说AI年化很大可能涨到百分之二十之后接的。 <span class="hl">反正已经上车了，等着发车就好了。</span></span></li>
+<li><strong>这一两年是最后的上车机会</strong><span class="muted">广东-Rong转述老师五月视频里的说法：AI的发展会超出人的想象。 <span class="hl">这一两年是最后的上车机会。</span></span></li>
+</ol></div>
+
+<div class="section c2"><div class="sec-head"><span class="sec-num n4">04</span><h2>纳指 / 主题相关讨论重点</h2><span class="sdesc">MARKET</span></div><div class="disc">仅作当日群聊事实整理，不构成投资建议，不预测涨跌。</div><ol class="view">
+<li><strong>QQQI美国遗产税免税额仅6万美元，超出部分最高40%</strong><span class="muted">王浩HowHow解释厦门-女乔提问时的话，群里没有展开核对。 <span class="hl">仅为群内说法：QQQI美国遗产税免税额仅6万美元，超出部分最高40%。</span></span></li>
+<li><strong>15%溢价持有15年，相当于每年跌1%</strong><span class="muted">王浩HowHow的测算：假设十五年后溢价归零，群里没有展开核对。 <span class="hl">仅为群内说法：15%溢价持有15年，相当于每年跌1%。</span></span></li>
+<li><strong>AI年化很大可能涨到20%，这一两年是最后的上车机会</strong><span class="muted">广东-Rong转述老师五月视频里的说法，群里没有展开核对。 <span class="hl">仅为群内转述：AI年化很大可能涨到20%，这一两年是最后的上车机会。</span></span></li>
+<li><strong>贵州威宁蓝湾酒店1.3亿投资，一天只卖7495元，亏损6000万</strong><span class="muted">上海_芭芭拉CLEC转发的案例里的数字，群里没有展开核对。 <span class="hl">仅为群内转述：贵州威宁蓝湾酒店1.3亿投资，一天只卖7495元，亏损6000万。</span></span></li>
+<li><strong>南向通近3年本人年均收入不低于40万元人民币</strong><span class="muted">深圳-zhou贴出的南向通准入条件里的数字，群里没有展开核对。 <span class="hl">仅为群内提到的数字：南向通近3年本人年均收入不低于40万元人民币。</span></span></li>
+<li><strong>英伟达董事会恢复黄仁勋职务</strong><span class="muted">财联社快讯转来的消息，群里没有展开核对。 <span class="hl">仅为群内转述：英伟达董事会恢复黄仁勋职务。</span></span></li>
+<li><strong>24小时开盘，下个月就不用跟期货走了</strong><span class="muted">广东-淑芬的话，群里没有展开讨论。 <span class="hl">仅为群内说法：24小时开盘，下个月就不用跟期货走了。</span></span></li>
+<li><strong>老师建议资产到33倍再转QQQ</strong><span class="muted">群里讨论QQQI与遗产税时提到的老师建议，群里没有展开核对。 <span class="hl">仅为群内说法：老师建议资产到33倍再转QQQ。</span></span></li>
+</ol></div>
+
+<div class="section"><div class="sec-head"><span class="sec-num n5">05</span><h2>知识分享 · 书籍分享</h2><span class="sdesc">KNOWLEDGE</span></div><div class="lgrid" style="margin-bottom:14px">
+<div class="litem"><span class="name">长篇00585《有钱就买，何必等跌？》</span><span class="plain">群里继续讨论；南京Nancy听到金句：健康，好的关系，财富才会有意义。</span></div>
+<div class="litem"><span class="name">QQQI与美国遗产税说明</span><span class="plain">王浩HowHow解释；免税额仅6万美元，超出部分最高40%。</span></div>
+<div class="litem"><span class="name">跨境理财通“南向通”准入条件</span><span class="plain">深圳-zhou贴出；大湾区九市户籍或社保个税满两年，近三年年均收入不低于40万元。</span></div>
+<div class="litem"><span class="name">段永平小故事：停车场投币器</span><span class="plain">群里分享；钱已经拿不回来了，再搭上时间就愚蠢了。</span></div>
+<div class="litem"><span class="name">贵州威宁蓝湾酒店案例</span><span class="plain">上海_芭芭拉CLEC转发；1.3亿投的酒店，一天只卖7495元。</span></div>
+<div class="litem"><span class="name">英伟达董事会恢复黄仁勋职务（财联社快讯）</span><span class="plain">晚上九点五十九分转来；董事会恢复黄仁勋总裁兼首席执行官职务。</span></div>
+<div class="litem"><span class="name">老师5月视频转述：AI年化很大可能涨到20%</span><span class="plain">广东-Rong转述；这一两年是最后的上车机会。</span></div>
+</div></div>
+
+<div class="section c3"><div class="sec-head"><span class="sec-num n6">06</span><h2>待大家后续关注问题</h2><span class="sdesc">WATCH</span></div>
+<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-left:3px solid #7c5cd6;border-radius:12px;padding:12px 14px;margin-bottom:14px"><div style="font-weight:800;font-size:14px;color:#5b21b6;margin-bottom:6px">📌 昨日待关注 · 回访</div><div style="font-size:13.5px;color:#4b5563;line-height:1.7">① <strong>经营贷放款路径</strong>——今天3群记录里没有提到经营贷，也没有放款路径的新消息。状态：<strong>今日无新消息</strong>。<br>② <strong>新人入群学习与建仓节奏</strong>——全天多位新人自我介绍：山东-牛牛、浙江-阿飞、云南-小步慢跑、静-上海、深圳-zhou、上海-Bea；云南-小步慢跑讲了自己从纳指估值公众号找到CLEC的经过。状态：<strong>已有进展</strong>。<br>③ <strong>美国科技股估值降至疫情以来最低</strong>——今天3群记录里没有讨论美国科技股估值水平；只在新人自我介绍里提到“纳指估值相关的公众号”，没有新的估值数据。状态：<strong>今日无新消息</strong>。</div></div>
+<ol class="view">
+<li><span class="lbl w">待关注</span><strong>长篇00585《有钱就买，何必等跌？》后续讨论</strong><span class="muted">群里继续讨论；南京Nancy听到金句：健康，好的关系，财富才会有意义。</span></li>
+<li><span class="lbl w">待关注</span><strong>深圳00后Annie分享后续反响</strong><span class="muted">南京Nancy说很棒很真诚；现在年轻人既高知识又高认知。</span></li>
+<li><span class="lbl w">待关注</span><strong>QQQI与美国遗产税细节后续</strong><span class="muted">厦门-女乔提问；王浩HowHow解释免税额仅6万美元，超出最高40%。</span></li>
+<li><span class="lbl w">待关注</span><strong>南向通开户与香港纳指产品后续</strong><span class="muted">深圳-zhou贴出准入条件；能买香港发行的纳指产品，不能买美股QQQ。</span></li>
+<li><span class="lbl w">待关注</span><strong>英伟达复职之后美股开盘反应</strong><span class="muted">财联社快讯转来消息；王浩HowHow说从未有一刻怀疑过达子。</span></li>
+<li><span class="lbl w">待关注</span><strong>新人入群学习与建仓节奏后续</strong><span class="muted">山东-牛牛、浙江-阿飞、云南-小步慢跑、上海-Bea等多位新人自我介绍。</span></li>
+<li><span class="lbl w">待关注</span><strong>贵州威宁蓝湾酒店案例后续讨论</strong><span class="muted">1.3亿投的酒店，一天只卖7495元，亏损6000万。</span></li>
+<li><span class="lbl w">待关注</span><strong>24小时开盘后续变化</strong><span class="muted">广东-淑芬说24小时开盘了，下个月就不用跟期货走了。</span></li>
+<li><span class="lbl x">红线</span><strong>转发的遗产税与南向通条件未经核实，不要当成结论</strong><span class="muted"><span class="red">免税额6万美元、超出最高40%、南向通准入条件都只是群内转述。</span></span></li>
+<li><span class="lbl x">红线</span><strong>不要投重资产，认知驾驭不了财富</strong><span class="muted"><span class="red">贵州威宁蓝湾酒店案例：1.3亿投资，一天只卖7495元。</span></span></li>
+<li><span class="lbl x">红线</span><strong>沉没成本拿不回来，再搭时间就是错上加错</strong><span class="muted"><span class="red">段永平小故事：停车场投币器，钱已经拿不回来了。</span></span></li>
+</ol></div>
+
+<div class="section c4"><div class="sec-head"><span class="sec-num n7">07</span><h2>闲聊杂项</h2><span class="sdesc">CHAT</span></div><ol class="view">
+<li><strong>在读大学的06后，3-5年也有你这样全面的认知和思维</strong><span class="muted">群友评价深圳00后Annie的话；她在年轻的时候就可以如此规划和布局。</span></li>
+<li><strong>自卑让人无礼，你眼中的别人才是真的你</strong><span class="muted">群里安慰Annie的话；直播里有人骂她，群里说不要往心里去。</span></li>
+<li><strong>大家今天补仓不</strong><span class="muted">广东-淑芬上午的话；金鱼说已经满仓了，安徽-Miko接了一句加一。</span></li>
+<li><strong>有钱就买打死不卖</strong><span class="muted">广东-淑芬上午的话；接“大家今天补仓不”之后说的。</span></li>
+</ol></div>
+
+<div class="section learn"><div class="sec-head"><span class="sec-num n8">08</span><h2>📚 CLEC 学习资源</h2><span class="sdesc">LEARN</span></div><p class="learn-lead">大家可自行查阅。建议先保存「CLEC 资料中心」这一个入口，日报、电子书、网盘和课程都会在里面持续更新。</p>
+<p class="learn-h" style="margin:12px 0 6px;font-weight:700;color:#0f9d76">资料中心入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 资料中心</span><a href="https://clec888.cn" target="_blank" rel="noopener">https://clec888.cn</a><span class="plain">（资料中心固定入口）</span></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">日报 / 语音入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 群日报快速版</span><a href="https://daily.clec888.cn" target="_blank" rel="noopener">https://daily.clec888.cn</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">资料网盘</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 投资理财频道 百度盘</span><a href="https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC" target="_blank" rel="noopener">https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC</a></div>
+<div class="litem"><span class="name">CLEC官方云端文件</span><a href="https://u.pcloud.link/publink/show?code=Mx3italK" target="_blank" rel="noopener">https://u.pcloud.link/publink/show?code=Mx3italK</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">CLEC 官方推荐</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC James 本人</span><a href="https://x.com/CLEC168" target="_blank" rel="noopener">https://x.com/CLEC168</a></div>
+<div class="litem"><span class="name">CLEC168</span><a href="https://clec168.com/zh" target="_blank" rel="noopener">https://clec168.com/zh</a></div>
+<div class="litem"><span class="name">CLEC 台湾</span><a href="https://clectw.com/" target="_blank" rel="noopener">https://clectw.com/</a></div>
+<div class="litem"><span class="name">乘丰舰长生命舰队</span><a href="https://cfnavi.org/" target="_blank" rel="noopener">https://cfnavi.org/</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">视频与音频</p>
+<div class="lgrid">
+<div class="litem"><span class="name">哔哩哔哩 · CLEC投资理财</span><a href="https://space.bilibili.com/491004348?spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://space.bilibili.com/491004348?spm_id_from=333.337.0.0</a></div>
+<div class="litem"><span class="name">哔哩哔哩 · CLEC168投资理财频道</span><a href="https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click" target="_blank" rel="noopener">https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click</a></div>
+<div class="litem"><span class="name">喜马拉雅 · 听 CLEC 说投资</span><a href="https://xima.tv/1_m6RQX8" target="_blank" rel="noopener">https://xima.tv/1_m6RQX8</a></div>
+<div class="litem"><span class="name">小宇宙 · CLEC投资理财教育学院</span><a href="https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2" target="_blank" rel="noopener">https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2</a></div>
+<div class="litem"><span class="name">腾讯视频号</span><span class="plain">微信视频号「CLEC投资理财」· 公众号「CLEC」</span></div>
+</div>
+<div class="learn-foot">愿我们一同践行 CLEC 理念，坚守长期，持续学习，财富与心灵同步成长，感谢大家配合！<div class="note">备注：群内内容不构成任何投资建议，投资有风险，入市需谨慎。</div></div></div>
+
+
+<div class="foot"><p class="big">富有是天赋，快乐是人权，有钱就买，打死不卖！</p><p class="small">本周合集仅作群聊信息整理，不构成任何投资建议，不预测涨跌。📊</p></div>
+<div class="source">数据来源：CLEC世界粉丝同乐会3群 聊天记录 · 整理时间 2026-11-24 06:00</div>
+</section>
+
+<section class="panel group-panel" data-group="4" id="g-4-1123">
+<div class="hero"><span class="badge">📈 微信群日报 · DAILY</span><h1>CLEC花钱艺术群日报</h1><div class="sub">James 老师🇨🇳纳指投资粉丝群</div><div class="chips"><span class="chip">📅 2026-11-23</span><span class="chip">⏰ 06:47 ~ 22:42</span><span class="chip">💬 约 245 条消息</span></div></div>
+<div class="slogan">富有是天赋，快乐是人权，有钱就买，打死不卖！</div>
+<div class="audio-bar" style="margin:12px 0;padding:10px 12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;font-size:14px;color:#0f9d76">🎧 今日语音播报（约4分17秒）· 播报者：云扬<br><audio controls preload="none" style="width:100%" src="audio/2026-11-23-art.mp3"></audio></div>
+<div class="section c5"><div class="sec-head"><span class="sec-num n1">01</span><h2>今日大事记</h2><span class="sdesc">TIMELINE</span></div><div class="tl">
+<div class="ev"><div class="t">10:07–10:32 · 上午</div><h3>Yuki金华：南方小土豆想看大雪天；禾木的粉雪真的很棒</h3><p>Yuki金华说村里现在到二三月还好，十五六度，南方小土豆想看大雪天。杭州_Jeff Zhang说每年这个时候，南方小土豆已经出发，北大湖、松花湖、长白山都已经开板。Yuki说想去禾木，杭州_Jeff Zhang说禾木的粉雪真的很棒。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">Yuki</span><span class="when">10:07</span><span class="txt">差不多现在到二三月，现在还好，十五六度，南方小土豆想看大雪天</span></div><div class="rm"><span class="who c4">杭州_Jeff Zhang CLEC</span><span class="when">10:25</span><span class="txt">北大湖、松花湖、长白山 都已经开板</span></div><div class="rm"><span class="who c2">Yuki</span><span class="when">10:32</span><span class="txt">99想去禾木</span></div><div class="rm"><span class="who c4">杭州_Jeff Zhang CLEC</span><span class="when">10:32</span><span class="txt">禾木的粉雪真的很棒</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">10:52 · 上午</div><h3>上海Qina：机票已买，2027年1月29日到2月17日新西兰自驾找搭子</h3><p>上海Qina说机票已买，二零二七年一月二十九日到二月十七日新西兰自驾，北岛加南岛二十天，三缺一，再找个男生，组成二女二男。新西兰是右舵，要求老司机，最好有国外自驾经验，有搭子的一技之长，比如开车好、英语好、会做攻略、性格好之类的。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">上海 Qina</span><span class="when">10:52</span><span class="txt">机票已买！！2027.1.29-2.17 新西兰自驾，北岛十南岛，20天，3=1，再找个男生！！组成2女2男</span></div><div class="rm"><span class="who c2">上海 Qina</span><span class="when">10:52</span><span class="txt">新西兰是右舵，要求老司机哦！！最好有国外自驾经验，有搭子的一技之长，比如开车好 英语好 会做攻略 性格好之类的</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">13:49–13:58 · 下午</div><h3>成都-夏夏问日本三月春假带三年级娃去哪</h3><p>成都-夏夏问日本是不是适合三月份春假去耍，带三年级的娃，耍哪里比较好耍呢。郑州-憎恶肥屠夫说三月底、四月初，樱花就大概开两周；时间够东京、京都都可以去下，新干线单程四五个小时。深圳-桃丽丝说还有春假，春假去看樱花。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">成都-夏夏</span><span class="when">13:49</span><span class="txt">日本是不是适合三月份春假去耍</span></div><div class="rm"><span class="who c0">成都-夏夏</span><span class="when">13:56</span><span class="txt">带三年级的娃，耍哪里比较好耍呢</span></div><div class="rm"><span class="who c0">郑州-憎恶肥屠夫</span><span class="when">13:55</span><span class="txt">三月底，四月初，樱花就大概开两周</span></div><div class="rm"><span class="who c6">深圳-桃丽丝</span><span class="when">13:58</span><span class="txt">还有春假 春假去看樱花</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">15:19–16:42 · 下午</div><h3>百子莲：非常好打理，给水给阳光就灿烂</h3><p>上海_芭芭拉CLEC说百子莲好好看。百子莲属于非常非常好打理的一类植物，给水给阳光就灿烂；修剪要戴手套。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">上海_芭芭拉 CLEC</span><span class="when">15:19</span><span class="txt">百子莲 好好看</span></div><div class="rm"><span class="who c2">上海_芭芭拉 CLEC</span><span class="when">16:42</span><span class="txt">百子莲属于非常非常好打理的一类植物，给水给阳光就灿烂</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">16:42 · 下午</div><h3>北京留白：大家心态真好，美股大跌依然在享受生活</h3><p>北京留白说大家心态真好，美股大跌依然在享受生活。成都-世纪末的园艺师接了一句，涨了也不会多花一分钱，跌了自然不会少花一分钱。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c1">北京留白</span><span class="when">16:42</span><span class="txt">大家心态真好，美股大跌依然在享受生活</span></div><div class="rm"><span class="who c0">成都-世纪末的园艺师</span><span class="when">16:42</span><span class="txt">涨了也不会多花一分钱，跌了自然不会少花一分钱</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">17:24–17:29 · 晚上</div><h3>Yuki村子湖景：湖中鹅与锦鲤，下雨天看湖上的白线</h3><p>Yuki金华发了村子湖景视频：湖中鹅，下雨天的时候，看湖上的白线，最自由的是这些大白鹅；湖里全是锦鲤。北京天馨月说感觉这样的居住环境更容易不被市场噪音影响。Yuki说精神自由，人身还没自由，想早日退休，赎身。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c2">Yuki</span><span class="when">17:24</span><span class="txt">湖中鹅</span></div><div class="rm"><span class="who c2">Yuki</span><span class="when">17:24</span><span class="txt">下雨天的时候，看湖上的白线，最自由的是这些大白鹅，唯羡</span></div><div class="rm"><span class="who c2">Yuki</span><span class="when">17:29</span><span class="txt">湖里全是锦鲤</span></div><div class="rm"><span class="who c4">北京 天馨月</span><span class="when">17:29</span><span class="txt">感觉这样的居住环境更容易不被市场噪音影响</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">17:32–17:36 · 晚上</div><h3>北京留白提前退休：在家闲得长毛，想出去干体力活</h3><p>北京留白说有北京的姐们可以一起约约，我也提前退休了，在家闲得长毛，我想出去干体力活，做个服务员、保洁啥的；还想去摇奶茶、开挖掘机、学厨师、做志愿者。她说我把老板开除了。成都-世纪末的园艺师说提前退休这个词真好，CLEC让我从亏心的躺着变成安心的躺着。北京留白说在成都生活了三年，每天出去蹲喝茶的地方喝茶嗑瓜子看戏，逛商场，成都有这种环境，回了北京没这条件了。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c1">北京留白</span><span class="when">17:32</span><span class="txt">有北京的姐们可以一起约约，我也提前退休了，在家闲得长毛，我想出去干体力活，做个服务员，保洁啥的</span></div><div class="rm"><span class="who c0">成都-世纪末的园艺师</span><span class="when">17:34</span><span class="txt">提前退休这个词真好</span></div><div class="rm"><span class="who c0">成都-世纪末的园艺师</span><span class="when">17:34</span><span class="txt">CLEC让我从亏心的躺着变成安心的躺着</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">17:59–18:05 · 晚上</div><h3>广州-Nana：大学老师，上二休五，目标十年后退休</h3><p>广州-Nana说我也算平时时间比较多，每周上二休五。大学老师一周就两天有课，上完课拎包就走。讲师一年到手二十多个，目标十年后退休。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">广州-Nana</span><span class="when">17:59</span><span class="txt">我也算平时时间比较多 每周上二休五</span></div><div class="rm"><span class="who c0">广州-Nana</span><span class="when">18:05</span><span class="txt">大学老师一周就两天有课 上完课拎包就走</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">20:40–20:43 · 晚上</div><h3>医生收入与隐形收入讨论：外科医生微信零钱里一千多万</h3><p>小猪CLEC说每个月现金流多的不敢存银行、都放汽车后备箱。北京留白说我上次听一个外科医生唠叨，他说他微信零钱里一千多万了，他说他不想赚钱，老给他安排这么多手术干嘛。上海Qina说别墅的就放地下室。广州-Nana说现金多的年代好有意思。群里对医生收入的看法不一，这里只记各方说法，不做判断。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c0">小猪 CLEC</span><span class="when">20:40</span><span class="txt">每个月现金流多的不敢存银行、都放汽车后备箱</span></div><div class="rm"><span class="who c1">北京留白</span><span class="when">20:42</span><span class="txt">我上次听一个外科医生唠叨，他说他微信零钱里一千多万了，他说他不想赚钱，老给他安排这么多手术干嘛</span></div><div class="rm"><span class="who c2">上海 Qina</span><span class="when">20:42</span><span class="txt">别墅的就放地下室</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+<div class="ev"><div class="t">22:12–22:14 · 晚上</div><h3>英伟达复职公告全文进群；深圳-桃丽丝：不愧是AI教父</h3><p>群里转来英伟达董事会恢复黄仁勋总裁、首席执行官及董事会成员职务的公告全文。深圳-桃丽丝说不愧是AI教父。江苏-何说了一句群内估算：明天场内涨幅等于美国纳指减百分之三。</p><details><summary><span class="arr">▶</span>💬 查看来龙去脉</summary><div class="orig"><div class="rm"><span class="who c6">深圳-桃丽丝</span><span class="when">22:14</span><span class="txt">不愧是 Ai教父</span></div><div class="rm"><span class="who c0">江苏-何</span><span class="when">22:14</span><span class="txt">明天场内涨幅 = 美国纳指 −3%</span></div><div class="orignote">仅摘录与本话题时间相关的群聊原文，供了解来龙去脉</div></div></details></div>
+</div></div>
+
+<div class="section c6"><div class="sec-head"><span class="sec-num n2">02</span><h2>群内热度排序话题 TOP10</h2><span class="sdesc">HOT</span></div>
+<div class="topic"><h3><span class="rank">1</span>Yuki村子湖景：湖中鹅与锦鲤，下雨天看湖上的白线</h3><div class="tags"><span class="tag p">生活</span><span class="tag g">风景</span></div><div class="meta">17:24–17:29 · 晚上</div><p>Yuki金华发了村子湖景视频：湖中鹅，下雨天的时候，看湖上的白线，最自由的是这些大白鹅；湖里全是锦鲤。北京天馨月说感觉这样的居住环境更容易不被市场噪音影响。</p><div class="quote">最自由的是这些大白鹅</div></div>
+<div class="topic"><h3><span class="rank">2</span>上海Qina新西兰自驾找搭子：2027年1月29日到2月17日</h3><div class="tags"><span class="tag y">旅行</span><span class="tag g">自驾</span></div><div class="meta">10:52 · 上午</div><p>上海Qina说机票已买，二零二七年一月二十九日到二月十七日新西兰自驾，北岛加南岛二十天，三缺一，再找个男生，组成二女二男。新西兰是右舵，要求老司机，最好有国外自驾经验。</p><div class="quote">机票已买</div></div>
+<div class="topic"><h3><span class="rank">3</span>北京留白提前退休：在家闲得长毛，想出去干体力活</h3><div class="tags"><span class="tag p">退休</span><span class="tag g">生活</span></div><div class="meta">17:32–17:36 · 晚上</div><p>北京留白说我也提前退休了，在家闲得长毛，我想出去干体力活，做个服务员、保洁啥的；还想去摇奶茶、开挖掘机、学厨师、做志愿者。成都-世纪末的园艺师说提前退休这个词真好，CLEC让我从亏心的躺着变成安心的躺着。</p><div class="quote">我把老板开除了</div></div>
+<div class="topic"><h3><span class="rank">4</span>广州-Nana：大学老师，上二休五，目标十年后退休</h3><div class="tags"><span class="tag b">工作</span><span class="tag p">生活</span></div><div class="meta">17:59–18:05 · 晚上</div><p>广州-Nana说我也算平时时间比较多，每周上二休五。大学老师一周就两天有课，上完课拎包就走。讲师一年到手二十多个，目标十年后退休。</p><div class="quote">上二休五</div></div>
+<div class="topic"><h3><span class="rank">5</span>医生收入与隐形收入讨论</h3><div class="tags"><span class="tag y">收入</span><span class="tag g">讨论</span></div><div class="meta">20:40–20:43 · 晚上</div><p>小猪CLEC说每个月现金流多的不敢存银行、都放汽车后备箱。北京留白说听一个外科医生唠叨，微信零钱里一千多万了。上海Qina说别墅的就放地下室。群里对医生收入的看法不一，这里只记各方说法，不做判断。</p><div class="quote">微信零钱里一千多万了</div></div>
+<div class="topic"><h3><span class="rank">6</span>成都-夏夏问日本三月春假带三年级娃去哪</h3><div class="tags"><span class="tag y">旅行</span><span class="tag r">日本</span></div><div class="meta">13:49–13:58 · 下午</div><p>成都-夏夏问日本是不是适合三月份春假去耍，带三年级的娃，耍哪里比较好耍呢。郑州-憎恶肥屠夫说三月底、四月初，樱花就大概开两周；时间够东京、京都都可以去下。深圳-桃丽丝说还有春假，春假去看樱花。</p><div class="quote">春假去看樱花</div></div>
+<div class="topic"><h3><span class="rank">7</span>百子莲：非常好打理，给水给阳光就灿烂</h3><div class="tags"><span class="tag g">养花</span><span class="tag p">生活</span></div><div class="meta">15:19–16:42 · 下午</div><p>上海_芭芭拉CLEC说百子莲好好看。百子莲属于非常非常好打理的一类植物，给水给阳光就灿烂；修剪要戴手套。</p><div class="quote">给水给阳光就灿烂</div></div>
+<div class="topic"><h3><span class="rank">8</span>美股大跌依然在享受生活</h3><div class="tags"><span class="tag p">心态</span><span class="tag g">生活</span></div><div class="meta">16:42 · 下午</div><p>北京留白说大家心态真好，美股大跌依然在享受生活。成都-世纪末的园艺师接了一句，涨了也不会多花一分钱，跌了自然不会少花一分钱。</p><div class="quote">美股大跌依然在享受生活</div></div>
+<div class="topic"><h3><span class="rank">9</span>英伟达复职公告全文进群</h3><div class="tags"><span class="tag b">市场</span><span class="tag r">突发</span></div><div class="meta">22:12–22:14 · 晚上</div><p>群里转来英伟达董事会恢复黄仁勋总裁、首席执行官及董事会成员职务的公告全文。深圳-桃丽丝说不愧是AI教父。江苏-何说了一句群内估算：明天场内涨幅等于美国纳指减百分之三。</p><div class="quote">不愧是AI教父</div></div>
+<div class="topic"><h3><span class="rank">10</span>柚子：老师说的那种原生的美好生活</h3><div class="tags"><span class="tag p">生活</span><span class="tag b">老师</span></div><div class="meta">晚上</div><p>柚子CLEC说，老师说的那种原生的美好生活，家门口有一条河，河里有一群鹅，后面有一座山。</p><div class="quote">家门口有一条河，河里有一群鹅，后面有一座山</div></div>
+</div>
+
+<div class="section c1"><div class="sec-head"><span class="sec-num n3">03</span><h2>今日群核心观点</h2><span class="sdesc">PRINCIPLES</span></div><ol class="view">
+<li><strong>大家心态真好，美股大跌依然在享受生活</strong><span class="muted">北京留白下午的话：涨了也不会多花一分钱，跌了自然不会少花一分钱。 <span class="hl">大家心态真好，美股大跌依然在享受生活。</span></span></li>
+<li><strong>涨了也不会多花一分钱，跌了自然不会少花一分钱</strong><span class="muted">成都-世纪末的园艺师接北京留白的话说的。 <span class="hl">涨了也不会多花一分钱，跌了自然不会少花一分钱。</span></span></li>
+<li><strong>最自由的是这些大白鹅</strong><span class="muted">Yuki金华发村子湖景视频时的话：下雨天的时候，看湖上的白线。 <span class="hl">最自由的是这些大白鹅。</span></span></li>
+<li><strong>CLEC让我从亏心的躺着变成安心的躺着</strong><span class="muted">成都-世纪末的园艺师的话：提前退休这个词真好。 <span class="hl">CLEC让我从亏心的躺着变成安心的躺着。</span></span></li>
+<li><strong>提前退休这个词真好</strong><span class="muted">成都-世纪末的园艺师的话：知道这个概念之前，我以为我这叫家里蹲。 <span class="hl">提前退休这个词真好。</span></span></li>
+<li><strong>我把老板开除了</strong><span class="muted">北京留白的话：提前退休了，在家闲得长毛，想出去干体力活。 <span class="hl">我把老板开除了。</span></span></li>
+<li><strong>老师说的那种原生的美好生活</strong><span class="muted">柚子CLEC的话：家门口有一条河，河里有一群鹅，后面有一座山。 <span class="hl">老师说的那种原生的美好生活。</span></span></li>
+<li><strong>精神自由，人身还没自由，想早日退休，赎身</strong><span class="muted">Yuki金华的话：发村子湖景视频之后说的。 <span class="hl">精神自由，人身还没自由，想早日退休，赎身。</span></span></li>
+</ol></div>
+
+<div class="section c2"><div class="sec-head"><span class="sec-num n4">04</span><h2>纳指 / 主题相关讨论重点</h2><span class="sdesc">MARKET</span></div><div class="disc">仅作当日群聊事实整理，不构成投资建议，不预测涨跌。</div><ol class="view">
+<li><strong>明天场内涨幅 = 美国纳指 −3%</strong><span class="muted">江苏-何晚上的群内估算，群里没有展开核对。 <span class="hl">仅为群内估算：明天场内涨幅 = 美国纳指 −3%。</span></span></li>
+<li><strong>英伟达董事会恢复黄仁勋职务</strong><span class="muted">群里转来的公告全文，群里没有展开核对。 <span class="hl">仅为群内转述：英伟达董事会恢复黄仁勋职务。</span></span></li>
+<li><strong>新西兰自驾2027年1月29日到2月17日，北岛加南岛20天</strong><span class="muted">上海Qina的出行计划，群里没有展开核对。 <span class="hl">仅为群内提到的行程：新西兰自驾2027年1月29日到2月17日，北岛加南岛20天。</span></span></li>
+<li><strong>大学老师讲师一年到手20多个</strong><span class="muted">广州-Nana的说法，群里没有展开核对。 <span class="hl">仅为群内说法：大学老师讲师一年到手20多个。</span></span></li>
+<li><strong>外科医生微信零钱里一千多万</strong><span class="muted">北京留白听外科医生唠叨的说法，群里没有展开核对。 <span class="hl">仅为群内转述：外科医生微信零钱里一千多万。</span></span></li>
+<li><strong>日本三月春假樱花大概开两周</strong><span class="muted">郑州-憎恶肥屠夫的说法，群里没有展开核对。 <span class="hl">仅为群内说法：日本三月春假樱花大概开两周。</span></span></li>
+<li><strong>百子莲修剪要戴手套</strong><span class="muted">上海_芭芭拉CLEC分享的养花经验，群里没有展开核对。 <span class="hl">仅为群内说法：百子莲修剪要戴手套。</span></span></li>
+</ol></div>
+
+<div class="section"><div class="sec-head"><span class="sec-num n5">05</span><h2>知识分享 · 书籍分享</h2><span class="sdesc">KNOWLEDGE</span></div><div class="lgrid" style="margin-bottom:14px">
+<div class="litem"><span class="name">百子莲养护：给水给阳光就灿烂</span><span class="plain">上海_芭芭拉CLEC分享；非常好打理的一类植物，修剪要戴手套。</span></div>
+<div class="litem"><span class="name">新西兰自驾搭子招募</span><span class="plain">上海Qina；2027年1月29日到2月17日，北岛加南岛20天，右舵、老司机优先。</span></div>
+<div class="litem"><span class="name">日本三月春假带娃攻略讨论</span><span class="plain">成都-夏夏提问；郑州-憎恶肥屠夫说三月底四月初樱花开两周。</span></div>
+<div class="litem"><span class="name">《斯通纳》推荐</span><span class="plain">北京大豆推荐；住在这里，推荐看《斯通纳》，感觉心灵会爽到。</span></div>
+<div class="litem"><span class="name">英伟达复职公告全文</span><span class="plain">群里转来；董事会恢复黄仁勋总裁、首席执行官及董事会成员职务。</span></div>
+</div></div>
+
+<div class="section c3"><div class="sec-head"><span class="sec-num n6">06</span><h2>待大家后续关注问题</h2><span class="sdesc">WATCH</span></div>
+<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-left:3px solid #7c5cd6;border-radius:12px;padding:12px 14px;margin-bottom:14px"><div style="font-weight:800;font-size:14px;color:#5b21b6;margin-bottom:6px">📌 昨日待关注 · 回访</div><div style="font-size:13.5px;color:#4b5563;line-height:1.7">① <strong>《理财圣经》V2/V3.4.1 核对</strong>——今天艺术群记录里没有提到《理财圣经》，也没有版本核对的消息。状态：<strong>今日无新消息</strong>。<br>② <strong>桃丽丝日本行/箱根</strong>——深圳-桃丽丝今天在群里说了几句（“好仙境”“还有春假，春假去看樱花”“后备箱放得下吗”“不愧是AI教父”），但没有提到她自己的日本行或箱根。状态：<strong>今日无新消息</strong>。<br>③ <strong>Aaron EP05 反馈</strong>——今天艺术群记录里没有提到Aaron，也没有EP05反馈的消息。状态：<strong>今日无新消息</strong>。</div></div>
+<ol class="view">
+<li><span class="lbl w">待关注</span><strong>上海Qina新西兰自驾搭子招募后续</strong><span class="muted">2027年1月29日到2月17日，北岛加南岛20天，右舵、老司机优先。</span></li>
+<li><span class="lbl w">待关注</span><strong>成都-夏夏日本三月春假行程后续</strong><span class="muted">带三年级娃去哪；三月底四月初樱花大概开两周。</span></li>
+<li><span class="lbl w">待关注</span><strong>百子莲养护后续</strong><span class="muted">上海_芭芭拉CLEC分享；给水给阳光就灿烂，修剪要戴手套。</span></li>
+<li><span class="lbl w">待关注</span><strong>北京留白提前退休找体力活后续</strong><span class="muted">在家闲得长毛，想出去干体力活；我把老板开除了。</span></li>
+<li><span class="lbl w">待关注</span><strong>广州-Nana大学老师生活后续</strong><span class="muted">上二休五；讲师一年到手20多个，目标十年后退休。</span></li>
+<li><span class="lbl w">待关注</span><strong>Yuki村子湖景后续</strong><span class="muted">湖中鹅与锦鲤；精神自由，人身还没自由，想早日退休。</span></li>
+<li><span class="lbl x">红线</span><strong>医生收入传闻未经核实，不要当成结论</strong><span class="muted"><span class="red">外科医生微信零钱一千多万只是北京留白听来的说法。</span></span></li>
+<li><span class="lbl x">红线</span><strong>旅行搭子涉及个人信息，私下联系注意安全</strong><span class="muted"><span class="red">上海Qina招募新西兰自驾搭子；联系时注意保护个人隐私。</span></span></li>
+</ol></div>
+
+<div class="section c4"><div class="sec-head"><span class="sec-num n7">07</span><h2>闲聊杂项</h2><span class="sdesc">CHAT</span></div><ol class="view">
+<li><strong>老师说的那种原生的美好生活，家门口有一条河，河里有一群鹅，后面有一座山</strong><span class="muted">柚子CLEC晚上的话；群里说这就是老师说的生活。</span></li>
+<li><strong>想早日退休，赎身</strong><span class="muted">Yuki金华的话；发村子湖景视频之后说的。</span></li>
+<li><strong>你最爽了，每天喝大碗茶</strong><span class="muted">成都-世纪末的园艺师的话；接北京留白提前退休的讨论。</span></li>
+<li><strong>南方小土豆想看大雪天</strong><span class="muted">Yuki金华上午的话；杭州_Jeff Zhang说北大湖、松花湖、长白山都已经开板。</span></li>
+</ol></div>
+
+<div class="section learn"><div class="sec-head"><span class="sec-num n8">08</span><h2>📚 CLEC 学习资源</h2><span class="sdesc">LEARN</span></div><p class="learn-lead">大家可自行查阅。建议先保存「CLEC 资料中心」这一个入口，日报、电子书、网盘和课程都会在里面持续更新。</p>
+<p class="learn-h" style="margin:12px 0 6px;font-weight:700;color:#0f9d76">资料中心入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 资料中心</span><a href="https://clec888.cn" target="_blank" rel="noopener">https://clec888.cn</a><span class="plain">（资料中心固定入口）</span></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">日报 / 语音入口</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 群日报快速版</span><a href="https://daily.clec888.cn" target="_blank" rel="noopener">https://daily.clec888.cn</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">资料网盘</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC 投资理财频道 百度盘</span><a href="https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC" target="_blank" rel="noopener">https://pan.baidu.com/s/19pWM7YRE-vBRbyepB8UBZw?pwd=CLEC</a></div>
+<div class="litem"><span class="name">CLEC官方云端文件</span><a href="https://u.pcloud.link/publink/show?code=Mx3italK" target="_blank" rel="noopener">https://u.pcloud.link/publink/show?code=Mx3italK</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">CLEC 官方推荐</p>
+<div class="lgrid">
+<div class="litem"><span class="name">CLEC James 本人</span><a href="https://x.com/CLEC168" target="_blank" rel="noopener">https://x.com/CLEC168</a></div>
+<div class="litem"><span class="name">CLEC168</span><a href="https://clec168.com/zh" target="_blank" rel="noopener">https://clec168.com/zh</a></div>
+<div class="litem"><span class="name">CLEC 台湾</span><a href="https://clectw.com/" target="_blank" rel="noopener">https://clectw.com/</a></div>
+<div class="litem"><span class="name">乘丰舰长生命舰队</span><a href="https://cfnavi.org/" target="_blank" rel="noopener">https://cfnavi.org/</a></div>
+</div>
+<p class="learn-h" style="margin:14px 0 6px;font-weight:700;color:#0f9d76">视频与音频</p>
+<div class="lgrid">
+<div class="litem"><span class="name">哔哩哔哩 · CLEC投资理财</span><a href="https://space.bilibili.com/491004348?spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://space.bilibili.com/491004348?spm_id_from=333.337.0.0</a></div>
+<div class="litem"><span class="name">哔哩哔哩 · CLEC168投资理财频道</span><a href="https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click" target="_blank" rel="noopener">https://space.bilibili.com/473957263?spm_id_from=333.788.upinfo.detail.click</a></div>
+<div class="litem"><span class="name">喜马拉雅 · 听 CLEC 说投资</span><a href="https://xima.tv/1_m6RQX8" target="_blank" rel="noopener">https://xima.tv/1_m6RQX8</a></div>
+<div class="litem"><span class="name">小宇宙 · CLEC投资理财教育学院</span><a href="https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2" target="_blank" rel="noopener">https://www.xiaoyuzhoufm.com/podcast/69fcaafcb10223f47bb274b2</a></div>
+<div class="litem"><span class="name">腾讯视频号</span><span class="plain">微信视频号「CLEC投资理财」· 公众号「CLEC」</span></div>
+</div>
+<div class="learn-foot">愿我们一同践行 CLEC 理念，坚守长期，持续学习，财富与心灵同步成长，感谢大家配合！<div class="note">备注：群内内容不构成任何投资建议，投资有风险，入市需谨慎。</div></div></div>
+
+
+<div class="foot"><p class="big">富有是天赋，快乐是人权，有钱就买，打死不卖！</p><p class="small">本周合集仅作群聊信息整理，不构成任何投资建议，不预测涨跌。📊</p></div>
+<div class="source">数据来源：CLEC花钱的艺术群 聊天记录 · 整理时间 2026-11-24 06:00</div>
+</section>
+
+</section>
+<div style="margin:20px 0 6px;background:#ffffff;border:1px solid #a7f3d0;border-radius:18px;padding:24px 20px;text-align:center;box-shadow:0 2px 12px rgba(15,157,118,.08)"><div style="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0f9d76,#10b981);margin-bottom:10px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 5.94 2 11c0 2.72 1.3 5.17 3.38 6.9L4 22l4.4-2.2c1.1.3 2.3.5 3.6.5 5.52 0 10-3.94 10-9s-4.48-9-10-9z" fill="#fff"/><circle cx="8.5" cy="11" r="1.3" fill="#0f9d76"/><circle cx="12" cy="11" r="1.3" fill="#0f9d76"/><circle cx="15.5" cy="11" r="1.3" fill="#0f9d76"/></svg></div><div style="font-size:18px;font-weight:800;color:#0f9d76;margin-bottom:6px">加入 CLEC Signal 交流群</div><div style="font-size:14px;color:#4b5563;margin-bottom:16px">日报之外的讨论，在这里继续。</div><a href="https://is.gd/xV0AdE" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#0f9d76,#10b981);color:#fff;font-weight:700;font-size:15px;padding:11px 28px;border-radius:999px;text-decoration:none">加入 Signal 群</a></div>
+</div>
+
+<script>
+(function(){
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  document.addEventListener('play', function(e){
+    var t=e.target;
+    if(!t || t.tagName!=='AUDIO') return;
+    qsa('audio').forEach(function(a){ if(a!==t){ try{ a.pause(); }catch(err){} } });
+  }, true);
+  var nav = qs('#date-tabs');
+  function syncDateNavHeight(){
+    if(!nav) return;
+    var height = Math.ceil(nav.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--date-nav-height', height + 'px');
+  }
+  function showGroupInDate(dateId, groupId){
+    var datePanel = qs('.date-panel[data-date="'+dateId+'"]');
+    if(!datePanel) return;
+    qsa('.group-tabs button', datePanel).forEach(function(b){
+      b.classList.toggle('active', String(b.getAttribute('data-group')) === String(groupId));
+    });
+    qsa('.group-panel', datePanel).forEach(function(p){
+      p.classList.toggle('active', String(p.getAttribute('data-group')) === String(groupId));
+    });
+  }
+  function showDate(dateId){
+    qsa('#date-tabs button').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-date') === dateId);
+    });
+    qsa('.date-panel').forEach(function(p){
+      p.classList.toggle('active', p.getAttribute('data-date') === dateId);
+    });
+    showGroupInDate(dateId, 1);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  qsa('#date-tabs button').forEach(function(b){
+    b.addEventListener('click', function(){ showDate(b.getAttribute('data-date')); syncDateNavHeight(); });
+  });
+  qsa('.group-tabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var dateId = b.getAttribute('data-date');
+      var groupId = b.getAttribute('data-group');
+      if(dateId) showGroupInDate(dateId, groupId);
+      window.scrollTo({top:0, behavior:'smooth'});
+      syncDateNavHeight();
+    });
+  });
+  syncDateNavHeight();
+  if (window.ResizeObserver && nav) {
+    new ResizeObserver(function(){ syncDateNavHeight(); }).observe(nav);
+  }
+  window.addEventListener('resize', syncDateNavHeight);
+  window.addEventListener('orientationchange', function(){ syncDateNavHeight(); requestAnimationFrame(syncDateNavHeight); });
+})();
+</script>
+
+</body></html>
